@@ -111,15 +111,15 @@
 .hero__title-line--2 { color: var(--title-color-2); }
 
 .hero__cta {
-  /* Mobile: mismo tamaño que "Adopta un gatito" del header (alto 50px, padding 24px, texto 17px) */
-  --btn-h: 3.125rem;
+  /* Mobile: tamaño estándar del sitio (48px, texto 16px) con 2px más de padding lateral que el resto (24px) */
+  --btn-h: 3rem;
   --btn-pad-y: 0px; /* con unidad: el botón con borde usa calc(pad-y - 1px) y un 0 sin unidad anulaba todo el padding */
-  --btn-pad-x: calc(1.5rem + 1px); /* el botón con borde resta 1px: queda en 24px exactos, como "Adopta un gatito" */
-  --btn-fs: 1.0625rem;
+  --btn-pad-x: calc(1.375rem + 2px + 1px); /* +1px compensa el borde */
+  --btn-fs: 1rem;
   --btn-ls: -0.01em;
   --btn-gap: 0.5rem;
   --btn-icon-size: 1.75rem;
-  --btn-pad-icon: 0.4375rem;
+  --btn-pad-icon: 0.375rem;
   --btn-glow: 0 0 0 transparent;
   animation: pop-in var(--motion-dur-pop-fast, 600ms) var(--motion-ease-spring) both;
   animation-delay: var(--motion-delay-cta);

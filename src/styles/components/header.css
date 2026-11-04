@@ -19,15 +19,16 @@
 .site-header__nav { --enter-order: 1; display: none; }
 .site-header__social { --enter-order: 2; display: none; }
 
+/* Mobile: tamaño estándar de botón del sitio (48px de alto, texto 16px), un poco menor que el CTA del Hero */
 .site-header__adopt {
-  --btn-h: 3.125rem;
-  --btn-pad-x: 1.5rem;
-  --btn-fs: 1.0625rem;
+  --btn-h: calc(3rem - 4px); /* 2px menos arriba y abajo: el CTA del Hero domina */
+  --btn-pad-x: 1.375rem;
+  --btn-fs: 1rem;
 }
 
 .site-header__menu-toggle {
   --enter-order: 1;
-  --icon-btn-size: 3.125rem;
+  --icon-btn-size: calc(3rem - 4px); /* 44px: misma altura que "Adopta un gatito" (la X del menú toma este tamaño) */
   --icon-glyph-size: 40%;
 }
 
