@@ -379,3 +379,7 @@ html:not(.js) .food__paw--rest { opacity: var(--food-paw-opacity); transform: no
 @media (prefers-reduced-motion: reduce) {
   .food__card--ig { transition: none; }
 }
+
+/* Portada de la publicación: debajo del iframe (lo tapa al cargar) y visible si el embed no carga */
+.food__ig-cover { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; max-inline-size: none; object-fit: cover; }
+.food__ig-frame { z-index: 1; background: transparent; } /* mientras carga se ve la portada */

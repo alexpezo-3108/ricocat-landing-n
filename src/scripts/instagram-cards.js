@@ -32,6 +32,7 @@ export function initInstagramCards() {
 
   const fallback = (card, post) => {
     card.querySelector('.food__ig-frame')?.remove();
+    if (card.querySelector('.food__ig-cover')) return; // con portada: queda la foto + la etiqueta @ricocat
     if (card.querySelector('.food__ig-fallback')) return;
     const a = document.createElement('a');
     a.className = 'food__ig-fallback';
@@ -55,6 +56,16 @@ export function initInstagramCards() {
     link.innerHTML = `<span class="food__ig-tag"><img src="${IG_ICON}" alt="" width="16" height="16">@ricocat</span>`;
     link.setAttribute('aria-label', `${post.title}: ver en Instagram (se abre en una pestaña nueva)`);
     card.append(link);
+    // Portada (cover) por debajo del iframe: siempre hay una foto, aunque el embed no cargue
+    if (post.cover) {
+      const cover = new Image();
+      cover.className = 'food__ig-cover';
+      cover.alt = '';
+      cover.decoding = 'async';
+      cover.src = post.cover.startsWith('/') && !import.meta.env ? `public${post.cover}` : post.cover;
+      cover.addEventListener('error', () => cover.remove(), { once: true });
+      card.prepend(cover);
+    }
     setScale(card);
     ro.observe(card);
   });
@@ -66,7 +77,8 @@ export function initInstagramCards() {
     frame.className = 'food__ig-frame';
     frame.src = embedUrl(post.url);
     frame.title = post.title;
-    frame.loading = 'lazy';
+    frame.loading = 'eager'; // la inserción ya es diferida (IntersectionObserver); el lazy nativo podía no cargar nunca en mobile
+    frame.addEventListener('load', () => card.classList.add('is-ig-loaded'), { once: true });
     frame.setAttribute('scrolling', 'no');
     frame.setAttribute('allowtransparency', 'true');
     frame.allow = 'autoplay; encrypted-media; picture-in-picture; clipboard-write';

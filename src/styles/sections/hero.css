@@ -656,3 +656,16 @@
 /* Puntos del carrusel de beneficios (mobile): círculos, el activo solo cambia de color */
 .benefits__dot::before { aspect-ratio: 1; border-radius: 50%; }
 .benefits__dot[aria-current="true"]::before { scale: 1; }
+
+/* Mobile: haces de luz más visibles y con más movimiento */
+@media (max-width: 74.99em) {
+  .hero__beam {
+    --beam-shift: 3.25rem;
+    --beam-sway: 4deg;
+    --beam-dim: 0.6;
+    --hero-beam-dur: 4.2s;
+    --hero-beam-pulse: 2s;
+    filter: blur(4px) brightness(1.25);
+  }
+  .hero__beam--2 { filter: blur(3.5px) brightness(1.6) saturate(0.85); }
+}
