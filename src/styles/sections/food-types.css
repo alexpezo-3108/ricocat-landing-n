@@ -461,3 +461,9 @@ main { timeline-scope: --etapas-cover; }
   .types__mix-title { inline-size: calc(660 * var(--u)); font-size: calc(66 * var(--u)); }
   .types__sparkle { inline-size: calc(24 * var(--u)); }
 }
+
+/* Mobile: al ocultarse la barra del navegador el viewport crece y bajo el escenario sticky quedaba una franja blanca.
+   Una sombra sólida del mismo azul la rellena (no la recorta el overflow del escenario). */
+@media (max-width: 74.99em) {
+  .types--live .types__stage { box-shadow: 0 25vh 0 0 var(--color-navy-900); }
+}

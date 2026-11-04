@@ -70,9 +70,14 @@ export function initInstagramCards() {
     ro.observe(card);
   });
 
+  // Mobile: Instagram suele mostrar su aviso "Ver esta publicación en Instagram" dentro del iframe (cookies/login del
+  // navegador del celular), y eso no se puede controlar desde la página. Si la publicación tiene portada, en mobile se
+  // muestra solo la portada (más liviana y siempre visible) y la tarjeta lleva a Instagram. Sin portada, se usa el embed.
+  const mobile = matchMedia('(max-width: 74.99em)');
   const load = (card, i) => {
     const post = INSTAGRAM_POSTS[i];
     if (!post || card.querySelector('.food__ig-frame')) return;
+    if (mobile.matches && post.cover) return;
     const frame = document.createElement('iframe');
     frame.className = 'food__ig-frame';
     frame.src = embedUrl(post.url);

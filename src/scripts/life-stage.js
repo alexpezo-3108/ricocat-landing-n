@@ -79,7 +79,8 @@ function setup(section) {
   if (flavors.length < 2) return;
 
   const css = (name) => getComputedStyle(section).getPropertyValue(name).trim();
-  const ms = (name) => parseFloat(css(name)) || 0;
+  // Acepta "700ms" o "0.7s" (si un valor llega en segundos no debe tomarse como milisegundos)
+  const ms = (name) => { const v = css(name); const n = parseFloat(v) || 0; return /\ds$/.test(v) && !/ms$/.test(v) ? n * 1000 : n; };
   const card = section.querySelector('.stage__card');
   const BIG = 4000; // lados del recorte que no se limitan
 

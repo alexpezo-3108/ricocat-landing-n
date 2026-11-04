@@ -402,3 +402,15 @@
   opacity: calc(var(--stage-under-dim) * var(--under, 0));
   pointer-events: none;
 }
+
+/* Mobile: cambio de sabor algo más pausado y swipe que no se pierde (el navegador no se queda con el gesto horizontal) */
+@media (max-width: 74.99em) {
+  .stage--multi { --stage-swap-dur: 900ms; --stage-swap-parallax-dur: 1100ms; }
+  .stage--multi .stage__card { touch-action: pan-y; }
+  /* Barra del navegador mobile: al ocultarse, el viewport crece y bajo la etapa sticky quedaba una franja (se veía
+     el azul de la sección anterior). Se rellena con el blanco del margen. */
+  .stages--cards > .stage {
+    box-shadow: 0 -16px 40px rgb(0 20 50 / calc(0.32 * var(--settle))), 0 25vh 0 0 var(--color-white);
+    clip-path: inset(-80px 0 -25vh 0);
+  }
+}
