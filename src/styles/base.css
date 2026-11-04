@@ -4,7 +4,10 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  background: var(--color-hero-top);
+  /* Cian solo arriba (rebote del Hero en iOS); el resto blanco: detrás de las etapas no debe asomar cian
+     cuando la barra del navegador mobile se oculta */
+  background: linear-gradient(var(--color-hero-top) 0 100vh, var(--color-white) 100vh) no-repeat;
+  background-color: var(--color-white);
 }
 
 html:has(.menu[open]) { overflow: hidden; }

@@ -465,5 +465,6 @@ main { timeline-scope: --etapas-cover; }
 /* Mobile: al ocultarse la barra del navegador el viewport crece y bajo el escenario sticky quedaba una franja blanca.
    Una sombra sólida del mismo azul la rellena (no la recorta el overflow del escenario). */
 @media (max-width: 74.99em) {
-  .types--live .types__stage { box-shadow: 0 25vh 0 0 var(--color-navy-900); }
+  /* Solo con el azul ya completo: antes del pintado no debe asomar ninguna barra azul abajo */
+  .types--live:has(.types__paint.is-full) .types__stage { box-shadow: 0 25vh 0 0 var(--color-navy-900); }
 }
