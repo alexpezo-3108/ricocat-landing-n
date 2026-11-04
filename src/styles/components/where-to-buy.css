@@ -269,3 +269,7 @@ html.is-locked { overflow: hidden; padding-inline-end: var(--scrollbar-comp, 0px
 
 .wtb__store:focus-visible::before { opacity: 0.6; }
 .wtb__store:focus-visible { outline-offset: 2px; }
+
+/* Logos reales: íconos tipo app (fondo y esquinas propios) → llenan el recuadro, sin padding ni fondo del placeholder */
+.wtb__logo:has(img) { padding: 0; background: none; overflow: hidden; }
+.wtb__logo img { object-fit: cover; }

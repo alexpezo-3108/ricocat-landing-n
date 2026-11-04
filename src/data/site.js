@@ -4,7 +4,8 @@ export const IS_PREVIEW = true;
 export const SITE_URL = 'https://ricocat-muestra.example.com';
 // Archivos para compartir y favicon (en public/). Provisorios: reemplazar por los del cliente.
 export const SHARE_IMAGE = '/og-image.jpg'; // 1200×630
-export const FAVICON = '/favicon.svg';
+export const FAVICON = '/favicon.svg'; // isotipo blanco sobre azul de marca
+export const APPLE_TOUCH_ICON = '/apple-touch-icon.png'; // 180×180, a sangre (iOS redondea)
 
 export const adoptLink = { label: 'Adopta un gatito', href: '#adopta' };
 export const buyLink = { label: 'Dónde comprar', href: '#tienda' };

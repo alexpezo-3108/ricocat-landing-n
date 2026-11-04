@@ -7,6 +7,9 @@ import { storesFor } from '../data/stores.js';
  * Se abre con los eventos `ricocat:where-to-buy` (tienda: { product, trigger }) y `stores:open` (etapas: { flavor }).
  */
 
+// Rutas de public/ ('/stores/…'): en el build se sirven desde la raíz; en la vista previa (sin bundler) desde public/
+const publicUrl = (p) => (!p || !p.startsWith('/') ? p : import.meta.env ? `${import.meta.env.BASE_URL}${p.slice(1)}` : `public${p}`);
+
 const desktop = matchMedia('(min-width: 48em)');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -59,7 +62,7 @@ export function initWhereToBuy() {
       if (s.logo) {
         const logo = li.querySelector('[data-wtb-logo]');
         logo.textContent = '';
-        logo.append(Object.assign(new Image(), { src: s.logo, alt: '' }));
+        logo.append(Object.assign(new Image(192, 192), { src: publicUrl(s.logo), alt: '', decoding: 'async' }));
       }
       return li;
     }));

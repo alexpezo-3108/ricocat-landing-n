@@ -10,7 +10,7 @@ import '../styles/motion.css';
 import '../styles/components/button.css';
 import '../styles/components/social.css';
 import '../styles/components/preloader.css';
-import { IS_PREVIEW, SITE_URL, SHARE_IMAGE, FAVICON } from '../data/site.js';
+import { IS_PREVIEW, SITE_URL, SHARE_IMAGE, FAVICON, APPLE_TOUCH_ICON } from '../data/site.js';
 
 interface Props {
   title: string;
@@ -32,6 +32,8 @@ const shareImage = new URL(SHARE_IMAGE, SITE_URL).href;
     <title>{title}</title>
     <link rel="canonical" href={canonical} />
     <link rel="icon" href={FAVICON} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={APPLE_TOUCH_ICON} />
+    <meta name="theme-color" content="#00C8DC" />
     {IS_PREVIEW && <meta name="robots" content="noindex, nofollow" />}
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_PE" />
