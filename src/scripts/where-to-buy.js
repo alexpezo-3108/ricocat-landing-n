@@ -108,34 +108,45 @@ export function initWhereToBuy() {
 
   // La foto "viaja" desde su tarjeta hasta el modal. El clon vuela DENTRO del diálogo (capa superior), así va
   // siempre por delante; el panel solo aparece con fundido para que el destino no se mueva y la foto no vibre.
-  function fly(sourceImg) {
-    const from = sourceImg.getBoundingClientRect();
-    const to = img.getBoundingClientRect();
-    if (!from.width || !to.width) return;
+  async function fly(sourceImg) {
+    const from = sourceImg.getBoundingClientRect(); // origen: se mide antes de que cambie nada
+    if (!from.width) return;
     const cs = getComputedStyle(dialog);
-    const dur = (parseFloat(cs.getPropertyValue('--wtb-dur-vt')) || 0.5) * (/ms/.test(cs.getPropertyValue('--wtb-dur-vt')) ? 1 : 1000);
+    const rawDur = cs.getPropertyValue('--wtb-dur-vt').trim();
+    const dur = (parseFloat(rawDur) || 480) * (/ms$/.test(rawDur) || !rawDur ? 1 : 1000);
     const ease = cs.getPropertyValue('--wtb-ease-vt').trim() || 'cubic-bezier(0.22, 1, 0.36, 1)';
+    // El clon aparece YA en la tarjeta (sin hueco) y desde ahí viaja: nunca desaparece la foto
     const clone = new Image();
     clone.src = sourceImg.currentSrc || sourceImg.src;
     clone.alt = '';
     clone.setAttribute('aria-hidden', 'true');
     Object.assign(clone.style, {
-      position: 'fixed', left: `${to.left}px`, top: `${to.top}px`, width: `${to.width}px`, height: `${to.height}px`,
-      objectFit: 'contain', objectPosition: getComputedStyle(img).objectPosition, margin: '0', zIndex: '10',
+      position: 'fixed', left: '0px', top: '0px', width: `${from.width}px`, height: `${from.height}px`,
+      objectFit: 'contain', objectPosition: getComputedStyle(sourceImg).objectPosition, margin: '0', zIndex: '10',
       pointerEvents: 'none', transformOrigin: '50% 50%', willChange: 'transform',
     });
+    dialog.append(clone);
+    // Si algún ancestro crea su propio bloque contenedor (transform, filtros), compensar su desplazamiento
+    const o = clone.getBoundingClientRect();
+    const place = (r) => { clone.style.left = `${r.left - o.left}px`; clone.style.top = `${r.top - o.top}px`; clone.style.width = `${r.width}px`; clone.style.height = `${r.height}px`; };
+    place(from);
+    img.style.opacity = '0';
+    sourceImg.style.opacity = '0';
+    const cleanup = () => { img.style.opacity = ''; sourceImg.style.opacity = ''; clone.remove(); };
+    // Destino: esperar a que la foto del modal tenga su tamaño real y el layout esté asentado
+    await (img.decode?.() ?? Promise.resolve()).catch(() => {});
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+    const to = img.getBoundingClientRect();
+    if (!to.width || !dialog.open) return cleanup();
+    clone.style.objectPosition = getComputedStyle(img).objectPosition;
     const k = Math.min(from.width / to.width, from.height / to.height);
     const dx = from.left + from.width / 2 - (to.left + to.width / 2);
     const dy = from.top + from.height / 2 - (to.top + to.height / 2);
-    dialog.append(clone);
-    img.style.opacity = '0';
-    sourceImg.style.opacity = '0';
-    const anim = clone.animate(
+    place(to); // mismo cuadro que la foto del modal; la animación arranca exactamente donde estaba el clon
+    clone.animate(
       [{ transform: `translate(${dx}px, ${dy}px) scale(${k})` }, { transform: 'none' }],
       { duration: dur, easing: ease, fill: 'both' },
-    );
-    const done = () => { img.style.opacity = ''; sourceImg.style.opacity = ''; clone.remove(); };
-    anim.finished.then(done, done);
+    ).finished.then(cleanup, cleanup);
   }
 
   function open(product, from, sourceImg) {

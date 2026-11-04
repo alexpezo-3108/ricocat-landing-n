@@ -81,5 +81,9 @@ export function initInstagramCards() {
     cards.forEach(load);
     io.disconnect();
   }, { rootMargin: '600px 0px' });
+  // El preloader del Hero puede pedir que empiecen a cargar antes (para que la sección llegue lista)
+  const preload = () => { cards.forEach(load); io.disconnect(); };
+  if (window.__ricocatIgPreload) preload();
+  else document.addEventListener('instagram:preload', preload, { once: true });
   io.observe(cards[0].closest('section') || cards[0]);
 }

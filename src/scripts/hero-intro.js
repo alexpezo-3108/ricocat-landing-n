@@ -127,8 +127,11 @@ function lockScroll() {
 }
 
 // Progreso real de carga: imágenes del hero decodificadas + fuentes.
-function trackLoad(hero, urls = [], extra = []) {
-  const imgs = [...hero.querySelectorAll('.hero__item-img, .hero__beam')];
+function trackLoad(hero, urls = [], extra = [], withNext = false) {
+  // withNext: también el cintillo y la sección 03 completas, para que al bajar ya estén cargadas
+  const next = withNext ? [...document.querySelectorAll('.band img, #alimentos img')] : [];
+  next.forEach((img) => { img.loading = 'eager'; });
+  const imgs = [...hero.querySelectorAll('.hero__item-img, .hero__beam'), ...next];
   const tasks = [
     ...urls.map((src) => { const img = new Image(); img.decoding = 'async'; img.src = src; return img.decode().catch(() => {}); }),
     ...extra.map((pr) => Promise.resolve(pr).catch(() => {})),
@@ -147,10 +150,9 @@ function trackLoad(hero, urls = [], extra = []) {
 // Carga extra (no bloquea): lo que se ve justo después del hero. Si no termina a tiempo sigue en segundo plano.
 function trackExtra(plateFrames) {
   const urls = new Set();
-  document.querySelectorAll('.band img, #alimentos img').forEach((img) => {
-    const src = img.currentSrc || img.getAttribute('src');
-    if (src && !src.startsWith('data:')) urls.add(src);
-  });
+  // Embeds de Instagram de la sección 03: empiezan a cargar ya (no bloquean la salida del preloader)
+  window.__ricocatIgPreload = true; // por si instagram-cards.js aún no se inició
+  document.dispatchEvent(new Event('instagram:preload'));
   const plate = document.querySelector('[data-plate]');
   if (plate?.dataset.plateSeq) {
     const base = plate.dataset.plateSeq + (matchMedia('(max-width: 767px)').matches ? 'm/' : '');
@@ -223,9 +225,10 @@ export function initHeroIntro() {
   if (intro && festival) festival.style.setProperty('--intro-origin', cameraOrigin());
 
   // Progreso: suave, nunca retrocede. Obligatorio (80%): imágenes del hero decodificadas, fuentes y GSAP.
-  // Extra (20%, presupuesto de 2s): cintillo + sección 03, módulo del pintado de 04 y los primeros frames del plato.
+  // Obligatorio incluye además las imágenes del cintillo y de la sección 03 completa.
+  // Extra (20%, presupuesto de 2s): embeds de Instagram, módulo del pintado de 04 y los primeros frames del plato.
   const gsapReady = loadGsap();
-  const load = trackLoad(hero, [], [gsapReady]);
+  const load = trackLoad(hero, [], [gsapReady], !!preloader);
   const extra = preloader ? trackExtra(C.preloader.plateFrames) : { done: 0, total: 0, all: Promise.resolve() };
   let extraDone = !preloader;
   extra.all.then(() => { extraDone = true; });
