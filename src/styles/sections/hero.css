@@ -196,8 +196,8 @@
 .hero__item--salmon { --x: 69.5%; --y: 75.5%; --w: 20.1%; --enter-order: 3; --float-rotate: -4deg; }
 .hero__item--trucha { --x: 6%; --y: 90%; --w: 20.5%; --enter-order: 4; }
 .hero__item--arvejas { --x: 21.5%; --y: 96.5%; --w: 15%; --enter-order: 5; --float-rotate: 2deg; }
-.hero__item--arveja-a { --x: 31%; --y: -3%; --w: 4.1%; --enter-order: 6; --float-rotate: 25deg; }
-.hero__item--arveja-b { --x: 62%; --y: -1%; --w: 5%; --enter-order: 7; --float-rotate: -25deg; }
+.hero__item--arveja-a { --x: 1.5%; --y: 15%; --w: 4.1%; --enter-order: 6; --float-rotate: 25deg; }
+.hero__item--arveja-b { --x: 94%; --y: 13%; --w: 5%; --enter-order: 7; --float-rotate: -25deg; }
 .hero__item--maiz-a { --x: 80%; --y: 45%; --w: 5.9%; --enter-order: 8; --float-rotate: 20deg; }
 .hero__item--maiz-b { --x: 70%; --y: 37.6%; --w: 3.2%; --enter-order: 9; --float-rotate: -18deg; }
 .hero__item--maiz-c { --x: 25.5%; --y: 44%; --w: 4.7%; --enter-order: 10; --float-rotate: 15deg; }
@@ -205,7 +205,7 @@
 .hero__item--arveja-c { --x: 91%; --y: 95%; --w: 4.6%; --enter-order: 12; --float-rotate: 22deg; }
 .hero__item--arveja-d { --x: 44%; --y: 97%; --w: 3.8%; --enter-order: 13; --float-rotate: -18deg; }
 .hero__item--maiz-e { --x: 13%; --y: 14%; --w: 3.6%; --enter-order: 14; --float-rotate: 18deg; }
-.hero__item--maiz-f { --x: 46%; --y: 1%; --w: 3.4%; --enter-order: 15; --float-rotate: -16deg; }
+.hero__item--maiz-f { --x: 3%; --y: 30%; --w: 3.4%; --enter-order: 15; --float-rotate: -16deg; }
 
 /* Beneficios */
 .hero__benefits {
@@ -660,25 +660,56 @@
 /* Mobile: haces de luz más visibles y con más movimiento */
 @media (max-width: 74.99em) {
   .hero__beam {
-    --beam-shift: 3.25rem;
-    --beam-sway: 4deg;
-    --beam-dim: 0.6;
-    --hero-beam-dur: 4.2s;
-    --hero-beam-pulse: 2s;
-    filter: blur(4px) brightness(1.25);
+    --beam-shift: 1.75rem;   /* menos recorrido horizontal */
+    --beam-sway: 6deg;       /* más vaivén (giro) */
+    --beam-dim: 0.7;
+    --hero-beam-dur: 3.6s;
+    --hero-beam-pulse: 1.7s;
+    filter: blur(3.5px) brightness(1.4);
   }
-  .hero__beam--2 { filter: blur(3.5px) brightness(1.6) saturate(0.85); }
+  .hero__beam--2 { filter: blur(3px) brightness(1.75) saturate(0.85); }
 }
 
 /* Mobile: bodegón definido por el ANCHO de pantalla (~118vw, desborda y se recorta a los lados); sin tope por alto */
 @media (max-width: 74.99em) {
-  .hero__stage { --stage-w: 126vw; translate: -2vw 0; } /* más ancho y un poco a la izquierda: ambas bolsas tocan los bordes */
+  /* Reparto fijo y compacto arriba; el bodegón absorbe TODO el espacio que sobre (fila 1fr) */
+  .hero { row-gap: 1rem; }
   .hero__brand { margin-block-start: 2.5rem; } /* ~40px bajo el header */
-  /* Tagline en 2 líneas equilibradas (los <br> son del corte de desktop) */
+  .hero__intro { gap: 1rem; }
+  /* Bodegón según el alto que le queda: crece en pantallas altas (iPhone) y se reduce en bajas, entre 112vw y 140vw */
+  /* Un poco más grande y anclado más abajo: crece hacia abajo y pasa por detrás de la tarjeta de beneficios */
+  /* Tamaño y posición anteriores, +2% creciendo solo hacia abajo (el borde superior queda en su sitio) */
+  .hero__stage {
+    --stage-base-w: clamp(112vw, calc(100cqh * var(--stage-ratio-num) * 1.05), 160vw);
+    --stage-w: calc(var(--stage-base-w) * 1.02);
+    translate: -2vw 0;
+    inset-block-end: calc(-2.5 * var(--svh) - var(--stage-base-w) * 0.02 / var(--stage-ratio-num));
+  }
+  .hero__intro { margin-block-start: calc(1 * var(--svh)); } /* título, texto y botón: apenas más abajo */
+  .hero__benefits { z-index: 2; } /* la tarjeta queda delante del bodegón y lo desenfoca */
+  /* Vidrio blanco translúcido con desenfoque mínimo */
+  .benefits__track { background: rgb(0 95 115 / 0.3); -webkit-backdrop-filter: blur(1px); backdrop-filter: blur(1px); } /* tinte cian translúcido: el texto blanco se lee */
+  .benefit__label { text-shadow: 0 1px 2px rgb(0 40 60 / 0.25); }
+  /* Tagline: siempre 2 líneas fijas — "Nutriendo el vínculo" / "todos los días" */
   .hero__title br { display: none; }
-  .hero__title { --title-size: 1.5rem; } /* 24px */
+  .hero__title { --title-size: clamp(1.25rem, 6.6vw, 1.5rem); } /* 24px; menos solo si no entra */
+  .hero__title-line { display: block; white-space: nowrap; }
+  /* Beneficios: texto en una sola línea; la tarjeta se ajusta con tope de 86vw */
+  .hero { --benefit-card-w: min(86vw, 16rem); } /* ancho del beneficio más largo ("Previene cálculos urinarios") + aire; igual en los tres */
+  .benefit { padding-inline: 1rem; }
+  .benefit__label { white-space: nowrap; }
 }
 /* Pantallas muy bajas: se reduce lo justo para no tapar el botón */
 @media (max-width: 74.99em) and (max-height: 680px) {
-  .hero__stage { --stage-w: min(126vw, calc(100cqh * var(--stage-ratio-num) * 1.15)); }
+  .hero__stage { --stage-w: min(126vw, calc(100cqh * var(--stage-ratio-num) * 1.05)); }
 }
+
+
+/* Mobile: un grano amarillo menos del lado derecho */
+@media (max-width: 74.99em) { .hero__item--maiz-a { display: none; } }
+
+/* Visitas siguientes de la sesión (html.hero-static): el Hero aparece ya armado, sin animaciones de entrada.
+   Los loops (flotación, haces, anillos, brillo, beneficios) siguen como siempre. */
+.hero-static .hero :is(.hero__item--product, .hero__item--ingredient, .hero__logo, .hero__title, .hero__cta, .hero__benefits),
+.hero-static .site-header > * { animation: none; }
+.hero-static .hero::after, .hero-static .hero__stage::before { transition: none; }

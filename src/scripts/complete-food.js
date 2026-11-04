@@ -20,7 +20,8 @@ function setup(section) {
   const vars = () => {
     const s = getComputedStyle(section);
     return {
-      count: Math.max(1, parseInt(s.getPropertyValue('--food-paw-count'), 10) || 4),
+      // máximo 3 a la vez en mobile
+      count: Math.min(matchMedia('(max-width: 74.99em)').matches ? 3 : 99, Math.max(1, parseInt(s.getPropertyValue('--food-paw-count'), 10) || 4)),
       interval: parseFloat(s.getPropertyValue('--food-paw-step')) || 900,
       ease: parseFloat(s.getPropertyValue('--food-parallax-ease')) || 0.08,
     };
@@ -59,6 +60,7 @@ function setup(section) {
       paw.removeAttribute('data-paw-rest');
       paw.classList.remove('food__paw--rest', 'is-on');
       paw.dataset.pawRandom = '';
+      paw.dataset.idle = '';
       pawLayer.append(paw);
       return paw;
     });
@@ -66,18 +68,23 @@ function setup(section) {
     section.querySelectorAll('[data-paw-rest]').forEach((paw) => paw.classList.remove('is-on'));
   };
 
-  const movePaw = () => {
-    const paw = pool[step % pool.length];
-    step += 1;
-    paw.classList.remove('is-on');
-    setTimeout(() => {
-      const others = pool.filter((p) => p !== paw && p.classList.contains('is-on'))
-        .map((p) => ({ x: parseFloat(p.style.getPropertyValue('--x')), y: parseFloat(p.style.getPropertyValue('--y')) }));
-      const spot = pickSpot(others);
-      paw.style.setProperty('--x', `${spot.x.toFixed(1)}%`);
-      paw.style.setProperty('--y', `${spot.y.toFixed(1)}%`);
-      paw.classList.add('is-on');
-    }, 450);
+  // Cada huella tiene su propio ciclo (aparece → respira → se desvanece → espera) y solo al terminarlo
+  // aparece en otra posición. Salir/entrar de pantalla no reinicia ciclos a medias: solo deja de programar nuevos.
+  const PAW_CYCLE = [4000, 6000]; // ms por ciclo
+  const timers = new Set();
+  const later = (fn, ms) => { const t = setTimeout(() => { timers.delete(t); fn(); }, ms); timers.add(t); };
+  const cycle = (paw) => {
+    if (!running) { paw.dataset.idle = ''; return; }
+    delete paw.dataset.idle;
+    const others = pool.filter((p) => p !== paw && p.classList.contains('is-on'))
+      .map((p) => ({ x: parseFloat(p.style.getPropertyValue('--x')), y: parseFloat(p.style.getPropertyValue('--y')) }));
+    const spot = pickSpot(others);
+    paw.style.setProperty('--x', `${spot.x.toFixed(1)}%`);
+    paw.style.setProperty('--y', `${spot.y.toFixed(1)}%`);
+    const dur = rand(PAW_CYCLE[0], PAW_CYCLE[1]);
+    requestAnimationFrame(() => paw.classList.add('is-on'));
+    later(() => paw.classList.remove('is-on'), dur * 0.7); // se desvanece
+    later(() => cycle(paw), dur);                          // recién entonces, otra posición
   };
 
   const showRest = () => {
@@ -85,18 +92,17 @@ function setup(section) {
     section.querySelectorAll('[data-paw-rest]').forEach((paw) => paw.classList.add('is-on'));
   };
 
+  let running = false;
   const startPaws = () => {
-    if (timer || !template) return;
+    if (running || !template) return;
     if (reduced.matches) return showRest();
     if (!pool.length) buildPool();
-    pool.forEach((paw, i) => setTimeout(movePaw, i * 200));
-    timer = setInterval(movePaw, vars().interval);
+    running = true;
+    // Solo arrancan las huellas que están quietas; las que van a mitad de ciclo siguen el suyo
+    pool.filter((paw) => 'idle' in paw.dataset).forEach((paw, i) => later(() => cycle(paw), i * rand(900, 1500)));
   };
 
-  const stopPaws = () => {
-    clearInterval(timer);
-    timer = null;
-  };
+  const stopPaws = () => { running = false; }; // los ciclos en curso terminan solos; no se programan nuevos
 
   /* ---------- Parallax suave de las fotos con el cursor ---------- */
   const target = { x: 0, y: 0 };
@@ -143,6 +149,7 @@ function setup(section) {
       stopPaws();
     }
   }, { threshold: [0, 0.2] }).observe(section);
+  void timers;
 
   reduced.addEventListener('change', () => {
     stopPaws();

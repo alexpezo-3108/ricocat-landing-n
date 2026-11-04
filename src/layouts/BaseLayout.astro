@@ -25,7 +25,7 @@ const shareImage = new URL(SHARE_IMAGE, SITE_URL).href;
 <html lang="es-PE">
   <head>
     <meta charset="utf-8" />
-    <script is:inline>(function(){var h=document.documentElement.classList;h.add('js');try{var seen=sessionStorage.getItem('ricocat-hero-intro');if(!seen)h.add('has-preloader');if(!matchMedia('(prefers-reduced-motion: reduce)').matches){h.add('hero-intro','is-intro-pending');if(seen)h.add('hero-intro-short');}}catch(e){}setTimeout(function(){if(h.contains('has-preloader')){h.remove('has-preloader','hero-intro','hero-intro-short','is-intro-pending');}},9000);})()</script>
+    <script is:inline>(function(){var h=document.documentElement.classList;h.add('js');try{var seen=sessionStorage.getItem('ricocat-hero-intro');if(!seen)h.add('has-preloader');if(seen){h.add('hero-static');}else if(!matchMedia('(prefers-reduced-motion: reduce)').matches){h.add('hero-intro','is-intro-pending');}}catch(e){}setTimeout(function(){if(h.contains('has-preloader')){h.remove('has-preloader','hero-intro','hero-intro-short','is-intro-pending');}},9000);})()</script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#00C8DC" />
     <meta name="description" content={description} />

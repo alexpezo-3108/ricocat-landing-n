@@ -12,9 +12,9 @@ export const INSTAGRAM_POSTS = [
   // No se pudo leer el embed para confirmar el tipo: queda como imagen 4:5. Si es otro, usa uno de estos encuadres:
   //   carrusel → type: 'carousel', zoom: 1.18 (recorta las flechas laterales y muestra la 1.ª imagen)
   //   video    → type: 'video', ratio: 1.25, zoom: 1.42 (recorta franjas negras; el play queda al centro)
-  { url: 'https://www.instagram.com/p/DdXeV_QlVAE/', type: 'image', cover: '/instagram/post-1.webp', title: 'Publicación de Ricocat en Instagram (1 de 3)' },
-  { url: 'https://www.instagram.com/p/DfIVtlIDh88/', type: 'image', cover: '/instagram/post-2.webp', title: 'Publicación de Ricocat en Instagram (2 de 3)' },
-  { url: 'https://www.instagram.com/p/DPpPBpQE4Ch/', type: 'image', cover: '/instagram/post-3.webp', title: 'Publicación de Ricocat en Instagram (3 de 3)' },
+  { url: 'https://www.instagram.com/p/DdXeV_QlVAE/', type: 'image', cover: null /* '/instagram/post-1.webp' cuando llegue */, title: 'Publicación de Ricocat en Instagram (1 de 3)' },
+  { url: 'https://www.instagram.com/p/DfIVtlIDh88/', type: 'image', cover: null /* '/instagram/post-2.webp' cuando llegue */, title: 'Publicación de Ricocat en Instagram (2 de 3)' },
+  { url: 'https://www.instagram.com/p/DPpPBpQE4Ch/', type: 'image', cover: null /* '/instagram/post-3.webp' cuando llegue */, title: 'Publicación de Ricocat en Instagram (3 de 3)' },
 ].map((p) => ({ ...IG_DEFAULTS, ...p }));
 
 // Acepta links copiados de Instagram (/reel/… y con ?utm_source…) y los pasa a /p/…/embed
