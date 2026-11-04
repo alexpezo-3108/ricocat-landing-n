@@ -1,0 +1,71 @@
+/* 02 Banda "Nutrición completa": fluida entre 375px (77px de alto) y 1440px (124px). */
+.band {
+  --band-h: clamp(4.8125rem, 3.778rem + 4.413vw, 7.75rem);
+  --band-fs: clamp(2rem, 1.648rem + 1.502vw, 3rem);
+  --band-fish-w: clamp(0.9375rem, 0.739rem + 0.845vw, 1.5rem);
+  --band-gap: clamp(1.1875rem, 0.923rem + 1.127vw, 1.9375rem);
+  --band-distance: calc(var(--band-speed) * 1vw);
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  block-size: var(--band-h);
+  overflow: hidden;
+  overflow: clip;
+  background: var(--color-navy-900);
+  color: var(--color-white);
+}
+
+/* Arranca medio recorrido fuera de pantalla: el track mide ≥ 100vw + recorrido, nunca deja hueco. */
+.band__track {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--band-gap);
+  margin-inline-start: calc(var(--band-distance) / -2);
+  will-change: transform;
+}
+
+.band__text {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: var(--band-fs);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.band__fish {
+  flex: none;
+  inline-size: var(--band-fish-w);
+  scale: var(--band-direction) 1;
+}
+
+.band__fish svg { animation: fish-wiggle var(--band-fish-dur) var(--motion-ease-sway) infinite; }
+.band__fish:nth-child(4n) svg { animation-delay: calc(var(--band-fish-dur) / -3); }
+.band__fish:nth-child(4n + 2) svg { animation-delay: calc(var(--band-fish-dur) / -1.5); }
+
+@keyframes fish-wiggle {
+  0%, 100% { rotate: calc(var(--band-fish-wiggle) * -1); translate: 0 0; }
+  50% { rotate: var(--band-fish-wiggle); translate: 0 -12%; }
+}
+
+@keyframes band-scroll {
+  from { transform: translateX(calc(var(--band-distance) * var(--band-direction) / -2)); }
+  to { transform: translateX(calc(var(--band-distance) * var(--band-direction) / 2)); }
+}
+
+@supports (animation-timeline: view()) {
+  .band__track {
+    animation: band-scroll linear both;
+    animation-timeline: view();
+    animation-range: cover;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .band__track { animation: none !important; transform: none !important; }
+  .band__fish svg { animation: none !important; }
+}

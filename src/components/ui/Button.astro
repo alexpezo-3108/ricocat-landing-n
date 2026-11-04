@@ -1,0 +1,17 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import Icon from './Icon.astro';
+
+interface Props extends HTMLAttributes<'a'> {
+  href: string;
+  variant?: 'light' | 'dark' | 'nav';
+  block?: boolean;
+  icon?: string;
+}
+
+const { href, variant = 'dark', block = false, icon, class: className, ...rest } = Astro.props;
+---
+<a href={href} class:list={['btn', `btn--${variant}`, { 'btn--block': block }, className]} {...rest}>
+  <slot />
+  {icon && <span class="btn__icon"><Icon name={icon} /></span>}
+</a>

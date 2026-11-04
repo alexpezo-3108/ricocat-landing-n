@@ -1,0 +1,45 @@
+---
+import Icon from '../ui/Icon.astro';
+import '../../styles/components/where-to-buy.css';
+
+/** Selector "Dónde comprar" (único, reutilizable). Lo llena src/scripts/where-to-buy.js según el producto. */
+---
+<dialog class="wtb" data-wtb aria-labelledby="wtb-name">
+  <div class="wtb__panel" data-wtb-panel>
+    <div class="wtb__bar">
+      <button type="button" class="wtb__back" data-wtb-close>
+        <span class="wtb__back-icon"><Icon name="icono-volver" /></span>
+        <span>Volver</span>
+      </button>
+    </div>
+    <header class="wtb__head">
+      <div class="wtb__media" data-wtb-media><img class="wtb__img" data-wtb-img alt="" /></div>
+      <div class="wtb__info">
+        <p class="wtb__tag" data-wtb-tag></p>
+        <h2 class="wtb__name" id="wtb-name" data-wtb-name>Dónde comprar</h2>
+      </div>
+      <button type="button" class="icon-btn wtb__close" data-wtb-close>
+        <Icon name="icono-wtb-cerrar" class="icon-btn__glyph" />
+        <span class="visually-hidden">Cerrar</span>
+      </button>
+    </header>
+    <h3 class="wtb__title">¿Dónde quieres comprarlo?</h3>
+    <ul class="wtb__list" role="list" data-wtb-list></ul>
+  </div>
+  <ul class="wtb__proto" hidden="" aria-hidden="true" inert=""><li data-wtb-row="">
+      <a class="wtb__store" href="#" target="_blank" rel="noopener">
+        <span class="wtb__logo" data-wtb-logo aria-hidden="true">Logo</span>
+        <span class="wtb__store-text">
+          <span class="wtb__store-name" data-wtb-store-name></span>
+          <span class="wtb__store-type" data-wtb-store-type></span>
+        </span>
+        <span class="wtb__go" aria-hidden="true"><Icon name="icono-ir-a-tienda" /></span>
+        <span class="visually-hidden">(se abre en una pestaña nueva)</span>
+      </a>
+    </li></ul>
+</dialog>
+
+<script>
+  import { initWhereToBuy } from '../../scripts/where-to-buy.js';
+  initWhereToBuy();
+</script>

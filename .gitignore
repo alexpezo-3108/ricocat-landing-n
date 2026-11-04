@@ -1,0 +1,28 @@
+# Material de trabajo archivado
+_archive/
+
+# Dependencias
+node_modules/
+
+# Salidas del build (se regeneran en el deploy)
+dist/
+.astro/
+
+# Variables de entorno
+.env
+.env.*
+!.env.example
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editores (se pueden versionar configuraciones compartidas a propósito)
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/

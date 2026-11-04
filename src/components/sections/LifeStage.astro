@@ -1,0 +1,75 @@
+---
+import { Image } from 'astro:assets';
+import Icon from '../ui/Icon.astro';
+import beam1 from '../../assets/svg/haz-de-luz-1.svg?url';
+import beam2 from '../../assets/svg/haz-de-luz-2.svg?url';
+import '../../styles/sections/life-stage.css';
+
+/** Plantilla de etapa de vida. Los datos vienen de src/data/stages.js. */
+const { stage } = Astro.props;
+const SLOTS = ['bag', 'pate', 'pouch', 'trocitos'];
+const multi = stage.flavors.length > 1;
+const titleId = `stage-${stage.id}-title`;
+const posStyle = (pos) => (pos ? `--x: ${pos.x}; --y: ${pos.y}; --w: ${pos.w}` : undefined);
+---
+<section
+  id={`etapa-${stage.id}`}
+  class:list={['stage', { 'stage--multi': multi, [`stage--${stage.layout}`]: stage.layout }]}
+  style={`--name-chars: ${stage.name.length}`}
+  data-stage
+  data-palette={stage.flavors[0].palette ?? stage.palette}
+  aria-labelledby={titleId}
+>
+  <div class="stage__card">
+    <div class="stage__beams" aria-hidden="true">
+      <img class="stage__beam stage__beam--1" src={beam1} width="170" height="709" alt="" loading="lazy" />
+      <img class="stage__beam stage__beam--2" src={beam2} width="125" height="716" alt="" loading="lazy" />
+    </div>
+
+    <h2 id={titleId} class="stage__name">{stage.name}</h2>
+
+    {stage.flavors.map((flavor, i) => (
+      <div class="stage__flavor" data-flavor data-flavor-id={flavor.id} data-palette={flavor.palette ?? stage.palette} data-active={String(i === 0)} hidden={i > 0}>
+        <div class="stage__art">
+          {flavor.cat.shadow && <Image class="stage__item stage__item--shadow" src={flavor.cat.shadow} alt="" aria-hidden="true" style={posStyle(flavor.cat.shadowPos ?? flavor.cat.pos)} loading="lazy" />}
+          {SLOTS.map((slot) => flavor.products[slot] && (
+            <Image class={`stage__item stage__item--${slot}`} src={flavor.products[slot].src} alt={flavor.products[slot].alt} loading="lazy" />
+          ))}
+          <Image class="stage__item stage__item--cat" src={flavor.cat.src} alt={flavor.cat.alt} style={posStyle(flavor.cat.pos)} loading="lazy" />
+          {flavor.kibbles.slice(0, 5).map((kibble, n) => (
+            <span class={`stage__kibble stage__kibble--${n + 1}`} aria-hidden="true"><Image src={kibble} alt="" loading="lazy" /></span>
+          ))}
+        </div>
+        <div class="stage__info">
+          <h3 class="stage__flavor-name">{flavor.name}</h3>
+          <p class="stage__desc">{flavor.description}</p>
+          <button type="button" class="btn btn--stage stage__cta" data-store-trigger data-stores={stage.cta.stores} data-stage={stage.id} data-flavor-id={flavor.id}>
+            {stage.cta.label}
+          </button>
+        </div>
+      </div>
+    ))}
+
+    {multi && (
+      <div class="stage__picker" role="group" aria-label="Cambiar sabor">
+        <button type="button" class="stage__arrow" data-flavor-step="-1" aria-label="Sabor anterior"><Icon name="icono-chevron" /></button>
+        <span class="visually-hidden" data-flavor-count aria-live="polite">Sabor 1 de {stage.flavors.length}: {stage.flavors[0].name}</span>
+        <button type="button" class="stage__arrow stage__arrow--next" data-flavor-step="1" aria-label="Sabor siguiente"><Icon name="icono-chevron" /></button>
+      </div>
+    )}
+
+    <ul class="stage__benefits" role="list" aria-label={`Beneficios de Ricocat ${stage.name}`}>
+      {stage.benefits.map((b) => (
+        <li class="stage__benefit">
+          <span class="stage__benefit-icon" aria-hidden="true">{b.icon && <Icon name={b.icon} />}</span>
+          <p class="stage__benefit-text"><strong>{b.bold}</strong> {b.rest}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  import { initLifeStages } from '../../scripts/life-stage.js';
+  initLifeStages();
+</script>

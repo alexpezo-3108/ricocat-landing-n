@@ -1,0 +1,463 @@
+/* 04 Tipos de alimento
+   Composición en "unidades de diseño" (--u = 1px del diseño, escalado al viewport):
+   mobile 375×760, desktop 1440×850. Cada elemento se ancla con --mpx/--mpy (mobile) y --px/--py (desktop). */
+.types {
+  --cx: 187.5;
+  --cy: 380;
+  --fh: 760;
+  --u: min(calc(100vw / 375), calc(100 * var(--svh) / 760));
+  --ux: min(calc(100vw / 375), calc(var(--u) * 1.6)); /* unidad horizontal para filas en mobile */
+  --plate-scale: 0.56;
+  --plate-y-entrada: 380;
+  --plate-y-seco: 188;
+  --plate-y-humedo: 188;
+  --plate-y-mix: 470;
+  --plate-y-salida: 380;
+  --plate-y: var(--plate-y-entrada);
+
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background: var(--color-navy-900);
+  color: var(--color-white);
+}
+
+.types::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url("../../assets/images/patron-fondo-tile.png") 0 0 / var(--types-pattern-size) auto repeat;
+  opacity: var(--types-pattern-opacity);
+  pointer-events: none;
+}
+
+/* Modo estático (sin JS o con prefers-reduced-motion): momentos uno debajo de otro */
+.types__stage { position: relative; }
+.types__moment { position: relative; block-size: calc(var(--fh) * var(--u)); }
+.types__plate { display: none; }
+.types:not(.types--live) .types__moment--seco { --plate-y: var(--plate-y-seco); }
+.types:not(.types--live) .types__moment--humedo { --plate-y: var(--plate-y-humedo); }
+.types:not(.types--live) .types__moment--mix { --plate-y: var(--plate-y-mix); }
+
+/* Entrada (modo scroll): fondo claro → el azul se pinta en círculo desde el plato → el patrón se enciende en ondas */
+.types__paint { display: none; }
+.types--live { background: var(--types-paint-from); }
+.types--live.is-exit { background: var(--types-exit-to); } /* despintado: queda el blanco de la pila de etapas */
+.types--live::before { display: none; }
+
+.types--live .types__paint {
+  position: absolute;
+  inset: 0;
+  z-index: 1; /* sobre la línea guía (z 0), bajo el plato */
+  display: block;
+  pointer-events: none;
+}
+
+/* Blobs azules (paths animados con MorphSVG en types-paint.js): borde nítido y orgánico */
+.types__blobs { position: absolute; inset: 0; z-index: 0; inline-size: 100%; block-size: 100%; overflow: visible; }
+/* Línea punteada guía (food-types.js): baja hasta el centro del plato y se pierde detrás de él; se revela con clip */
+.types__line { display: none; }
+.types--live .types__line {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: var(--line-x, 50%);
+  z-index: 0;
+  display: block;
+  inline-size: 8px;
+  block-size: var(--line-h, 0px);
+  margin-inline-start: -4px;
+  pointer-events: none;
+}
+.types__line { transition: opacity 0.35s var(--ease-out, ease-out), visibility 0s linear 0s; }
+.types__line.is-off { opacity: 0; visibility: hidden; transition: opacity 0.35s var(--ease-out, ease-out), visibility 0s linear 0.35s; }
+.types__line-svg {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+  clip-path: inset(0 0 calc(100% - var(--line-l, 0px)) 0);
+}
+.types__line-svg line {
+  stroke: var(--types-line-color);
+  stroke-width: var(--types-line-width);
+  stroke-dasharray: var(--types-line-dash) var(--types-line-gap);
+  stroke-linecap: round;
+}
+.types__line-tip {
+  position: absolute;
+  inset-block-start: var(--line-l, 0px);
+  inset-inline-start: 50%;
+  inline-size: var(--types-line-tip);
+  block-size: var(--types-line-tip);
+  border-radius: 50%;
+  background: var(--types-line-color);
+  translate: -50% -50%;
+}
+
+/* Metaballs (types-metaballs.js): canvas a pantalla del escenario, bajo el plato */
+.types__metaballs { position: absolute; inset: 0; z-index: 0; inline-size: 100%; block-size: 100%; display: block; }
+/* Partículas (types-particles.js): sobre el patrón, bajo el plato */
+.types__particles { position: absolute; inset: 0; z-index: 2; display: block; pointer-events: none; }
+.types__blob { fill: var(--color-navy-900); }
+
+/* Patrón en celdas (types-paint.js): cada celda muestra su trozo del mosaico alineado al global
+   y entra en onda desde el plato; --pattern-y hace avanzar todo con el scroll */
+.types__pattern { position: absolute; inset: 0; z-index: 1; opacity: var(--types-pattern-opacity); }
+.types__cell {
+  position: absolute;
+  background: url("../../assets/images/patron-fondo-tile.png") calc(var(--cell-x) * -1) calc(var(--pattern-y, 0px) - var(--cell-y)) / var(--types-pattern-size) auto repeat;
+  will-change: transform, opacity;
+}
+
+/* Pintado completo: azul por CSS (el canvas se oculta hasta que empieza el despintado) */
+.types--live .types__paint.is-full { background: var(--color-navy-900); }
+
+/* Sin GSAP disponible: azul y patrón directos */
+.types--live .types__paint.is-static {
+  background: var(--color-navy-900) url("../../assets/images/patron-fondo-tile.png") 0 var(--pattern-y, 0px) / var(--types-pattern-size) auto repeat;
+}
+.types--live .types__paint.is-static::before { content: ""; position: absolute; inset: 0; background: var(--color-navy-900); opacity: calc(1 - var(--types-pattern-opacity)); }
+
+/* Modo scroll: contenedor alto + escenario sticky de 100svh */
+.types--live {
+  block-size: calc((var(--types-len-entrada) + var(--types-len-seco) + var(--types-len-humedo) + var(--types-len-mix) + var(--types-len-salida) + 1 + var(--types-cover)) * 100 * var(--svh));
+}
+
+/* Transición a etapas: el último tramo (--types-cover) mantiene el escenario fijo mientras
+   #etapas, solapada con margen negativo y en una capa superior, sube y lo cubre. */
+.types--live + #etapas {
+  position: relative;
+  z-index: 5;
+  margin-block-start: calc(var(--types-cover) * -100 * var(--svh));
+  overflow: hidden;
+  overflow: clip;
+  background: var(--color-white);
+}
+
+/* Profundidad opcional: el escenario se oscurece mientras lo tapan (scroll-driven, sin JS).
+   Sin escalado: encoger el escenario dejaba ver franjas sin oscurecer en los bordes. */
+main { timeline-scope: --etapas-cover; }
+.types--live + #etapas { view-timeline: --etapas-cover block; }
+
+@supports (animation-timeline: view()) {
+  /* Esquinas redondeadas mientras sube; se vuelven rectas al terminar de cubrir (sin el patrón de tarjetas) */
+  .types--live + #etapas:not(.stages--cards) {
+    animation: etapas-corners linear both;
+    animation-timeline: --etapas-cover;
+    animation-range: entry 0% entry 100%;
+  }
+
+  .types--live .types__stage::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    background: #000814;
+    opacity: 0;
+    pointer-events: none;
+    animation: types-covered-dim linear both;
+    animation-timeline: --etapas-cover;
+    animation-range: entry 0% entry 100%;
+  }
+}
+
+/* Sombra solo sobre el borde superior mientras sube (clip-path recorta abajo y a los lados); al asentarse, ninguna */
+@keyframes etapas-corners {
+  from, 80% { border-radius: var(--stages-cover-radius) var(--stages-cover-radius) 0 0; box-shadow: 0 -18px 48px rgb(0 20 50 / 0.35); clip-path: inset(-80px 0 0 0); }
+  to { border-radius: 0; box-shadow: 0 -18px 48px rgb(0 20 50 / 0); clip-path: inset(-80px 0 0 0); }
+}
+@keyframes types-covered-dim { to { opacity: var(--types-cover-dim); } }
+
+.types--live .types__stage {
+  position: sticky;
+  inset-block-start: 0;
+  block-size: calc(100 * var(--svh));
+  overflow: hidden;
+}
+
+.types--live .types__moment { position: absolute; inset: 0; block-size: auto; }
+.types--live .types__moment-plate { display: none; }
+.types--live .types__plate { display: block; scale: calc(var(--plate-zoom, 1) * var(--plate-exit, 1)); } /* --plate-zoom: reducción al llegar (JS) */
+
+/* Anclas */
+.types__pin {
+  --pin-x: var(--mpx, var(--cx));
+  --pin-y: var(--mpy, var(--cy));
+  position: absolute;
+  inset-inline-start: calc(50% + (var(--pin-x) - var(--cx)) * var(--u));
+  inset-block-start: calc(50% + (var(--pin-y) - var(--cy)) * var(--u));
+  z-index: 3;
+  inline-size: 0;
+  block-size: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.types__pin-body {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  max-inline-size: none;
+  translate: -50% -50%;
+}
+
+.types__list { margin: 0; padding: 0; list-style: none; }
+
+/* Movimiento ligado al scroll (JS):
+   lead (tarjeta, título Mix): --s = -1 abajo fuera de cuadro · 0 en su sitio · 1 arriba fuera de cuadro.
+   pop (beneficios, chips, destellos): --pop = 0 oculto → 1 en su sitio, con rebote (puede pasar de 1). */
+.types__anim--lead {
+  translate: 0 calc(var(--dy, 90) * var(--s, 0) * var(--types-enter) * var(--svh) * -1);
+  rotate: calc(var(--rot, 0deg) * var(--s, 0) * var(--types-enter));
+  scale: calc(1 - var(--sc, 0.06) * var(--a, 0));
+  opacity: clamp(0, calc((1 - var(--a, 0)) * 25), 1); /* solo apoyo: actúa en el último 4%, ya fuera de cuadro */
+}
+
+.types__anim--pop {
+  translate: 0 calc((1 - var(--pop, 1)) * 3 * var(--svh));
+  rotate: calc((1 - var(--pop, 1)) * var(--rot, 0deg));
+  scale: max(0, var(--pop, 1));
+  opacity: clamp(0, calc(var(--pop, 1) * 8), 1); /* apoyo brevísimo al nacer */
+}
+
+.types--live .types__anim { will-change: translate, rotate, scale, opacity; }
+
+/* Plato */
+.types__pin--plate {
+  --pin-x: var(--cx);
+  --pin-y: var(--plate-y);
+  z-index: 2;
+}
+
+/* Resplandor detrás del plato: radial muy suave, sigue al plato y escala con él */
+.types__pin--plate::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  inline-size: calc(1100 * var(--plate-scale) * var(--u));
+  aspect-ratio: 1.25;
+  translate: -50% -50%;
+  background: radial-gradient(closest-side, rgb(154 237 245 / 1) 0%, rgb(154 237 245 / 0.55) 35%, rgb(154 237 245 / 0.18) 65%, transparent 100%);
+  opacity: var(--types-glow-opacity);
+  pointer-events: none;
+}
+
+.types__plate-img {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  inline-size: calc(var(--iw) * var(--plate-scale) * var(--u));
+  max-inline-size: none;
+  translate: -50% -50%;
+}
+
+/* Secuencia 3D (canvas). --seq-w: ancho del frame en unidades de diseño; --seq-ox/oy: centro del plato dentro del frame (px del frame 960×984) */
+.types__plate { --seq-w: 636; --seq-ox: 635; --seq-oy: 645; }
+.types__plate-seq {
+  position: absolute;
+  inset-inline-start: calc(var(--seq-ox) / 960 * var(--seq-w) * var(--plate-scale) * var(--u) * -1);
+  inset-block-start: calc(var(--seq-oy) / 960 * var(--seq-w) * var(--plate-scale) * var(--u) * -1);
+  inline-size: calc(var(--seq-w) * var(--plate-scale) * var(--u));
+  aspect-ratio: 960 / 984;
+  max-inline-size: none;
+  pointer-events: none;
+}
+.types__plate.has-seq .types__plate-img { display: none; }
+.types__plate .types__plate-img { opacity: 0; }
+.types__plate .types__plate-img[data-plate-frame="entrada"] { opacity: 1; }
+
+/* Tarjetas */
+.types__pin--card { z-index: 1; }
+
+.types__card {
+  inline-size: calc(335 * var(--u));
+  padding: calc(46 * var(--u)) calc(22 * var(--u)) calc(26 * var(--u));
+  border-radius: calc(14 * var(--u));
+  background: var(--color-cyan-50);
+  color: var(--color-navy-900);
+  text-align: center;
+  rotate: var(--card-tilt, 0deg);
+}
+
+.types__card-icon {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 0;
+  display: grid;
+  place-items: center;
+  inline-size: calc(60 * var(--u));
+  aspect-ratio: 1;
+  border: calc(4 * var(--u)) solid var(--color-white);
+  border-radius: 50%;
+  background: var(--color-hero-top);
+  color: var(--color-white);
+  translate: -50% -50%;
+}
+
+.types__card-icon .icon { inline-size: 50%; }
+
+.types__card-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: calc(34 * var(--u));
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.types__card-sub {
+  margin: calc(8 * var(--u)) 0 0;
+  font-family: var(--font-display);
+  font-size: calc(15 * var(--u));
+  font-weight: var(--fw-bold);
+  line-height: 1.1;
+  color: var(--color-cyan-700);
+  text-transform: uppercase;
+}
+
+.types__card-text {
+  margin: calc(12 * var(--u)) 0 0;
+  font-family: var(--font-body);
+  font-size: max(0.8125rem, calc(14 * var(--u)));
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--color-navy-700);
+  text-wrap: pretty;
+}
+
+/* Beneficios (mobile: la fila se reparte con el ancho real, no solo con la altura) */
+.types__pin--benefit { inset-inline-start: calc(50% + (var(--pin-x) - var(--cx)) * var(--ux)); }
+
+.types__benefit {
+  --icon: 50;
+  display: grid;
+  justify-items: center;
+  gap: calc(10 * var(--u));
+  inline-size: calc(92 * var(--ux));
+  text-align: center;
+  translate: -50% calc(var(--icon) * var(--u) / -2);
+}
+
+.types__benefit-icon {
+  display: grid;
+  place-items: center;
+  inline-size: calc(var(--icon) * var(--u));
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-navy-900);
+}
+
+.types__benefit-icon .icon { inline-size: 50%; }
+
+.types__benefit-label {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: max(0.75rem, calc(12 * var(--u)));
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.types__benefit-label strong {
+  display: block;
+  font-size: max(0.8125rem, calc(13.5 * var(--u)));
+  font-weight: var(--fw-bold);
+}
+
+/* Chips sobre el plato: se anclan al centro del plato y escalan con él */
+.types__pin--chip {
+  --pin-x: calc(var(--cx) + var(--chip-x) * var(--plate-scale));
+  --pin-y: calc(var(--plate-y) + var(--chip-y) * var(--plate-scale));
+}
+
+.types__chip {
+  padding: calc(5 * var(--u)) calc(11 * var(--u));
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  color: var(--color-navy-900);
+  font-family: var(--font-display);
+  font-size: max(0.75rem, calc(12 * var(--u)));
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.types__chip::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: calc(100% + 7 * var(--u));
+  inline-size: calc(8 * var(--u));
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--color-white);
+  translate: -50% 0;
+}
+
+/* Mix */
+.types__mix-title {
+  inline-size: calc(335 * var(--u));
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: calc(40 * var(--u));
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.types__mix-line { display: block; }
+.types__mix-line--2 { color: var(--color-cyan-100); }
+
+.types__sparkle { inline-size: calc(20 * var(--u)); }
+
+/* Desktop */
+@media (min-width: 75em) {
+  .types {
+    --cx: 720;
+    --cy: 425;
+    --fh: 850;
+    --u: min(calc(100vw / 1440), calc(100 * var(--svh) / 850));
+    --plate-scale: 1;
+    --plate-y-entrada: 425;
+    --plate-y-seco: 405;
+    --plate-y-humedo: 460;
+    --plate-y-mix: 577;
+    --plate-y-salida: 425;
+  }
+
+  .types__pin { --pin-x: var(--px, var(--cx)); --pin-y: var(--py, var(--cy)); }
+  .types__pin--benefit { inset-inline-start: calc(50% + (var(--pin-x) - var(--cx)) * var(--u)); }
+  .types__pin--plate { --pin-x: var(--cx); --pin-y: var(--plate-y); }
+  .types__pin--chip {
+    --pin-x: calc(var(--cx) + var(--chip-x) * var(--plate-scale));
+    --pin-y: calc(var(--plate-y) + var(--chip-y) * var(--plate-scale));
+  }
+
+  .types__card {
+    inline-size: calc(587 * var(--u));
+    padding: calc(92 * var(--u)) calc(117 * var(--u)) calc(48 * var(--u));
+    border-radius: calc(22 * var(--u));
+  }
+
+  .types__card-icon { inline-size: calc(87 * var(--u)); border-width: calc(5 * var(--u)); }
+  .types__card-title { font-size: calc(56 * var(--u)); }
+  .types__card-sub { margin-block-start: calc(18 * var(--u)); font-size: calc(21 * var(--u)); }
+  .types__card-text { margin-block-start: calc(22 * var(--u)); font-size: max(0.875rem, calc(17 * var(--u))); line-height: 1.47; }
+
+  .types__benefit { --icon: 81; gap: calc(16 * var(--u)); inline-size: calc(200 * var(--u)); }
+  .types__benefit-label { font-size: max(0.8125rem, calc(15 * var(--u))); }
+  .types__benefit-label strong { font-size: max(0.875rem, calc(17 * var(--u))); }
+
+  .types__chip { padding: calc(8 * var(--u)) calc(20 * var(--u)); font-size: calc(17 * var(--u)); }
+  .types__chip::after { inset-block-start: calc(100% + 11 * var(--u)); inline-size: calc(13 * var(--u)); }
+
+  .types__mix-title { inline-size: calc(660 * var(--u)); font-size: calc(66 * var(--u)); }
+  .types__sparkle { inline-size: calc(24 * var(--u)); }
+}

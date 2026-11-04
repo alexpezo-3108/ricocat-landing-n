@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/layout/SiteHeader.astro';
+import Hero from '../components/sections/Hero.astro';
+import NutritionBand from '../components/sections/NutritionBand.astro';
+import CompleteFood from '../components/sections/CompleteFood.astro';
+import FoodTypes from '../components/sections/FoodTypes.astro';
+import LifeStage from '../components/sections/LifeStage.astro';
+import SiteFooter from '../components/layout/SiteFooter.astro';
+import WhereToBuy from '../components/layout/WhereToBuy.astro';
+import Adopt from '../components/sections/Adopt.astro';
+import Store from '../components/sections/Store.astro';
+import { stages } from '../data/stages.js';
+---
+<BaseLayout
+  title="Ricocat | Nutriendo el vínculo todos los días"
+  description="Alimento para gatos Ricocat: nutrición completa para cada etapa de vida."
+>
+  <SiteHeader />
+  <main id="contenido">
+    <Hero />
+    <NutritionBand />
+    <CompleteFood />
+    <FoodTypes />
+    <div id="etapas">
+      {stages.map((stage) => <LifeStage stage={stage} />)}
+    </div>
+    <Store />
+    <Adopt />
+  </main>
+  <SiteFooter />
+  <WhereToBuy />
+</BaseLayout>

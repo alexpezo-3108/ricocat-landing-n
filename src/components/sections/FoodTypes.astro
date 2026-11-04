@@ -1,0 +1,110 @@
+---
+import { Image } from 'astro:assets';
+import Icon from '../ui/Icon.astro';
+import sparkle from '../../assets/svg/sparkle.svg?url';
+import plateEntrada from '../../assets/images/plato-ref-entrada.png';
+import plateSeco from '../../assets/images/plato-ref-seco.png';
+import plateHumedo from '../../assets/images/plato-ref-humedo.png';
+import plateMix from '../../assets/images/plato-ref-mix.png';
+import '../../styles/sections/food-types.css';
+
+// Placeholder del plato (referencias). La secuencia de frames se conectará en src/scripts/plate-sequence.js.
+const plates = { entrada: plateEntrada, seco: plateSeco, humedo: plateHumedo, mix: plateMix };
+
+// Coordenadas: px/py en el diseño desktop (1440×850), mpx/mpy en mobile (375×760).
+const types = [
+  {
+    id: 'seco',
+    card: {"px":1103,"py":314,"mpx":187.5,"mpy":452,"tilt":"-1deg","rot":"4deg","icon":"icono-alimento-seco","title":"Alimento seco","sub":"La base de su alimentación diaria","text":"Croquetas crocantes con nutrición 100% completa y balanceada. Ayuda al control de cálculos urinarios, controla las bolas de pelo y cuida su corazón sano y fuerte."},
+    side: -10,
+    benefits: [{"icon":"icono-tipos-previene-calculos","bold":"Previene","rest":"cálculos urinarios","px":438,"py":240,"mpx":75,"mpy":630},{"icon":"icono-tipos-corazon-sano","bold":"Corazón","rest":"sano y fuerte","px":392,"py":405,"mpx":187.5,"mpy":630},{"icon":"icono-tipos-control-bolas-de-pelo","bold":"Control","rest":"de bolas de pelo","px":438,"py":570,"mpx":300,"mpy":630}],
+    chips: [],
+  },
+  {
+    id: 'humedo',
+    card: {"px":336,"py":314,"mpx":187.5,"mpy":452,"tilt":"1deg","rot":"-4deg","icon":"icono-alimento-humedo","title":"Alimento húmedo","sub":"El complemento que más disfruta","text":"Trocitos en salsa, filetitos y paté cocidos al vapor, con proteínas de alta calidad, vitaminas y minerales. Textura jugosa que complementa su hidratación y es fácil de comer y digerir."},
+    side: 10,
+    benefits: [{"icon":"icono-hidratacion","bold":"Complementa","rest":"su hidratación","px":971,"py":220,"mpx":50,"mpy":630},{"icon":"icono-rico-en-nutrientes","bold":"Rico en","rest":"nutrientes","px":1049,"py":372,"mpx":141,"mpy":630},{"icon":"icono-facil-digestion","bold":"Fácil","rest":"digestión","px":1049,"py":548,"mpx":234,"mpy":630},{"icon":"icono-coccion-al-vapor","bold":"Cocción","rest":"al vapor","px":961,"py":700,"mpx":325,"mpy":630}],
+    chips: [{"label":"Paté","x":-83,"y":-111},{"label":"Trocitos","x":80,"y":-91},{"label":"Pouch","x":-19,"y":19}], // x/y: relativos al centro del plato
+  },
+];
+
+const mix = {
+  title: {"px":720,"py":188,"mpx":187.5,"mpy":150},
+  sparkles: [{"px":391,"py":465,"mpx":60,"mpy":400},{"px":980,"py":385,"mpx":330,"mpy":360},{"px":928,"py":792,"mpx":300,"mpy":610}],
+};
+
+const stagger = (count, i) => (count <= 1 ? 0 : +((i / (count - 1)) * 0.8).toFixed(2));
+const pos = (p) => `--px: ${p.px}; --py: ${p.py}; --mpx: ${p.mpx}; --mpy: ${p.mpy};`;
+---
+<section id="tipos" class="types" aria-labelledby="types-title" data-types>
+  <h2 id="types-title" class="visually-hidden">Tipos de alimento: seco, húmedo y mix</h2>
+  <div class="types__stage">
+    <!-- PLATO: contenedor fijo del escenario. Recibe el progreso del scroll vía plate-sequence.js -->
+    <div class="types__pin types__pin--plate types__plate" data-plate data-plate-seq={`${import.meta.env.BASE_URL.replace(/\/?$/, '/')}plate-seq/`} data-plate-frames="376" aria-hidden="true">
+      {Object.entries(plates).map(([key, src]) => (
+        <Image class="types__plate-img" src={src} alt="" style={`--iw: ${src.width}`} data-plate-frame={key} loading="lazy" />
+      ))}
+    </div>
+
+    {types.map((type) => (
+      <article class={`types__moment types__moment--${type.id}`} aria-labelledby={`types-${type.id}`}>
+        <div class="types__pin types__pin--plate types__moment-plate" aria-hidden="true">
+          <Image class="types__plate-img" src={plates[type.id]} alt="" style={`--iw: ${plates[type.id].width}`} loading="lazy" />
+        </div>
+
+        <div class="types__pin types__pin--card types__anim types__anim--lead" data-types-anim data-group={type.id} data-stagger="0" style={`${pos(type.card)} --dy: 90; --rot: ${type.card.rot}; --sc: 0.12`}>
+          <div class="types__pin-body types__card" style={`--card-tilt: ${type.card.tilt}`}>
+            <span class="types__card-icon" aria-hidden="true"><Icon name={type.card.icon} /></span>
+            <h3 id={`types-${type.id}`} class="types__card-title">{type.card.title}</h3>
+            <p class="types__card-sub">{type.card.sub}</p>
+            <p class="types__card-text">{type.card.text}</p>
+          </div>
+        </div>
+
+        {type.chips.length > 0 && (
+          <ul class="types__list" role="list" aria-label="Variedades">
+            {type.chips.map((chip, i) => (
+              <li class="types__pin types__pin--chip types__anim types__anim--pop" data-types-anim data-group={type.id} data-stagger={0.3 + i * 0.2} style={`--chip-x: ${chip.x}; --chip-y: ${chip.y}; --dy: 12; --rot: 10deg; --sc: 1`}>
+                <span class="types__pin-body types__chip">{chip.label}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <ul class="types__list" role="list" aria-label="Beneficios">
+          {type.benefits.map((b, i) => (
+            <li class="types__pin types__pin--benefit types__anim types__anim--pop" data-types-anim data-group={type.id} data-stagger={stagger(type.benefits.length, i)} style={`${pos(b)} --dx: ${type.side}; --dy: 30; --rot: ${type.side < 0 ? '-14deg' : '14deg'}; --sc: 0.5`}>
+              <div class="types__pin-body types__benefit">
+                <span class="types__benefit-icon" aria-hidden="true"><Icon name={b.icon} /></span>
+                <p class="types__benefit-label"><strong>{b.bold}</strong> {b.rest}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </article>
+    ))}
+
+    <article class="types__moment types__moment--mix" aria-labelledby="types-mix">
+      <div class="types__pin types__pin--plate types__moment-plate" aria-hidden="true">
+        <Image class="types__plate-img" src={plates.mix} alt="" style={`--iw: ${plates.mix.width}`} loading="lazy" />
+      </div>
+      <div class="types__pin types__anim types__anim--lead" data-types-anim data-group="mix" data-stagger="0" style={`${pos(mix.title)} --dy: 90; --sc: 0.06`}>
+        <h3 id="types-mix" class="types__pin-body types__mix-title">
+          <span class="types__mix-line">La combinación completa,</span>
+          <span class="types__mix-line types__mix-line--2">seco y húmedo en un mismo plato</span>
+        </h3>
+      </div>
+      {mix.sparkles.map((s, i) => (
+        <div class="types__pin types__anim types__anim--pop" data-types-anim data-group="mix" data-stagger={0.3 + i * 0.2} style={`${pos(s)} --dy: 20; --rot: 90deg; --sc: 1`} aria-hidden="true">
+          <img class="types__pin-body types__sparkle" src={sparkle} width="24" height="24" alt="" />
+        </div>
+      ))}
+    </article>
+  </div>
+</section>
+
+<script>
+  import { initFoodTypes } from '../../scripts/food-types.js';
+  initFoodTypes();
+</script>

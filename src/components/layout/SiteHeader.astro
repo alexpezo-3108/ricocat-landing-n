@@ -1,0 +1,31 @@
+---
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import SocialLinks from '../ui/SocialLinks.astro';
+import MobileMenu from './MobileMenu.astro';
+import { adoptLink, navLinks } from '../../data/site.js';
+import '../../styles/components/header.css';
+---
+<header class="site-header">
+  <Button href={adoptLink.href} variant="light" class="site-header__adopt">{adoptLink.label}</Button>
+  <nav class="site-header__nav" aria-label="Principal">
+    <ul class="site-header__nav-list" role="list">
+      {navLinks.map((link) => (
+        <li><Button href={link.href} variant="nav">{link.label}</Button></li>
+      ))}
+    </ul>
+  </nav>
+  <SocialLinks variant="header" class="site-header__social" />
+  <button
+    type="button"
+    class="icon-btn site-header__menu-toggle"
+    data-menu-open
+    aria-haspopup="dialog"
+    aria-controls="menu"
+    aria-expanded="false"
+  >
+    <Icon name="icono-menu" class="icon-btn__glyph" />
+    <span class="visually-hidden">Abrir menú</span>
+  </button>
+</header>
+<MobileMenu />

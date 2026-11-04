@@ -1,0 +1,59 @@
+---
+import '@fontsource/barlow/latin-400.css';
+import '@fontsource/barlow/latin-600.css';
+import '@fontsource/barlow/latin-700.css';
+import '@fontsource/barlow-condensed/latin-600.css';
+import '@fontsource/barlow-condensed/latin-700.css';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/motion.css';
+import '../styles/components/button.css';
+import '../styles/components/social.css';
+import '../styles/components/preloader.css';
+import { IS_PREVIEW, SITE_URL, SHARE_IMAGE, FAVICON } from '../data/site.js';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, SITE_URL).href;
+const shareImage = new URL(SHARE_IMAGE, SITE_URL).href;
+---
+<!doctype html>
+<html lang="es-PE">
+  <head>
+    <meta charset="utf-8" />
+    <script is:inline>(function(){var h=document.documentElement.classList;h.add('js');try{var seen=sessionStorage.getItem('ricocat-hero-intro');if(!seen)h.add('has-preloader');if(!matchMedia('(prefers-reduced-motion: reduce)').matches){h.add('hero-intro','is-intro-pending');if(seen)h.add('hero-intro-short');}}catch(e){}setTimeout(function(){if(h.contains('has-preloader')){h.remove('has-preloader','hero-intro','hero-intro-short','is-intro-pending');}},9000);})()</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#00C8DC" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={FAVICON} type="image/svg+xml" />
+    {IS_PREVIEW && <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_PE" />
+    <meta property="og:site_name" content="Ricocat" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={shareImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={shareImage} />
+  </head>
+  <body>
+    <div class="preloader" data-preloader role="status" aria-live="polite"><span class="visually-hidden">Cargando</span><span class="preloader__pct" aria-hidden="true">0%</span></div>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <slot />
+    <script>
+      import { initSmoothScroll } from '../scripts/smooth-scroll.js';
+      initSmoothScroll();
+    </script>
+  </body>
+</html>

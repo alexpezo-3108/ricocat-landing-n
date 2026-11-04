@@ -1,0 +1,21 @@
+/* Preloader (solo 1.ª visita de la sesión: html.has-preloader). Lo controla hero-intro.js.
+   El scroll se bloquea por JS (no overflow: hidden): así no aparece/desaparece la barra y el hero no se mueve. */
+.preloader { display: none; }
+.has-preloader .preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+.preloader__pct {
+  font-family: var(--font-display, 'Barlow Condensed', sans-serif);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: #00C8DC;
+}

@@ -1,0 +1,154 @@
+.menu {
+  inline-size: 100%;
+  block-size: 100%;
+  max-inline-size: none;
+  max-block-size: none;
+  margin: 0;
+  padding: var(--space-md);
+  border: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+.menu::backdrop {
+  background: var(--color-backdrop);
+  backdrop-filter: blur(8px);
+}
+
+.menu__panel {
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  padding: var(--space-xs) var(--space-xs) var(--space-xl) var(--space-lg);
+  --reveal-x: calc(100% - 1.5rem);
+  --reveal-y: 1.5rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+  border-radius: var(--radius-panel);
+  background: var(--color-white);
+  color: var(--color-navy-900);
+  animation: panel-in var(--motion-dur-panel) var(--motion-ease-paint) both;
+}
+
+.menu__panel::-webkit-scrollbar { display: none; }
+
+.menu.is-closing .menu__panel {
+  animation: panel-out var(--motion-dur-panel-out) var(--motion-ease-paint) both;
+}
+
+.menu::backdrop { transition: opacity var(--motion-dur-panel-out) ease; }
+.menu.is-closing::backdrop { opacity: 0; }
+
+.menu__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.menu__logo {
+  inline-size: 6.5rem;
+  margin-block-start: 1.25rem;
+}
+
+/* La X es el mismo botón hamburguesa transformado: fija sobre su posición (menu.js da --toggle-x/y/size/bg) */
+.menu__close {
+  --icon-btn-size: var(--toggle-size, 3.125rem);
+  --icon-btn-bg: var(--toggle-bg, var(--color-white));
+  position: fixed;
+  inset-inline-start: var(--toggle-x, auto);
+  inset-block-start: var(--toggle-y, 1rem);
+  z-index: 2;
+  margin: 0;
+  color: var(--color-navy-900);
+  transition: background-color var(--motion-dur-menu-morph, 320ms) ease;
+}
+.menu.is-x .menu__close { --icon-btn-bg: var(--color-mist); }
+.menu__burger { position: relative; display: block; inline-size: 40%; aspect-ratio: 18 / 11; }
+.menu__burger > span {
+  position: absolute;
+  inset-inline: 0;
+  block-size: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition:
+    translate var(--motion-dur-menu-morph, 320ms) var(--motion-ease-spring),
+    rotate var(--motion-dur-menu-morph, 320ms) var(--motion-ease-spring),
+    scale calc(var(--motion-dur-menu-morph, 320ms) * 0.6) ease,
+    opacity calc(var(--motion-dur-menu-morph, 320ms) * 0.6) ease;
+}
+.menu__burger > span:nth-child(1) { inset-block-start: 0; }
+.menu__burger > span:nth-child(2) { inset-block-start: calc(50% - 1px); }
+.menu__burger > span:nth-child(3) { inset-block-end: 0; }
+/* Hamburguesa → X */
+.menu.is-x .menu__burger > span:nth-child(1) { translate: 0 calc(var(--toggle-size, 3.125rem) * 0.4 * 11 / 18 / 2 - 1px); rotate: 45deg; }
+.menu.is-x .menu__burger > span:nth-child(2) { scale: 0 1; opacity: 0; }
+.menu.is-x .menu__burger > span:nth-child(3) { translate: 0 calc(var(--toggle-size, 3.125rem) * -0.4 * 11 / 18 / 2 + 1px); rotate: -45deg; }
+@media (prefers-reduced-motion: reduce) {
+  .menu__close, .menu__burger > span { transition: none; }
+}
+
+.menu__nav { margin-block-start: clamp(1.5rem, calc(8 * var(--svh)), 5rem); padding-inline-end: var(--space-md); }
+.menu__list { border-block-start: 1px solid var(--color-line); }
+
+.menu__item {
+  border-block-end: 1px solid var(--color-line);
+  animation: slide-in var(--motion-dur-pop) var(--motion-ease-spring) both;
+  animation-delay: calc(var(--motion-delay-menu-items) + var(--enter-order, 0) * var(--motion-stagger));
+}
+
+.menu__item:nth-child(2) { --enter-order: 1; }
+.menu__item:nth-child(3) { --enter-order: 2; }
+.menu__item:nth-child(4) { --enter-order: 3; }
+
+.menu__link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-block-size: clamp(3.5rem, calc(7.6 * var(--svh)), 4rem);
+  font-family: var(--font-display);
+  font-size: var(--fs-menu-link);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.menu__heart { inline-size: 1.25rem; }
+
+.menu__arrow {
+  inline-size: 1.5rem;
+  margin-inline-start: auto;
+  color: var(--color-navy-600);
+  transition: translate var(--motion-dur-press) var(--motion-ease-spring);
+}
+
+.menu__link:hover .menu__arrow { translate: var(--space-2xs) 0; }
+
+.menu__cta {
+  --btn-h: 3.25rem;
+  --btn-fs: 1.125rem;
+  margin-block-start: var(--space-xl);
+  inline-size: calc(100% - var(--space-md));
+  box-shadow: none;
+}
+
+.menu__footer {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-md);
+  margin-block-start: auto;
+  margin-inline-end: var(--space-md);
+  padding: var(--space-lg) var(--space-md);
+  border-radius: var(--radius-card, 16px);
+  background: var(--color-mist); /* fondo azul suave de "Síguenos" */
+}
+.menu__cta { margin-block-end: var(--space-xl); } /* aire mínimo antes de "Síguenos" */
+
+.menu__follow {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: var(--fw-semibold);
+  color: var(--color-navy-600);
+  text-transform: uppercase;
+}

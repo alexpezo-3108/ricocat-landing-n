@@ -1,0 +1,43 @@
+---
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import SocialLinks from '../ui/SocialLinks.astro';
+import { adoptLink, buyLink, navLinks } from '../../data/site.js';
+import '../../styles/components/menu.css';
+
+const links = [...navLinks, { ...adoptLink, heart: true }];
+---
+<dialog id="menu" class="menu" data-menu aria-label="Menú">
+  <div class="menu__panel">
+    <div class="menu__top">
+      <Icon name="logo-ricocat-marca-de-agua-mobile" class="menu__logo" label="Ricocat" />
+      <button type="button" class="icon-btn menu__close" data-menu-close>
+        <span class="menu__burger" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="visually-hidden">Cerrar menú</span>
+      </button>
+    </div>
+    <nav class="menu__nav" aria-label="Menú móvil">
+      <ul class="menu__list" role="list">
+        {links.map((link) => (
+          <li class="menu__item">
+            <a class="menu__link" href={link.href}>
+              {link.label}
+              {link.heart && <Icon name="icono-corazon" class="menu__heart" />}
+              <Icon name="icono-flecha" class="menu__arrow" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <Button href={buyLink.href} variant="dark" block class="menu__cta">{buyLink.label}</Button>
+    <div class="menu__footer">
+      <p class="menu__follow">Síguenos</p>
+      <SocialLinks variant="menu" />
+    </div>
+  </div>
+</dialog>
+
+<script>
+  import { initMenu } from '../../scripts/menu.js';
+  initMenu();
+</script>

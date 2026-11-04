@@ -1,0 +1,60 @@
+---
+import { Image } from 'astro:assets';
+import Icon from '../ui/Icon.astro';
+import photo from '../../assets/images/adopta-hombre-gato.jpg';
+import '../../styles/sections/adopt.css';
+
+/** 12 · Adopta un gatito. Links del aliado de adopciones pendientes (por ahora "#"). */
+import { adoptPartner } from '../../data/site.js';
+const PARTNER_URL = adoptPartner.partnerUrl;
+const ADOPT_URL = adoptPartner.adoptUrl;
+---
+<section id="adopta" class="adopt" aria-labelledby="adopt-title" data-adopt>
+  <div class="adopt__shapes" aria-hidden="true">
+    <span class="adopt__layer adopt__layer--a"><Icon name="forma-fondo-1" class="adopt__shape adopt__shape--a" /></span>
+    <span class="adopt__layer adopt__layer--b"><Icon name="forma-fondo-2" class="adopt__shape adopt__shape--b" /></span>
+  </div>
+
+  <div class="adopt__inner">
+    <figure class="adopt__photo">
+      <div class="adopt__frame">
+        <Image class="adopt__img" src={photo} alt="Hombre sonriente abrazando a un gato blanco con manchas naranjas en la sala de su casa" widths={[480, 800, 1290]} sizes="(min-width: 48em) 46vw, 100vw" loading="lazy" />
+      </div>
+      <span class="adopt__sticker adopt__sticker--photo" aria-hidden="true">
+        <span class="adopt__sticker-base"></span>
+        <span class="adopt__ring"><span class="adopt__ring-boost"><Icon name="sticker-texto-circular" /><Icon name="sticker-arco" /></span></span>
+        <Icon name="sticker-casa" class="adopt__sticker-layer" />
+      </span>
+    </figure>
+
+    <div class="adopt__content">
+      <span class="adopt__sticker adopt__sticker--content" aria-hidden="true">
+        <span class="adopt__sticker-base"></span>
+        <span class="adopt__ring"><span class="adopt__ring-boost"><Icon name="sticker-texto-circular" /><Icon name="sticker-arco" /></span></span>
+        <Icon name="sticker-casa" class="adopt__sticker-layer" />
+      </span>
+      <h2 id="adopt-title" class="adopt__title">
+        <span class="adopt__line"><span class="adopt__line-in">Dale un hogar,</span></span>
+        <span class="adopt__line adopt__line--accent"><span class="adopt__line-in">nutre un vínculo</span></span>
+      </h2>
+      <p class="adopt__text">Miles de gatos esperan una familia. Junto a nuestro aliado de adopciones te ayudamos a encontrar a tu nuevo compañero y a cuidarlo desde el primer día.</p>
+      <div class="adopt__tiles">
+        <a class="adopt__tile adopt__tile--primary" href={ADOPT_URL} target="_blank" rel="noopener">
+          <Icon name="icono-gatito-adoptar" class="adopt__tile-icon adopt__tile-icon--cat" />
+          <span>Quiero adoptar</span>
+          <span class="visually-hidden">(se abre en una pestaña nueva)</span>
+        </a>
+        <a class="adopt__tile adopt__tile--light" href={PARTNER_URL} target="_blank" rel="noopener">
+          <span class="adopt__tile-icon adopt__partner" aria-hidden="true" data-partner-logo></span>
+          <span>Conoce<span class="visually-hidden"> a nuestro aliado de adopciones</span></span>
+          <span class="visually-hidden">(se abre en una pestaña nueva)</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initAdopt } from '../../scripts/adopt.js';
+  initAdopt();
+</script>

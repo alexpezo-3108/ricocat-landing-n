@@ -1,0 +1,357 @@
+:root {
+  /* Color */
+  --color-navy-900: #00326E;
+  --color-navy-800: #003F8C;
+  --color-hero-top: #00C4D8;
+  --color-hero-bottom: #00B1C3;
+  --color-hero-bottom-mobile: #00A2B2;
+  --color-navy-600: #34588A;
+  --color-white: #FFFFFF;
+  --color-mist: #E5EBF3;
+  --color-navy-700: #264E78;
+  --color-steel: #4C7293;
+  --color-cyan-700: #0099AD;
+  --color-cyan-50: #E5FBFD;
+  --color-cyan-100: #C4F4F8;
+
+  /* Escalas por etapa / sabor (50 tarjeta · 200 nombre gigante · 400 descripción · 600 acento) */
+  --rosa-50: #F9EBEA;    --rosa-200: #FFB7B3;    --rosa-400: #C77975;    --rosa-600: #BE2D36;
+  --azul-50: #E5EBF3;    --azul-200: #B2C3D7;    --azul-400: #264E78;    --azul-600: #00326E;
+  --morado-50: #EEEAF3;  --morado-200: #D6CAE0;  --morado-400: #462365;  --morado-600: #5B208F;
+  --naranja-50: #FDF0E9; --naranja-200: #F9DBC8; --naranja-400: #B3561B; --naranja-600: #A84507;
+  --guinda-50: #F9EBEA;  --guinda-200: #EFCECC;  --guinda-400: #942F27;  --guinda-600: #AD2C22;
+  --marron-50: #F4EEEB;  --marron-200: #E3D6CE;  --marron-400: #71462F;  --marron-600: #954A21;
+  --color-blue-soft: #D3E3F7;
+  --color-line: #B8C5D5;
+  --color-glass: rgb(255 255 255 / 0.14);
+  --color-glass-border: rgb(255 255 255 / 0.7);
+  --color-backdrop: rgb(0 70 90 / 0.5);
+  --color-focus: var(--color-navy-900);
+
+  /* Tipografía */
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Barlow", system-ui, sans-serif;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fs-button: 1rem;
+  --fs-menu-link: 1.5rem;
+
+  /* Espaciado y forma */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --page-gutter: clamp(1rem, 4vw, 2.5rem);
+  --radius-pill: 999px;
+  --radius-card: 1rem;
+  --radius-panel: 1.5rem;
+  --tap-min: 2.75rem;
+
+  /* Viewport: 1svh con fallback a 1vh */
+  --svh: 1vh;
+  --header-h: clamp(4rem, calc(10 * var(--svh)), 5.25rem);
+  --header-h-lg: clamp(5.75rem, calc(4.313rem + 1.438vw), 6.612rem);
+
+  /* Smooth scroll (Lenis): menor = más suave/lento (0–1) */
+  --scroll-lerp: 0.1;
+
+  /* Motion: curvas */
+  --motion-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --motion-ease-spring: var(--motion-ease-bounce);
+  --motion-ease-sway: cubic-bezier(0.45, 0, 0.55, 1);
+  --motion-ease-anticipate: cubic-bezier(0.36, 0, 0.66, -0.56);
+
+  /* Motion: duraciones */
+  --motion-dur-enter: 1100ms;
+  --motion-dur-pop: 900ms;
+  --motion-dur-panel: 750ms;
+  --motion-dur-panel-out: 450ms;
+  --motion-ease-paint: cubic-bezier(0.77, 0, 0.18, 1);
+  --motion-dur-press: 450ms;
+  --motion-dur-hover: 280ms;
+  --motion-dur-bump: 600ms;
+  --motion-dur-float: 4.2s;
+  --motion-dur-beam: 7s;
+
+  /* Motion: secuencia de entrada */
+  --motion-stagger: 80ms;
+  --motion-delay-header: 0ms;
+  --motion-delay-products: 150ms;
+  --motion-delay-brand: 250ms;
+  --motion-stagger-ingredients: 50ms;
+  /* Titular y CTA entran cuando ya terminó el último alimento: ingredients + 11 × stagger-ingredients + dur-pop ≈ 2100ms */
+  --motion-delay-title: 1200ms;
+  --motion-delay-cta: 1550ms;      /* deja que el titular se asiente antes */
+  --motion-delay-ingredients: 650ms;
+  --motion-delay-benefits: 1650ms;
+  --motion-delay-menu-items: 320ms;
+
+  /* Motion: intensidades */
+  --motion-rise-distance: 35%;
+  --motion-rise-scale: 0.92;
+  --motion-drop-distance: -160%;
+  --motion-pop-scale: 0;
+  --motion-pop-rotate: -14deg;
+  --motion-slide-distance: 2rem;
+  --motion-float-distance: 0.5rem;
+  --motion-float-rotate: 5deg;
+  --motion-float-offset: -0.8s;
+  --motion-beam-shift: 1.25rem;
+  --motion-beam-dim: 0.75;
+  --motion-hover-scale: 1.03;
+  --motion-hover-rotate: -1.5deg;
+  --motion-icon-rotate: -90deg;
+  --motion-icon-hover-rotate: -45deg;
+  --motion-press-scale: 0.94;
+  --motion-bump-scale: 1.25;
+  --motion-dot-scale: 3;
+
+  /* Motion: banda "Nutrición completa" (scroll-driven) */
+  --band-speed: 40;          /* recorrido total mientras la banda cruza la pantalla, en vw */
+  --band-direction: 1;       /* 1 = avanza hacia la derecha al bajar, -1 = hacia la izquierda */
+  --band-fish-wiggle: 9deg;  /* coleteo de los peces */
+  --band-fish-dur: 1.8s;
+
+  /* Motion: sección "Alimento 100% completo" */
+  --food-delay-title: 0ms;
+  --food-delay-cards: 180ms;
+  --food-card-stagger: 150ms;
+  --food-dur-card: 1100ms;
+  --food-card-spin: 1;        /* multiplicador del giro extra al caer (0 = sin giro) */
+  --food-delay-content: 500ms;
+  --food-delay-kibbles: 1400ms; /* cuando todo lo demás ya está en su sitio */
+  --food-kibble-stagger: 120ms;
+  --food-dur-kibble: 1500ms;  /* entrada rodando */
+  --food-ease-kibble: cubic-bezier(0.3, 1.18, 0.55, 1); /* desacelera suave con un rebote mínimo */
+  --food-kibble-distance: 14rem;
+  --food-hop-start: 0.55;     /* empiezan a saltar a esta fracción de su entrada */
+  --food-hop-height: 38%;     /* altura del saltito, relativa a cada croqueta */
+  --food-hop-speed: 1;        /* multiplicador de los ritmos individuales */
+  --food-paw-count: 4;        /* huellas visibles a la vez (posiciones al azar) */
+  --food-paw-step: 900ms;     /* cada cuánto se mueve una huella */
+  --food-parallax: 9px;      /* desplazamiento máx. de las fotos con el cursor */
+  --food-parallax-ease: 0.08; /* suavidad (0–1, menor = más suave) */
+  --food-paw-breathe: 2.6s;
+  --food-paw-opacity: 0.17;
+
+  /* Motion: "Tipos de alimento" (scroll). Largos en pantallas (1 = 100svh de scroll). */
+  --types-len-entrada: 1.6;  /* momento Entrada (plato asentado + azul + patrón) antes de Seco */
+  --types-len-seco: 2.2;
+  --types-len-humedo: 2.4;
+  --types-len-mix: 1.8;
+  --types-len-salida: 1.3;    /* momento Salida: incluye el despintado antes de que suba Gatitos */
+  --types-hold: 0.65;         /* fracción de cada tipo con la tarjeta asentada (ahí brotan, se leen y se van los beneficios) */
+  --types-drift: 0.04;        /* cuánto sigue subiendo la tarjeta durante la pausa (0 = quieta) */
+  --types-pop-dur: 0.2;       /* lo que tarda en brotar cada beneficio/chip/destello */
+  --types-pop-stagger: 0.07;  /* desfase entre uno y otro */
+  --types-pop-bounce: 1.7;    /* intensidad del rebote al brotar (0 = sin rebote) */
+  --types-overlap: 0.35;      /* cuánto se solapa la salida de un momento con la entrada del siguiente */
+  --types-enter: 1;           /* intensidad de entradas/salidas (desplazamiento y giro) */
+  /* Motion: etapas de vida */
+  --stage-dur-enter: 520ms;
+  --stage-delay-name: 0ms;
+  --stage-delay-bag: 60ms;
+  --stage-delay-products: 150ms;
+  --stage-product-stagger: 50ms;
+  --stage-delay-cat: 400ms;      /* después de los productos */
+  --stage-delay-content: 120ms;
+  --stage-delay-kibbles: 650ms;  /* croquetas: cuando bodegón y gato ya están en su sitio */
+  --stage-kibble-stagger: 55ms;
+  --stage-dur-kibble: 500ms;      /* entrada sutil de cada croqueta */
+  --stage-kibble-rise: 30%;       /* cuánto suben al aparecer (relativo a su tamaño) */
+  --stage-float-dist: 7px;        /* amplitud de la flotación de las croquetas */
+  --stage-float-speed: 1;         /* multiplicador de sus ritmos individuales */
+  --stage-dur-cat: 600ms;        /* deslizamiento del gato desde detrás de la bolsa */
+  --stage-swap-out: 450ms;        /* cambio de sabor: lo que tarda en irse el bodegón actual */
+  --stage-swap-stagger: 40ms;
+  --stage-swap-color: 600ms;      /* transición del color de tarjeta/acentos al cambiar de sabor */
+  --stage-swipe-min: 40px;        /* desplazamiento mínimo del swipe en mobile */
+
+  /* Motion: 11 · Elige tu Ricocat */
+  --store-letter-stagger: 28ms;   /* desfase entre letras del título */
+  --store-dur-letter: 520ms;      /* caída + asentado de cada letra */
+  --store-letter-drop: -0.75em;   /* desde dónde cae cada letra */
+  --store-letter-bounce: 0.06em;  /* rebote al asentarse */
+  --store-delay-sub: 90ms;       /* subtítulo/bajada, tras ~60% del título */
+  --store-sub-stagger: 70ms;     /* subtítulo → bajada → filtros */
+  --store-dur-sub: 450ms;
+  --store-delay-cards: 250ms;     /* primera tarjeta, tras la mitad del título */
+  --store-card-stagger: 28ms;     /* cascada entre tarjetas (entrada, filtros y "Ver más") */
+  --store-dur-card: 400ms;
+  --store-ease-card: cubic-bezier(0.22, 0.61, 0.36, 1); /* suave, sin rebote (también FLIP) */
+  --store-card-distance: 16px;    /* cuánto suben al entrar */
+  --store-dur-exit: 220ms;        /* tarjetas que salen al filtrar */
+  --store-dur-flip: 380ms;        /* tarjetas que se reacomodan */
+  --store-dur-filter-pop: 520ms;  /* aparición del filtro Sabor */
+  --store-fit-bolsa: 0.78;        /* alto del producto / alto del área de imagen, por envase */
+  --store-fit-pouch: 0.72;
+  --store-fit-lata-330: 0.60;
+  --store-fit-lata: 0.52;         /* latas 180 g y 190 g */
+  --store-product-raise: 5%;      /* cuánto sube el producto sobre la base del área (relativo a su alto) */
+  --store-media-ratio: 0.92;      /* ancho/alto del área de imagen (≈58% del alto de la tarjeta) */
+  --store-hover-dur: 300ms;       /* hover/foco de la tarjeta (entrada y salida) */
+  --store-hover-ease: cubic-bezier(0.33, 0, 0.2, 1);
+  --store-glow-opacity: 0.95;     /* intensidad del resplandor detrás del producto */
+  --store-glow-scale-from: 0.85;
+  --store-hover-scale: 1.04;      /* crecimiento del producto */
+  --store-hover-lift: 4px;        /* cuánto sube el producto */
+  --store-shadow-opacity: 0.18;   /* sombra de piso en reposo */
+  --store-shadow-hover-opacity: 0.1;
+  --store-shadow-hover-spread: 1.15;
+  --store-cta-darken: 0.14;       /* oscurecimiento del botón */
+
+  /* Motion: 12 · Adopta un gatito */
+  --adopt-photo-zoom: 1.08;       /* la imagen se acomoda dentro del marco: 1.08 → 1 */
+  --adopt-dur-photo: 1400ms;
+  --adopt-ease-photo: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --adopt-delay-title: 250ms;
+  --adopt-line-stagger: 160ms;    /* 1.ª línea → 2.ª línea del título */
+  --adopt-dur-line: 750ms;
+  --adopt-ease-line: cubic-bezier(0.22, 1.2, 0.36, 1);
+  --adopt-delay-text: 650ms;      /* descripción; los tiles van después */
+  --adopt-rise-stagger: 120ms;
+  --adopt-dur-rise: 700ms;
+  --adopt-rise-distance: 1rem;
+  --adopt-delay-sticker: 1000ms;  /* el sticker llega al final */
+  --adopt-dur-sticker: 900ms;
+  --adopt-sticker-drop: -140%;
+  --adopt-ring-speed: 12s;        /* una vuelta del texto circular */
+  --adopt-ring-boost: 8s;         /* giro extra que se suma en hover */
+  --adopt-dur-breathe: 9s;        /* formas del fondo */
+  --adopt-breathe-shift: 4px;     /* recorrido total de la traslación */
+  --adopt-breathe-scale-from: 0.98;
+  --adopt-breathe-scale-to: 1.02;
+  --adopt-parallax-a: 35px;       /* parallax forma grande (mobile): ±px, recorrido total = 2×; + = más lenta que el contenido */
+  --adopt-parallax-b: -50px;      /* forma pequeña (mobile): sentido contrario */
+  --adopt-parallax-a-lg: 60px;    /* desktop: 120px de recorrido */
+  --adopt-parallax-b-lg: -90px;   /* desktop: 180px de recorrido */
+  --adopt-parallax-rot-a: 6deg;   /* rotación ligada al scroll: ±, 0 en el centro */
+  --adopt-parallax-rot-b: -6deg;
+  --adopt-dur-hover: 300ms;
+  --adopt-ease-hover: cubic-bezier(0.33, 0, 0.2, 1);
+  --adopt-tile-lift: 4px;
+  --adopt-dur-hop: 480ms;
+  --adopt-dur-beat: 600ms;
+
+  /* Motion: footer */
+  --footer-dur-art: 900ms;        /* bodegón: sube y se asienta en el "estante" */
+  --footer-ease-art: cubic-bezier(0.22, 1.22, 0.36, 1);
+  --footer-art-rise: 18%;
+  --footer-delay-content: 350ms;  /* cascada: logo → explora → síguenos → barra */
+  --footer-stagger: 110ms;
+  --footer-dur-item: 650ms;
+  --footer-item-rise: 1rem;
+  --footer-dur-hop: 450ms;        /* flecha de "Volver arriba" */
+
+  /* Motion: selector "Dónde comprar" */
+  --wtb-dur-backdrop: 300ms;
+  --wtb-dur-in: 640ms;            /* modal (desktop): sube con resorte suave */
+  --wtb-ease-in: cubic-bezier(0.22, 1.25, 0.36, 1);
+  --wtb-rise: 48px;
+  --wtb-scale-from: 0.96;
+  --wtb-dur-sheet: 560ms;         /* pantalla completa (mobile): hoja que sube */
+  --wtb-ease-sheet: cubic-bezier(0.2, 1.04, 0.3, 1);
+  --wtb-dur-media: 520ms;         /* "pop" de la foto */
+  --wtb-delay-media: 140ms;
+  --wtb-delay-rows: 200ms;        /* cascada de tiendas */
+  --wtb-row-stagger: 35ms;
+  --wtb-dur-row: 440ms;
+  --wtb-ease-row: cubic-bezier(0.22, 1.15, 0.36, 1);
+  --wtb-row-rise: 14px;
+  --wtb-dur-out: 240ms;           /* cierre: inverso, más rápido */
+  --wtb-ease-out: cubic-bezier(0.5, 0, 0.75, 0);
+  --wtb-dur-vt: 480ms;            /* viaje de la foto (View Transitions) */
+  --wtb-ease-vt: cubic-bezier(0.3, 0.9, 0.3, 1);
+  --wtb-dur-hover: 220ms;
+  --wtb-arrow-shift: 2px;
+
+  /* Transición 04 → 05: las etapas suben como una tarjeta sobre el plato fijo */
+  --types-cover: 1;            /* recorrido de la tapa, en pantallas */
+  --types-cover-dim: 0.35;     /* oscurecimiento del fondo mientras lo tapan (0 = apagado) */
+  --stages-cover-radius: 28px;
+  --stage-cover-radius: 32px; /* esquinas del contenedor blanco mientras sube (16 tarjeta + 16 margen) */
+  --stage-under-scale: 0.95;   /* tarjeta de etapa que queda debajo: escala final */
+  --stage-under-dim: 0.15;     /* y su oscurecimiento (overlay negro) */
+
+  /* Entrada de 04: el azul se pinta desde el plato (fracciones de la entrada de la sección: 0 = asoma, 1 = arriba) */
+  --types-paint-from: #E5EBF3; /* fondo claro previo (el de la sección anterior) */
+  /* Pintado ligado al scroll (inicio = la sección asoma por abajo) */
+  --types-paint-after: 0.35;   /* el pintado termina esta fracción de pantalla después de que el escenario queda sticky */
+  --types-blob-origin-drop: 0.06; /* origen de los blobs, bajo el plato (fracción del alto) */
+  --types-line-color: #264E78; /* línea punteada que baja hasta el plato */
+  --types-line-width: 1.5px;
+  --types-line-dash: 6px;
+  --types-line-gap: 6px;
+  --types-line-tip: 5px;       /* punto de la punta */
+  --types-line-reach: 0.55;     /* la línea llega al plato (y empieza el pintado) cuando el plato está a esta altura del viewport */
+  --types-line-retract: 0.35;  /* fracción del pintado en que la línea termina de retraerse */
+  --types-ripple-dur: 600ms;   /* onda + rebote del plato al contacto */
+  --types-plate-drop: 6px;
+  --types-paint-mode: halftone; /* pintado: halftone (semitono) | metaballs */
+  --types-halftone-spacing: 16; /* px entre puntos (desktop) */
+  --types-halftone-spacing-mobile: 12;
+  --types-halftone-angle: 45;  /* rotación de la grilla, en grados */
+  --types-halftone-front: 220; /* px de ancho del frente en degradado de puntos */
+  --types-halftone-noise: 14;  /* px de deformación del frente (casi circular) */
+  --types-halftone-curve: 1.6; /* curva del radio hasta que la sección queda sticky (>1 = arranque más lento) */
+  --types-halftone-safe: 40;   /* px libres bajo el borde superior mientras la sección 03 está visible */
+  --types-halftone-noise-scale: 0.004; /* escala del ruido (menor = ondulaciones más amplias) */
+  --types-halftone-jitter: 0.25; /* variación de tamaño entre puntos vecinos */
+  --types-drops: 18;           /* metaballs: cantidad total de gotas (16–24) */
+  --types-splashes: 5;         /* de esas, salpicaduras que salen disparadas (0–8) */
+  --types-drop-min: 12;        /* px: ninguna gota desprendida o salpicadura más chica que esto */
+  --types-particles: 10;       /* partículas flotantes sobre el azul (desktop): ocasionales, no polvo */
+  --types-particles-mobile: 6;
+  --types-particle-min: 3;     /* px, elipses blancas */
+  --types-particle-max: 7;
+  --types-particle-alpha-min: 0.1;
+  --types-particle-alpha-max: 0.3;
+  --types-particle-speed: 1;   /* ritmo de la flotación */
+  --types-particle-parallax: 0.35; /* parallax con el scroll (× profundidad: grandes/opacas más rápido) */
+  --types-viscosity: 1;        /* cuánto se estiran las gotas medianas antes de volver a fusionarse */
+  --types-up-squash: 2.4;      /* crecimiento hacia arriba: x veces más lento al inicio (no toca la sección de arriba) */
+  --types-up-release: 0.85;    /* progreso desde el que crece libre hacia arriba (≈ cuando el escenario queda sticky) */
+  --types-noise-scale: 0.006;  /* escala del ruido del contorno (menor = lóbulos más grandes) */
+  --types-noise-warp: 38;      /* px de deformación (domain warping) en el borde */
+  --types-noise-edge: 0.15;    /* irregularidad del umbral pegada al borde (puntas, entrantes) */
+  --types-noise-speed: 0.06;   /* movimiento propio del contorno, aunque no haya scroll */
+  --types-wave-len: 0.25;      /* tramo del patrón tras el pintado, en pantallas de scroll */
+  --types-scrub: 0.6;          /* s de suavizado con que la animación sigue al scroll */
+  --types-blob-dur: 1.2;       /* duración interna de la línea de tiempo (proporciones entre blobs) */
+  --types-blob-count: 6;       /* 1–6 manchas */
+  --types-blob-start: 6;       /* radio inicial de cada mancha (px): casi una gota */
+  --types-blob-ease: power3.inOut;
+  --types-wave-dur: 0.9;       /* s, onda completa del patrón (de la celda más cercana a la más lejana) */
+  --types-wave-cell-dur: 0.5;  /* s, entrada de cada celda */
+  --types-wave-pop: 1;         /* escala máxima del "pop" (1 = sin sobrepaso) */
+  --types-wave-from: 0.92;     /* escala inicial de cada celda */
+  --types-wave-rotate: 0;      /* giro inicial (±grados) que se endereza */
+  --types-wave-drift: 10;      /* px de deriva desde el plato hacia su sitio */
+  --types-exit-start: 0.35;    /* despintado: tramo del momento Salida (fracciones) — termina justo antes de que suba Gatitos */
+  --types-exit-end: 1;
+  --types-exit-plate: 1.1;     /* el plato crece así mientras se despinta */
+  --types-exit-to: #FFFFFF;    /* fondo que queda tras despintar */
+  --types-plate-zoom: 1.7;     /* escala inicial del plato al llegar (desktop) */
+  --types-plate-zoom-mobile: 1.5; /* en mobile, para que no se corte por los bordes */
+  --types-plate-zoom-from: 0.25;  /* tramo de la reducción, en pantallas de scroll desde que asoma la sección: empieza... */
+  --types-plate-zoom-to: 1;       /* ...y termina al comenzar Entrada (sección arriba) */
+  --types-pattern-speed: 0.35; /* avance del patrón respecto al scroll (sensación de bajar) */
+  --types-pattern-hold: 0.35;  /* multiplicador de ese avance durante la pausa de cada tipo */
+
+  --types-pattern-opacity: 0.02;
+  --types-pattern-size: 256px; /* ancho del tile (original 384px) */
+  --types-glow-opacity: 0.16;  /* resplandor detrás del plato */
+}
+
+@supports (height: 1svh) {
+  :root { --svh: 1svh; }
+}
+
+/* Resorte con rebote real donde linear() existe; si no, cubic-bezier con overshoot. */
+@supports (animation-timing-function: linear(0, 1)) {
+  :root {
+    --motion-ease-spring: linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1);
+  }
+}

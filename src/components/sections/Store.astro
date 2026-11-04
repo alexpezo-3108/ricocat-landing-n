@@ -1,0 +1,81 @@
+---
+import Icon from '../ui/Icon.astro';
+import { STAGES, FORMATS, FLAVORS } from '../../data/products.js';
+import plusIcon from '../../assets/images/icono-mas.png';
+import '../../styles/sections/store.css';
+
+/** 11 · Elige tu Ricocat. Las tarjetas se generan en el cliente desde src/data/products.js. */
+const files = import.meta.glob('../../assets/images/products/*.png', { eager: true, import: 'default' });
+const images = Object.fromEntries(Object.entries(files).map(([path, img]) => [path.split('/').pop(), img.src]));
+const groups = [
+  { key: 'stage', label: 'Etapa de vida', options: STAGES },
+  { key: 'format', label: 'Formato', options: FORMATS },
+];
+const selectText = (o) => (o.selectLabel ?? o.label);
+---
+<section id="tienda" class="store" aria-labelledby="store-title" data-store>
+  <header class="store__head">
+    <h2 id="store-title" class="store__title" data-store-title>Elige tu Ricocat</h2>
+    <p class="store__kicker">¿Cuál será su favorito?</p>
+    <p class="store__lead">Elige su etapa, descubre el sabor que más disfruta y llévalo a casa desde tu tienda favorita.</p>
+  </header>
+
+  <div class="store__filters">
+    <div class="store__chips">
+      {groups.map((g, i) => (
+        <>
+          {i > 0 && <span class="store__divider" aria-hidden="true" />}
+          <div class="store__group" role="group" aria-labelledby={`store-${g.key}-label`} data-filter={g.key}>
+            <span class="store__group-label" id={`store-${g.key}-label`}>{g.label}</span>
+            {g.options.map((o) => (
+              <button type="button" class="store__chip" data-value={o.value} aria-pressed={String(o.value === 'all')}>{o.label}</button>
+            ))}
+          </div>
+        </>
+      ))}
+      <div class="store__group store__group--flavor" role="group" aria-labelledby="store-flavor-label" data-filter="flavor" data-flavor-group hidden>
+        <span class="store__divider" aria-hidden="true" />
+        <span class="store__group-label" id="store-flavor-label">Sabor</span>
+        {FLAVORS.map((o) => (
+          <button type="button" class="store__chip" data-value={o.value} aria-pressed={String(o.value === 'all')}>{o.label}</button>
+        ))}
+      </div>
+    </div>
+
+    <div class="store__selects">
+      {groups.map((g) => (
+        <label class="store__select">
+          <span class="visually-hidden">{g.label}</span>
+          <select data-filter-select={g.key}>
+            {g.options.map((o) => <option value={o.value}>{g.label}: {selectText(o)}</option>)}
+          </select>
+          <Icon name="icono-chevron" class="store__select-icon" />
+        </label>
+      ))}
+      <label class="store__select store__select--full" hidden>
+        <span class="visually-hidden">Sabor</span>
+        <select data-filter-select="flavor" data-flavor-select>
+          {FLAVORS.map((o) => <option value={o.value}>Sabor: {o.label}</option>)}
+        </select>
+        <Icon name="icono-chevron" class="store__select-icon" />
+      </label>
+    </div>
+  </div>
+
+  <p class="visually-hidden" aria-live="polite" data-store-status></p>
+  <ul class="store__grid" role="list" data-store-grid></ul>
+  <div class="store__empty" data-store-empty hidden>
+    <p class="store__empty-title">¡Miau! Aún no tenemos esa combinación.</p>
+    <p class="store__empty-text">Prueba con otra etapa, formato o sabor.</p>
+    <button type="button" class="store__chip" data-store-reset>Ver todos</button>
+  </div>
+  <div class="store__more">
+    <button type="button" class="btn btn--dark store__more-btn" data-store-more>Ver más <img class="store__plus" src={plusIcon.src} width={plusIcon.width} height={plusIcon.height} alt="" aria-hidden="true" /></button>
+  </div>
+  <script type="application/json" data-store-images set:html={JSON.stringify(images)} />
+</section>
+
+<script>
+  import { initStores } from '../../scripts/store.js';
+  initStores();
+</script>

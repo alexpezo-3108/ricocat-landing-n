@@ -1,0 +1,289 @@
+/* 12 · Adopta un gatito */
+.adopt {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(1.5rem, 3vw, 2.5rem) clamp(3rem, 5vw, 4rem);
+  padding-inline: var(--page-gutter);
+  background: var(--color-white);
+}
+
+/* Formas de fondo */
+.adopt__shapes { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+/* SVG exportados tal cual; posiciones en % de la sección (ref. mobile 440×821) */
+/* Capas: .adopt__layer (posición + parallax) > .adopt__shape (respiración + rotación) */
+.adopt__layer { position: absolute; display: block; }
+.adopt__shape { display: block; block-size: auto; }
+.adopt__shape svg { block-size: auto; }
+.adopt__layer--a { --adopt-parallax: var(--adopt-parallax-a); --adopt-parallax-rot: var(--adopt-parallax-rot-a); inset-inline-start: -15.9%; inset-block-start: 40.2%; inline-size: 89.8%; }
+.adopt__layer--b { --adopt-parallax: var(--adopt-parallax-b); --adopt-parallax-rot: var(--adopt-parallax-rot-b); inset-inline-start: 68.2%; inset-block-start: 73.1%; inline-size: 54.3%; }
+.adopt__shape--b { rotate: 180deg; }
+
+.adopt__inner {
+  position: relative;
+  display: grid;
+  gap: 1.75rem;
+  max-inline-size: 82rem; /* mismo ancho de contenido que "Elige tu Ricocat" */
+  margin-inline: auto;
+}
+
+/* Foto */
+.adopt__photo { position: relative; margin: 0; }
+
+.adopt__frame {
+  position: relative;
+  aspect-ratio: 392 / 372;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.adopt__frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgb(0 26 60 / 0) 60%, #001A3C);
+  opacity: 0.64;
+  pointer-events: none;
+}
+
+.adopt__img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: 50% 15%;
+  transition: scale var(--adopt-dur-photo) var(--adopt-ease-photo);
+}
+
+/* Sticker (capas centradas) */
+.adopt__sticker {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  inline-size: var(--adopt-sticker-size);
+  aspect-ratio: 1;
+  rotate: 6deg;
+}
+
+.adopt__sticker > * { grid-area: 1 / 1; }
+.adopt__sticker .icon, .adopt__ring, .adopt__ring-boost { display: block; inline-size: 100%; block-size: 100%; }
+/* Anillo: texto circular + arco giran juntos sobre el mismo centro; solo la casa queda fija */
+.adopt__ring-boost { display: grid; }
+.adopt__ring-boost > * { grid-area: 1 / 1; }
+
+.adopt__sticker-base {
+  border-radius: 50%;
+  background: #00C8DC;
+  /* borde blanco por fuera (no reduce el círculo) y la sombra suave por fuera del borde */
+  box-shadow: 0 0 0 3px #fff, 4px 4px 8px 3px rgb(0 0 0 / 0.25);
+}
+
+/* El anillo de texto gira (constante, sin tirones) solo después de que el sticker se asienta */
+.adopt.is-in .adopt__ring {
+  animation: adopt-spin var(--adopt-ring-speed) linear infinite;
+  animation-delay: calc(var(--adopt-delay-sticker) + var(--adopt-dur-sticker));
+}
+
+.adopt__ring-boost {
+  animation: adopt-spin var(--adopt-ring-boost) linear infinite paused;
+}
+
+.adopt__sticker--photo {
+  --adopt-sticker-size: 5.75rem;
+  inset-block-end: -2.75rem;
+  inset-inline-end: -0.5rem;
+}
+
+.adopt__sticker--content { display: none; }
+
+/* Texto */
+.adopt__content { position: relative; display: grid; justify-items: start; }
+
+.adopt__title {
+  margin: 1rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 1.75rem + 3vw, 4rem);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--color-navy-900);
+}
+
+.adopt__line { display: block; overflow: hidden; white-space: nowrap; padding-block: 0.1em 0.02em; margin-block: -0.1em -0.02em; }
+.adopt__line-in { display: inline-block; }
+.adopt__line--accent { color: #00C8DC; }
+
+.adopt__text {
+  max-inline-size: 27rem;
+  margin-block-start: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--color-navy-700);
+  text-wrap: pretty;
+}
+
+.adopt__tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  inline-size: 100%;
+  margin-block-start: 2rem;
+}
+
+.adopt__tile {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 0.75rem;
+  min-block-size: 5.75rem;
+  padding: 1rem;
+  border-radius: 12px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform var(--adopt-dur-hover) var(--adopt-ease-hover);
+}
+
+.adopt__tile--primary { background: var(--color-navy-900); color: var(--color-white); }
+.adopt__tile--light { background: var(--azul-50); color: var(--color-navy-900); }
+.adopt__tile:hover { color: inherit; }
+.adopt__tile--primary:hover { color: var(--color-white); }
+.adopt__tile:focus-visible { outline-offset: 3px; }
+
+.adopt__tile-icon { display: block; inline-size: 2rem; block-size: 2rem; }
+.adopt__tile-icon--cat svg path:nth-of-type(n + 2) { transform-box: fill-box; transform-origin: 50% 60%; }
+
+/* Logo del aliado: reemplazar el contenido de [data-partner-logo] por un <img> */
+.adopt__partner { border: 1px solid var(--color-navy-900); border-radius: 50%; overflow: hidden; }
+.adopt__partner img { inline-size: 100%; block-size: 100%; object-fit: contain; }
+
+/* Desktop */
+@media (min-width: 48em) {
+  .adopt { padding-block: clamp(2rem, 3vw, 2.5rem); }
+  /* ref. desktop 1440×705 */
+  .adopt {
+    --adopt-parallax-a: var(--adopt-parallax-a-lg);
+    --adopt-parallax-b: var(--adopt-parallax-b-lg);
+  }
+  .adopt__layer--a { inset-inline-start: 34.4%; inset-block-start: 1.6%; inline-size: 45.8%; }
+  .adopt__layer--b { inset-inline-start: 70.5%; inset-block-start: 45.5%; inline-size: 27.7%; } /* completa, sin cortarse por la derecha */
+
+  .adopt__inner {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(2.5rem, 11vw, 10rem);
+  }
+
+  .adopt__frame { aspect-ratio: 645 / 625; }
+  .adopt__sticker--photo { display: none; }
+
+  /* El sticker vive dentro del padding superior del bloque de texto: nunca se recorta */
+  .adopt__content {
+    --adopt-sticker-size: clamp(6rem, 8.5vw, 7.75rem);
+    max-inline-size: 30rem;
+    padding-block-start: calc(var(--adopt-sticker-size) + 0.5rem);
+  }
+
+  .adopt__sticker--content {
+    display: grid;
+    inset-block-start: 0;
+    inset-inline-end: 0;
+  }
+
+  .adopt__title { margin: 0; font-size: clamp(2.25rem, 4.6vw, 4rem); }
+  .adopt__tiles { display: flex; inline-size: auto; }
+  .adopt__tile { inline-size: 9.25rem; }
+}
+
+@media (min-width: 64em) {
+  .adopt__sticker--content { inset-inline-end: calc(var(--adopt-sticker-size) * -0.6); }
+}
+
+/* Motion */
+.js .adopt:not(.is-in) .adopt__img { scale: var(--adopt-photo-zoom); }
+.js .adopt:not(.is-in) .adopt__line-in { transform: translateY(110%); }
+.js .adopt:not(.is-in) :is(.adopt__text, .adopt__tiles, .adopt__sticker) { opacity: 0; }
+
+.adopt.is-in .adopt__line-in { animation: adopt-line var(--adopt-dur-line) var(--adopt-ease-line) both; animation-delay: var(--adopt-delay-title); }
+.adopt.is-in .adopt__line--accent .adopt__line-in { animation-delay: calc(var(--adopt-delay-title) + var(--adopt-line-stagger)); }
+.adopt.is-in .adopt__text { animation: adopt-rise var(--adopt-dur-rise) var(--motion-ease-spring) both; animation-delay: var(--adopt-delay-text); }
+.adopt.is-in .adopt__tiles { animation: adopt-rise var(--adopt-dur-rise) var(--motion-ease-spring) both; animation-delay: calc(var(--adopt-delay-text) + var(--adopt-rise-stagger)); }
+.adopt.is-in .adopt__sticker { animation: adopt-stick var(--adopt-dur-sticker) linear both; animation-delay: var(--adopt-delay-sticker); }
+
+/* Las formas respiran */
+.adopt__shape--a { animation: adopt-breathe var(--adopt-dur-breathe) ease-in-out infinite alternate; }
+.adopt__shape--b { animation: adopt-breathe var(--adopt-dur-breathe) ease-in-out infinite alternate-reverse; animation-delay: calc(var(--adopt-dur-breathe) * -0.4); }
+
+/* Parallax ligado al scroll: 0 en el centro del recorrido (posición Figma), ±amplitud en los extremos.
+   Amplitud positiva = baja mientras se hace scroll (más lenta que el contenido, más al fondo). */
+.adopt { view-timeline-name: --adopt; }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .adopt__layer {
+      animation: adopt-parallax linear both;
+      animation-timeline: --adopt;
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+
+
+@keyframes adopt-parallax {
+  from { transform: translateY(calc(var(--adopt-parallax) * -1)) rotate(calc(var(--adopt-parallax-rot) * -1)); }
+  to { transform: translateY(var(--adopt-parallax)) rotate(var(--adopt-parallax-rot)); }
+}
+
+@keyframes adopt-line { from { transform: translateY(110%); } }
+@keyframes adopt-rise { 0% { transform: translateY(var(--adopt-rise-distance)); opacity: 0; } 30% { opacity: 1; } 100% { transform: none; opacity: 1; } }
+@keyframes adopt-spin { to { transform: rotate(360deg); } }
+@keyframes adopt-breathe {
+  from { transform: translate(calc(var(--adopt-breathe-shift) * -0.5), 0) scale(var(--adopt-breathe-scale-from)); }
+  to { transform: translate(calc(var(--adopt-breathe-shift) * 0.5), calc(var(--adopt-breathe-shift) * -0.5)) scale(var(--adopt-breathe-scale-to)); }
+}
+
+/* Cae girando y se pega con un pequeño rebote (la rotación final de +6° la da `rotate`) */
+@keyframes adopt-stick {
+  0% { transform: translateY(var(--adopt-sticker-drop)) rotate(-150deg) scale(1.25); opacity: 0; animation-timing-function: cubic-bezier(0.4, 0, 0.9, 0.6); }
+  12% { opacity: 1; }
+  55% { transform: translateY(0) rotate(4deg) scale(0.9); animation-timing-function: cubic-bezier(0.2, 0.8, 0.4, 1); }
+  75% { transform: translateY(-3%) rotate(-2deg) scale(1.04); animation-timing-function: ease-in-out; }
+  100% { transform: none; opacity: 1; }
+}
+
+@keyframes adopt-hop { 0%, 100% { transform: none; } 40% { transform: translateY(-6px) scale(1.06); } 70% { transform: translateY(1px) scale(0.98); } }
+@keyframes adopt-beat { 0%, 100% { transform: none; } 30% { transform: scale(1.3); } 55% { transform: scale(0.92); } 75% { transform: scale(1.12); } }
+
+@media (hover: hover) and (pointer: fine) {
+  .adopt__tile:hover { transform: translateY(calc(var(--adopt-tile-lift) * -1)); }
+  .adopt__tile:hover .adopt__tile-icon { animation: adopt-hop var(--adopt-dur-hop) ease-out; }
+  .adopt__tile--primary:hover .adopt__tile-icon--cat svg path:nth-of-type(n + 2) { animation: adopt-beat var(--adopt-dur-beat) ease-in-out; }
+  .adopt__tile--primary:hover .adopt__tile-icon--cat svg path:nth-of-type(3) { animation-delay: 60ms; }
+  .adopt__tile--primary:hover .adopt__tile-icon--cat svg path:nth-of-type(4) { animation-delay: 120ms; }
+  .adopt__sticker:hover .adopt__ring-boost { animation-play-state: running; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .adopt__ring, .adopt__ring-boost, .adopt__shape { animation: none !important; }
+}
+
+/* Pantallas grandes: las formas se ubican respecto a un lienzo de 1440px centrado (no al ancho total),
+   así mantienen su tamaño de Figma y el parallax no las saca por arriba/abajo de la sección. */
+@media (min-width: 48em) {
+  .adopt__shapes { inset-inline: max(0px, calc((100% - 90rem) / 2)); }
+}
+
+/* Las formas nunca se cortan en recto contra el borde de la sección: se desvanecen arriba y abajo */
+.adopt__shapes {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 var(--adopt-shapes-fade, 14%), #000 calc(100% - var(--adopt-shapes-fade, 14%)), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 var(--adopt-shapes-fade, 14%), #000 calc(100% - var(--adopt-shapes-fade, 14%)), transparent 100%);
+}
+
+/* Pantallas grandes: mismo ancho que "Elige tu Ricocat" */
+@media (min-width: 100em) {
+  .adopt__inner { max-inline-size: 98rem; }
+  .adopt__shapes { inset-inline: max(0px, calc((100% - 106rem) / 2)); }
+}

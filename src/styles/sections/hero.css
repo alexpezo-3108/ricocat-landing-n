@@ -1,0 +1,658 @@
+.hero {
+  --stage-ratio: 1520 / 970;
+  --stage-ratio-num: 1.567;
+  --stage-fill: 136;
+  --stage-scale: 1.1;
+  --logo-w: clamp(9rem, min(56vw, calc(29 * var(--svh))), 20rem);
+  --title-size: clamp(1.375rem, min(7vw, calc(3.7 * var(--svh))), 2.5rem);
+  --title-color-1: var(--color-white);
+  --title-color-2: var(--color-white);
+  --title-shadow: 0 1px 3px rgb(0 40 70 / 0.06); /* casi imperceptible: solo despega el blanco del cian */
+  --benefit-card-w: clamp(12.5rem, 50vw, 17.5rem);
+  --intro-scale: 1.9; /* zoom inicial de la intro (hero-intro.js lo lee) */
+  --glow-gradient: radial-gradient(closest-side, var(--color-white) 0%, var(--color-white) 48%, rgb(255 255 255 / 0.8) 64%, rgb(255 255 255 / 0.4) 80%, rgb(255 255 255 / 0.12) 92%, transparent 100%);
+
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  row-gap: calc(2.4 * var(--svh));
+  justify-items: center;
+  block-size: calc(100 * var(--svh));
+  padding-block: var(--header-h) calc(1.2 * var(--svh));
+  overflow: hidden;
+  overflow: clip;
+  background: linear-gradient(180deg, var(--color-hero-top) 38%, var(--color-hero-bottom-mobile) 100%);
+}
+
+/* Haces de luz */
+.hero__decor {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero__beam {
+  position: absolute;
+  inset-block-start: calc(-12 * var(--svh));
+  block-size: calc(46 * var(--svh));
+  inline-size: auto;
+  max-inline-size: none;
+  transform-origin: top center;
+  filter: blur(6px);
+  /* Haces: deriva + vaivén y pulso de luz (más motion que el resto, manteniendo su posición) */
+  --beam-shift: 2.25rem;   /* recorrido lateral */
+  --beam-sway: 2.5deg;     /* vaivén */
+  --beam-dim: 0.45;        /* opacidad mínima del pulso */
+  animation:
+    hero-beam-drift var(--hero-beam-dur, 5.5s) cubic-bezier(0.45, 0, 0.55, 1) infinite alternate,
+    hero-beam-pulse var(--hero-beam-pulse, 2.6s) cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+}
+@keyframes hero-beam-drift {
+  from { translate: calc(var(--beam-shift) * -1) 0; rotate: calc(var(--beam-sway) * -1); }
+  to { translate: var(--beam-shift) 0; rotate: var(--beam-sway); }
+}
+@keyframes hero-beam-pulse {
+  from { opacity: var(--beam-dim); }
+  to { opacity: 1; }
+}
+
+.hero__beam--1 { inset-inline-start: 68%; transform: rotate(36deg) scaleX(1.2); }
+.hero__beam--2 {
+  inset-inline-start: 110%;
+  filter: blur(5px) brightness(1.4) saturate(0.85);
+  transform: rotate(42deg) scaleX(1.2);
+  animation-duration: calc(var(--hero-beam-dur, 5.5s) * 1.3), calc(var(--hero-beam-pulse, 2.6s) * 1.4);
+  animation-delay: calc(var(--hero-beam-dur, 5.5s) / -2), -1.1s;
+}
+
+/* Marca */
+.hero__brand {
+  position: relative;
+  display: grid;
+  place-items: center;
+  margin-block-start: calc(9 * var(--svh));
+}
+
+.hero__logo {
+  inline-size: var(--logo-w);
+  color: var(--color-white);
+  animation: pop-in var(--motion-dur-pop) var(--motion-ease-spring) both;
+  animation-delay: var(--motion-delay-brand);
+  --pop-rotate: -8deg;
+}
+
+/* Titular + CTA */
+.hero__intro {
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: calc(3 * var(--svh));
+  padding-inline: var(--page-gutter);
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-size: var(--title-size);
+  font-weight: var(--fw-bold);
+  line-height: 1.02;
+  text-align: center;
+  text-transform: uppercase;
+  text-wrap: balance;
+  --rise-from: 1.5rem;
+  animation: title-in var(--motion-dur-title, 800ms) var(--motion-ease-spring) both;
+  animation-delay: var(--motion-delay-title);
+}
+
+.hero__title-line { display: inline; text-shadow: var(--title-shadow); }
+.hero__title-line--1 { color: var(--title-color-1); }
+.hero__title-line--2 { color: var(--title-color-2); }
+
+.hero__cta {
+  /* Mobile: mismo tamaño que "Adopta un gatito" del header (alto 50px, padding 24px, texto 17px) */
+  --btn-h: 3.125rem;
+  --btn-pad-y: 0px; /* con unidad: el botón con borde usa calc(pad-y - 1px) y un 0 sin unidad anulaba todo el padding */
+  --btn-pad-x: calc(1.5rem + 1px); /* el botón con borde resta 1px: queda en 24px exactos, como "Adopta un gatito" */
+  --btn-fs: 1.0625rem;
+  --btn-ls: -0.01em;
+  --btn-gap: 0.5rem;
+  --btn-icon-size: 1.75rem;
+  --btn-pad-icon: 0.4375rem;
+  --btn-glow: 0 0 0 transparent;
+  animation: pop-in var(--motion-dur-pop-fast, 600ms) var(--motion-ease-spring) both;
+  animation-delay: var(--motion-delay-cta);
+  --pop-rotate: 6deg;
+}
+
+/* Composición de productos */
+.hero__stage-area {
+  position: relative;
+  z-index: 1;
+  justify-self: stretch;
+  container-type: size;
+}
+
+.hero__stage {
+  --stage-w: calc(min(calc(var(--stage-fill) * 1cqw), calc(100cqh * var(--stage-ratio-num))) * var(--stage-scale));
+  position: absolute;
+  inset-block-end: calc(-2.5 * var(--svh));
+  inset-inline-start: 50%;
+  inline-size: var(--stage-w);
+  aspect-ratio: var(--stage-ratio);
+  margin-inline-start: calc(var(--stage-w) / -2);
+}
+
+/* Resplandor detrás del bodegón: se extiende bajo la base para iluminar el "piso". */
+.hero__stage::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  inset-inline-start: -27.2%;
+  inset-block-start: -18%;
+  inline-size: 154.4%;
+  block-size: 154%;
+  background: var(--glow-gradient);
+  opacity: 0.6;
+}
+
+.hero__item {
+  position: absolute;
+  inset-inline-start: var(--x);
+  inset-block-start: var(--y);
+  inline-size: var(--w);
+}
+
+.hero__item-img { inline-size: 100%; }
+
+.hero__item--product {
+  --rise-scale: var(--motion-rise-scale);
+  transform-origin: bottom center;
+  animation: rise-in var(--motion-dur-enter) var(--motion-ease-spring) both;
+  animation-delay: calc(var(--motion-delay-products) + var(--enter-order, 0) * var(--motion-stagger));
+}
+
+.hero__item--ingredient {
+  animation: pop-in var(--motion-dur-pop) var(--motion-ease-spring) both;
+  animation-delay: calc(var(--motion-delay-ingredients) + var(--enter-order, 0) * var(--motion-stagger-ingredients, var(--motion-stagger)));
+}
+
+.hero__item--floating .hero__item-img {
+  animation: float var(--motion-dur-float) var(--motion-ease-sway) infinite;
+  animation-delay: calc(var(--enter-order, 0) * var(--motion-float-offset));
+}
+
+/* Posiciones mobile: % del escenario */
+.hero__item--festival { --x: 22.4%; --y: 4.2%; --w: 57.7%; }
+.hero__item--esterilizados { --x: -3.7%; --y: 10.2%; --w: 55.2%; --enter-order: 1; }
+.hero__item--adultos { --x: 54.6%; --y: 10.3%; --w: 49.9%; --enter-order: 2; }
+.hero__item--lata { --x: 22.5%; --y: 67.5%; --w: 20%; --enter-order: 3; }
+.hero__item--pouch { --x: 52.5%; --y: 61%; --w: 19%; --enter-order: 4; }
+.hero__item--carne { --x: 7.5%; --y: -3%; --w: 17.5%; --pop-rotate: -20deg; --float-rotate: -6deg; }
+.hero__item--leche { --x: 70%; --y: -13%; --w: 22.8%; --enter-order: 1; --pop-rotate: 16deg; --float-rotate: 3deg; }
+.hero__item--atun { --x: 70.8%; --y: -5.8%; --w: 20.2%; transform: rotate(24deg); --enter-order: 2; --pop-rotate: 18deg; }
+.hero__item--salmon { --x: 69.5%; --y: 75.5%; --w: 20.1%; --enter-order: 3; --float-rotate: -4deg; }
+.hero__item--trucha { --x: 6%; --y: 90%; --w: 20.5%; --enter-order: 4; }
+.hero__item--arvejas { --x: 21.5%; --y: 96.5%; --w: 15%; --enter-order: 5; --float-rotate: 2deg; }
+.hero__item--arveja-a { --x: 20.5%; --y: 21.4%; --w: 4.1%; --enter-order: 6; --float-rotate: 25deg; }
+.hero__item--arveja-b { --x: 16%; --y: 34.5%; --w: 5.6%; --enter-order: 7; --float-rotate: -25deg; }
+.hero__item--maiz-a { --x: 80%; --y: 45%; --w: 5.9%; --enter-order: 8; --float-rotate: 20deg; }
+.hero__item--maiz-b { --x: 70%; --y: 37.6%; --w: 3.2%; --enter-order: 9; --float-rotate: -18deg; }
+.hero__item--maiz-c { --x: 25.5%; --y: 44%; --w: 4.7%; --enter-order: 10; --float-rotate: 15deg; }
+.hero__item--maiz-d { --x: 86%; --y: 22%; --w: 4.5%; --enter-order: 11; --float-rotate: -22deg; }
+.hero__item--arveja-c { --x: 84%; --y: 30%; --w: 4.6%; --enter-order: 12; --float-rotate: 22deg; }
+.hero__item--arveja-d { --x: 9%; --y: 58%; --w: 3.8%; --enter-order: 13; --float-rotate: -18deg; }
+.hero__item--maiz-e { --x: 13%; --y: 14%; --w: 3.6%; --enter-order: 14; --float-rotate: 18deg; }
+.hero__item--maiz-f { --x: 46%; --y: 1%; --w: 3.4%; --enter-order: 15; --float-rotate: -16deg; }
+
+/* Beneficios */
+.hero__benefits {
+  z-index: 0;
+  display: grid;
+  justify-items: center;
+  gap: calc(1 * var(--svh));
+  animation: pop-in var(--motion-dur-pop-fast, 600ms) var(--motion-ease-spring) both;
+  animation-delay: var(--motion-delay-benefits);
+  --pop-rotate: -4deg;
+}
+
+.benefits__track {
+  position: relative;
+  display: flex;
+  inline-size: var(--benefit-card-w);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  border: 1px solid var(--color-glass-border);
+  border-radius: var(--radius-card);
+  /* Mobile: cian más oscuro translúcido para que el texto blanco se lea */
+  background: rgb(0 120 140 / 0.42);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.benefits__track::-webkit-scrollbar { display: none; }
+
+.benefit {
+  display: grid;
+  flex: 0 0 100%;
+  justify-items: center;
+  align-content: center;
+  gap: var(--space-xs);
+  padding: calc(1.6 * var(--svh)) var(--space-md);
+  scroll-snap-align: center;
+  color: var(--color-white);
+  text-align: center;
+}
+
+.benefit__icon { inline-size: clamp(1.5rem, calc(3.6 * var(--svh)), 2.25rem); }
+.benefit.is-active .benefit__icon { animation: bump var(--motion-dur-bump) var(--motion-ease-spring); }
+
+.benefit__label {
+  font-size: clamp(0.8125rem, calc(1.8 * var(--svh)), 1rem);
+  font-weight: var(--fw-semibold);
+  line-height: 1.15;
+}
+
+.benefits__dots { display: flex; }
+
+.benefits__dot {
+  display: grid;
+  place-items: center;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.benefits__dot::before {
+  content: "";
+  inline-size: 0.375rem;
+  block-size: 0.375rem;
+  border-radius: var(--radius-pill);
+  background: rgb(255 255 255 / 0.6);
+  transition: scale var(--motion-dur-press) var(--motion-ease-spring);
+}
+
+.benefits__dot[aria-current="true"]::before {
+  background: var(--color-white);
+  scale: var(--motion-dot-scale) 1;
+}
+
+/* Desktop */
+@media (min-width: 75em) {
+  .hero {
+    --stage-fill: 62;
+    --stage-scale: 0.97;
+    --stripe-h: clamp(2.25rem, min(calc(7 * var(--svh)), 4.4vw), 8rem);
+    --stripe-period: calc(var(--stripe-h) * 2);
+    --logo-w: calc(var(--stripe-h) * 4.9);
+    --title-size: clamp(1.875rem, min(2.5vw, calc(4.2 * var(--svh))), 5rem);
+    --title-color-1: var(--color-white);
+    --title-color-2: var(--color-white);
+    --intro-scale: 2.4;
+
+    background: linear-gradient(135deg, var(--color-hero-top) 13%, var(--color-hero-bottom) 87%);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas: "brand brand" "intro benefits";
+    row-gap: calc(2 * var(--svh));
+    padding-block: 5.75rem 0;
+  }
+
+  .hero__beam { block-size: calc(68 * var(--svh)); }
+  /* Posiciones relativas al hero (antes en px fijos): se mantienen separadas en pantallas grandes */
+  .hero__beam--1 { inset-inline-start: 82%; inset-block-start: calc(-12 * var(--svh)); transform: rotate(46deg) scaleX(1.25); }
+  .hero__beam--2 { inset-inline-start: 105.8%; inset-block-start: calc(-5.2 * var(--svh)); transform: rotate(50deg) scaleX(1.25); }
+
+  .hero__brand {
+    grid-area: brand;
+    justify-self: stretch;
+    margin-block-start: calc(10 * var(--svh));
+  }
+
+  .hero__brand::before {
+    --stripe-gap: calc(var(--logo-w) + var(--stripe-h) * 1.4);
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: calc(50% - var(--stripe-h) / 2);
+    z-index: -1;
+    block-size: calc(var(--stripe-period) * 2 + var(--stripe-h));
+    background:
+      linear-gradient(to right, var(--color-white) calc(50% - var(--stripe-gap) / 2), transparent 0 calc(50% + var(--stripe-gap) / 2), var(--color-white) 0) 0 0 / 100% var(--stripe-h) no-repeat,
+      linear-gradient(var(--color-white), var(--color-white)) 0 var(--stripe-period) / 100% var(--stripe-h) no-repeat,
+      linear-gradient(var(--color-white), var(--color-white)) 0 calc(var(--stripe-period) * 2) / 100% var(--stripe-h) no-repeat;
+  }
+
+  .hero__intro {
+    grid-area: intro;
+    align-self: end;
+    justify-self: start;
+    inline-size: max-content;
+    gap: calc(3.8 * var(--svh));
+    margin-block-end: calc(11 * var(--svh));
+    /* --intro-left (JS): a medio camino entre el borde y los productos. */
+    margin-inline-start: var(--intro-left, clamp(1.5rem, 3.8vw, 4.5rem));
+    padding-inline: 0;
+  }
+
+  .hero__title { line-height: 1; }
+
+  .hero__cta {
+    --btn-h: auto;
+    --btn-pad-y: 1.125rem;
+    --btn-pad-x: 1.75rem;
+    --btn-fs: 1.125rem;
+    --btn-gap: 0.6875rem;
+    --btn-icon-size: 2rem;
+    --btn-pad-icon: 0.75rem;
+    --btn-glow: none;
+  }
+}
+
+/* Pantallas grandes: el CTA crece con el viewport (en 1440px conserva 18px / 18×28 de padding). */
+@media (min-width: 100em) {
+  .hero { padding-block-start: var(--header-h-lg); }
+
+  /* Crecimiento mínimo: ~+15% en 2560px. */
+  .hero__cta {
+    --btn-pad-y: clamp(1.125rem, calc(0.9rem + 0.25vw), 1.3rem);
+    --btn-pad-x: clamp(1.75rem, calc(1.45rem + 0.3vw), 2rem);
+    --btn-fs: clamp(1.125rem, calc(0.95rem + 0.18vw), 1.3rem);
+    --btn-icon-size: clamp(2rem, calc(1.7rem + 0.3vw), 2.3rem);
+  }
+}
+
+@media (min-width: 75em) {
+
+  .hero__stage-area { grid-area: 2 / 1 / 3 / -1; }
+  .hero__stage { inset-block-end: calc(2 * var(--svh)); }
+
+  .hero__stage::before {
+    inset-inline-start: -2%;
+    inset-block-start: -14%;
+    inline-size: 104%;
+    block-size: 140%;
+  }
+
+  /* Halo fondo (asset "Halo fondo.svg"): elipse 363×227 rotada 152°, centro en 14.5% / 15.9% del hero.
+     El pseudo-elemento mide la elipse + 3σ de difuminado (blur 160 de Figma) y escala con el ancho del hero. */
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset-inline-start: 14.5%;
+    inset-block-start: 21%;
+    z-index: -1;
+    inline-size: 40%;
+    aspect-ratio: 842 / 707;
+    background: radial-gradient(closest-side, rgb(255 255 255 / 0.95) 0%, rgb(255 255 255 / 0.9) 50%, rgb(255 255 255 / 0.6) 66%, rgb(255 255 255 / 0.22) 82%, transparent 96%);
+    opacity: 0.36;
+    transform: translate(-50%, -50%) rotate(152deg);
+    pointer-events: none;
+  }
+
+  .hero__item--lata { --x: 1.8%; --y: 69%; --w: 19%; }
+  .hero__item--pouch { --x: 73.4%; --y: 62.2%; --w: 17.3%; }
+  .hero__item--carne { --x: -1.5%; --y: 17.5%; --w: 14.6%; }
+  .hero__item--leche { --x: 78.3%; --y: 0%; --w: 20.4%; }
+  .hero__item--atun { --x: 79.2%; --y: 5.6%; --w: 17.2%; }
+  .hero__item--salmon { --x: 80.9%; --y: 75.8%; --w: 17.9%; }
+  .hero__item--trucha { --x: 10.5%; --y: 91%; --w: 17%; }
+  .hero__item--arvejas { --x: 26%; --y: 94.3%; --w: 11.8%; }
+  .hero__item--arveja-a { --x: 9%; --y: 39.7%; --w: 3%; }
+  .hero__item--arveja-b { --x: 5.9%; --y: 54.8%; --w: 4.6%; }
+  .hero__item--maiz-a { --x: 95.9%; --y: 42%; --w: 3.6%; }
+  .hero__item--maiz-b { --x: 86.8%; --y: 53%; --w: 1.9%; }
+  .hero__item--maiz-c { --x: 20.7%; --y: 61%; --w: 3%; }
+  .hero__item--maiz-d { --x: 92%; --y: 28%; --w: 2.8%; }
+  .hero__item--arveja-c { --x: 98.5%; --y: 58%; --w: 3.2%; }
+  .hero__item--arveja-d { --x: 3%; --y: 30%; --w: 2.6%; }
+  .hero__item--maiz-e { --x: 14%; --y: 30%; --w: 2.2%; }
+  .hero__item--maiz-f { --x: 82%; --y: 36%; --w: 2.4%; }
+
+  .hero__benefits {
+    grid-area: benefits;
+    align-self: end;
+    justify-self: end;
+    inline-size: clamp(26rem, 33vw, 60rem);
+    margin-block-end: calc(17 * var(--svh));
+  }
+
+  .benefits__track {
+    inline-size: 100%;
+    container-type: inline-size;
+    justify-content: center;
+    gap: 0;
+    /* La barra pasa por detrás de la bolsa; los beneficios quedan en la zona libre. */
+    padding-inline: max(1rem, var(--bag-clear, 9.5vw)) clamp(0.5rem, 1vw, 1.5rem);
+    padding-block: calc(2.4 * var(--svh));
+    overflow: visible;
+    scroll-snap-type: none;
+    border-inline: 0;
+    border-radius: 0;
+    border-color: rgb(255 255 255 / 0.6);
+    background: rgb(255 255 255 / 0.1);
+  }
+
+  .benefit { flex: 0 0 auto; padding: 0; }
+  .benefit__icon { inline-size: clamp(1.5rem, 9.5cqi, 2.375rem); }
+  /* Escalan con el espacio libre junto a la bolsa (calibrado: idéntico a 1555px). */
+  .benefit__label { font-size: clamp(0.75rem, 4.27cqi, 1.0625rem); }
+  /* El espacio entre beneficios sí sigue creciendo para repartir el ancho libre. */
+  .benefit + .benefit { margin-inline-start: clamp(0.5rem, 4.2cqi, 3rem); }
+  .benefit__line { display: block; }
+  .benefits__dots { display: none; }
+}
+
+/* Desktop: titular y beneficios esperan a que JS mida su posición, así entran ya en su sitio. */
+@media (min-width: 75em) {
+  .js .hero:not([data-layout-ready]) :is(.hero__intro, .hero__benefits) { visibility: hidden; }
+  .js .hero:not([data-layout-ready]) :is(.hero__title, .hero__cta, .hero__benefits) { animation-play-state: paused; }
+}
+
+/* La entrada completa espera a que el bodegón esté cargado (data-hero-play, lo pone benefits-clearance.js):
+   así los delays son relativos a un mismo t=0 y el titular entra después del último alimento. */
+.js .hero:not([data-hero-play]) * { animation-play-state: paused !important; }
+
+/* Intro (hero-intro.js, una timeline GSAP). html.hero-intro: GSAP dirige la entrada y se apagan las entradas CSS.
+   html.is-intro-pending: primer cuadro = solo la bolsa central en primer plano sobre el degradado. */
+.hero-intro-short .hero { --intro-scale: 1.25; }
+.hero-intro .hero :is(.hero__item--product, .hero__item--ingredient, .hero__logo, .hero__title, .hero__cta, .hero__benefits),
+.hero-intro .site-header > * { animation: none; }
+.hero__word { display: inline-block; }
+/* La flotación empieza cuando cada ingrediente se asienta (hero-intro.js agrega .is-settled) */
+.hero-intro .hero__item--floating:not(.is-settled) .hero__item-img { animation-play-state: paused; }
+.is-intro-pending .hero__brand::before { opacity: 0; }
+.is-intro-pending .hero__item--festival {
+  transform: translateY(6%) scale(var(--intro-scale));
+  transform-origin: var(--intro-origin, 50% 40%);
+}
+.is-intro-pending .hero :is(.hero__decor, .hero__logo, .hero__stripe, .hero__title, .hero__cta, .hero__benefits, .hero__item--ingredient, .hero__item--esterilizados, .hero__item--adultos, .hero__item--lata, .hero__item--pouch),
+.is-intro-pending .site-header > * { opacity: 0; }
+/* Resplandores (pseudo-elementos): se encienden con transición cuando la timeline agrega .is-lit */
+.hero::after, .hero__stage::before { transition: opacity var(--intro-glow-dur, 1s) cubic-bezier(0.39, 0.575, 0.565, 1), scale var(--intro-glow-dur, 1s) cubic-bezier(0.39, 0.575, 0.565, 1); }
+.hero-intro .hero:not(.is-lit)::after, .hero-intro .hero:not(.is-lit) .hero__stage::before { opacity: 0; scale: 0.8; }
+
+/* Franjas como trazos (desktop): 4 spans que replican .hero__brand::before y se dibujan con scaleX */
+.hero__stripe { display: none; }
+@media (min-width: 75em) {
+  .hero__brand.has-stripes::before { display: none; }
+  .hero__stripe {
+    --row: 0;
+    display: block;
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: calc(50% - var(--stripe-h) / 2 + var(--row) * var(--stripe-period));
+    z-index: -1;
+    block-size: var(--stripe-h);
+    background: var(--color-white);
+    pointer-events: none;
+  }
+  .hero__stripe--1l { inset-inline-end: calc(50% + (var(--logo-w) + var(--stripe-h) * 1.4) / 2); transform-origin: left center; }
+  .hero__stripe--1r { inset-inline-start: calc(50% + (var(--logo-w) + var(--stripe-h) * 1.4) / 2); transform-origin: right center; }
+  .hero__stripe--2 { --row: 1; transform-origin: left center; }
+  .hero__stripe--3 { --row: 2; transform-origin: right center; }
+}
+
+/* Pantallas grandes: un poco más de aire horizontal entre beneficios (~+3%) */
+@media (min-width: 100em) {
+  .benefit + .benefit { margin-inline-start: clamp(0.5rem, 4.35cqi, 3.1rem); }
+}
+
+/* ── Set de estudio: pared con viñeta + piso + foco + sombra de contacto + grano (solo CSS) ──
+   --horizon: base de las bolsas (lo mide benefits-clearance.js; fallback 72% mobile / 68% desktop). */
+.hero {
+  --wall-center: #00C8DC;
+  --wall-edge: #00B5C8;
+  --floor-top: #52D3E2;
+  --floor-bottom: #96E3EC;
+  --wall-shade: 20%;        /* oscurecimiento de la pared justo sobre el horizonte (empata con el piso) */
+  --wall-shade-h: 28%;      /* alto de esa sombra hacia arriba */
+  --floor-cove: rgb(0 112 128 / 0.15); /* sombra suave justo sobre el horizonte (marca el cambio de plano) */
+  --floor-blend: calc(24 * var(--svh)); /* alto de la transición pared → piso */
+  --spot: 0.56;             /* intensidad del foco detrás del bodegón */
+  --contact: 0.35;          /* intensidad de la sombra de contacto */
+  --grain: 0.05;            /* intensidad del grano (soft-light: 0.03 apenas · 0.1 marcado) */
+  --horizon-fallback: 64%;
+  background:
+    linear-gradient(to bottom, transparent calc(var(--horizon, var(--horizon-fallback)) - var(--wall-shade-h)), color-mix(in oklab, var(--wall-edge), #006F80 var(--wall-shade)) var(--horizon, var(--horizon-fallback))),
+    radial-gradient(ellipse 70% 75% at 50% calc(var(--horizon, var(--horizon-fallback)) - 12%), var(--wall-center) 0%, var(--wall-center) 28%, color-mix(in oklab, var(--wall-center), var(--wall-edge) 55%) 62%, var(--wall-edge) 100%),
+    var(--wall-edge);
+}
+/* Piso (capa de la pared: bajo haces y franjas, que nunca bajan hasta aquí) */
+.hero__decor::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block: calc(var(--horizon, var(--horizon-fallback)) - var(--floor-blend) / 2) 0;
+  background: linear-gradient(to bottom, transparent calc(var(--floor-blend) * 0.2), var(--floor-cove) calc(var(--floor-blend) * 0.45), color-mix(in oklab, var(--floor-top), transparent 40%) calc(var(--floor-blend) * 0.68), var(--floor-top) calc(var(--floor-blend) * 1.05), var(--floor-bottom) 100%);
+  -webkit-mask: linear-gradient(to right, rgb(0 0 0 / 0.75), #000 30% 70%, rgb(0 0 0 / 0.75));
+  mask: linear-gradient(to right, rgb(0 0 0 / 0.75), #000 30% 70%, rgb(0 0 0 / 0.75));
+}
+.hero__stage::before {
+  opacity: var(--spot);
+  /* Solo por arriba del bodegón: los costados se recortan (misma posición y tamaño) */
+  -webkit-mask: linear-gradient(to right, transparent var(--glow-side-cut), #000 calc(var(--glow-side-cut) + 16%) calc(100% - var(--glow-side-cut) - 16%), transparent calc(100% - var(--glow-side-cut)));
+  mask: linear-gradient(to right, transparent var(--glow-side-cut), #000 calc(var(--glow-side-cut) + 16%) calc(100% - var(--glow-side-cut) - 16%), transparent calc(100% - var(--glow-side-cut)));
+}
+.hero { --glow-side-cut: 18%; } /* % recortado en cada lado del resplandor */
+/* Sombra de contacto: una por bolsa (la derecha un poco más arriba); las laterales e izquierda, menos difusas */
+.hero__stage::after {
+  --shadow: rgb(0 124 138 / var(--contact));
+  --shadow-soft: rgb(0 124 138 / calc(var(--contact) * 0.6));
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 84%;
+  z-index: -1;
+  block-size: 20%;
+  background:
+    radial-gradient(ellipse 21% 22% at 79.5% 44%, var(--shadow), var(--shadow-soft) 45%, transparent 100%),
+    radial-gradient(ellipse 22% 20% at 24% 55%, var(--shadow), var(--shadow-soft) 55%, transparent 88%),
+    radial-gradient(ellipse 25% 22% at 51.3% 57%, var(--shadow), var(--shadow-soft) 55%, transparent 88%);
+  pointer-events: none;
+}
+/* Grano solo en el fondo (pared + piso): capa de .hero__decor, debajo de productos, textos y botones */
+.hero__decor::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='3' intercept='-1'/%3E%3CfeFuncG type='linear' slope='3' intercept='-1'/%3E%3CfeFuncB type='linear' slope='3' intercept='-1'/%3E%3CfeFuncA type='linear' slope='0' intercept='1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") 0 0 / var(--grain-size, 270px) var(--grain-size, 270px); /* más grande = grano más grueso */
+  opacity: var(--grain);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+/* Intro: piso, foco y sombra de contacto se encienden en la fase de Luz (.is-lit) */
+.hero__decor::before, .hero__stage::after { transition: opacity var(--intro-glow-dur, 1s) cubic-bezier(0.39, 0.575, 0.565, 1); }
+.hero-intro .hero:not(.is-lit) .hero__decor::before,
+.hero-intro .hero:not(.is-lit) .hero__stage::after { opacity: 0; }
+@media (min-width: 75em) {
+  .hero {
+    --horizon-fallback: 60%;
+    background:
+      linear-gradient(to bottom, transparent calc(var(--horizon, var(--horizon-fallback)) - var(--wall-shade-h)), color-mix(in oklab, var(--wall-edge), #006F80 var(--wall-shade)) var(--horizon, var(--horizon-fallback))),
+    radial-gradient(ellipse 62% 80% at 50% calc(var(--horizon, var(--horizon-fallback)) - 14%), var(--wall-center) 0%, var(--wall-center) 26%, color-mix(in oklab, var(--wall-center), var(--wall-edge) 55%) 60%, var(--wall-edge) 100%),
+      var(--wall-edge);
+  }
+}
+
+/* Productos: un poco más de saturación */
+.hero { --product-saturate: 1.15; }
+.hero__item--product .hero__item-img { filter: saturate(var(--product-saturate)); }
+
+/* Pantallas grandes: haces de la derecha algo más grandes y más juntos */
+@media (min-width: 100em) {
+  .hero__beam { block-size: calc(76 * var(--svh)); }
+  .hero__beam--2 { inset-inline-start: 102%; }
+}
+
+/* Barra de beneficios (desktop): un poco más de glass */
+@media (min-width: 75em) {
+  .benefits__track {
+    background: rgb(255 255 255 / 0.16);
+    -webkit-backdrop-filter: blur(10px) saturate(1.2);
+    backdrop-filter: blur(10px) saturate(1.2);
+  }
+}
+
+/* Variante "Círculos" (tweak de la vista previa: .hero[data-benefits-style="circles"]), solo desktop:
+   sin barra; círculos glass perfectos en pirámide (1 arriba, 2 abajo) y el horizonte se ve entre ellos. */
+@media (min-width: 75em) {
+  .hero[data-benefits-style="circles"] { --benefit-circle: clamp(5.75rem, 7.2vw, 7.75rem); }
+  /* Más abajo para que la cima no toque la franja blanca */
+  .hero[data-benefits-style="circles"] .hero__benefits { margin-block-end: calc(11 * var(--svh)); }
+  .hero[data-benefits-style="circles"] .benefits__track {
+    display: grid;
+    grid-template-columns: repeat(2, var(--benefit-circle));
+    justify-content: center;
+    align-items: center;
+    column-gap: calc(var(--benefit-circle) * 0.32);
+    row-gap: 0;
+    background: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-block: 0;
+    padding-block: 0;
+  }
+  .hero[data-benefits-style="circles"] .benefit {
+    box-sizing: border-box;
+    inline-size: var(--benefit-circle);
+    block-size: var(--benefit-circle);
+    min-inline-size: 0;
+    flex: none;
+    align-self: center;
+    padding: calc(var(--benefit-circle) * 0.12);
+    place-content: center;
+    justify-items: center;
+    text-align: center;
+    gap: 0.3rem;
+    border-radius: 50%;
+    border: 1px solid rgb(255 255 255 / 0.6);
+    background: rgb(255 255 255 / 0.16);
+    -webkit-backdrop-filter: blur(10px) saturate(1.2);
+    backdrop-filter: blur(10px) saturate(1.2);
+  }
+  /* Cima de la pirámide: centrada sobre los otros dos y encajada entre ellos */
+  .hero[data-benefits-style="circles"] .benefit:first-child {
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin-block-end: calc(var(--benefit-circle) * 0.06);
+  }
+  /* Orgánico: tamaños y alturas distintos, pequeños giros (sin transform: usan translate/rotate/scale propios) */
+  .hero[data-benefits-style="circles"] .benefit:nth-child(1) { translate: -18% 0; scale: 1.06; rotate: -4deg; }
+  .hero[data-benefits-style="circles"] .benefit:nth-child(2) { translate: -6% 22%; scale: 0.94; rotate: 3deg; }
+  .hero[data-benefits-style="circles"] .benefit:nth-child(3) { translate: 8% -10%; rotate: -2deg; }
+  .hero[data-benefits-style="circles"] .benefit + .benefit { margin-inline-start: 0; }
+  .hero[data-benefits-style="circles"] .benefit__icon { inline-size: calc(var(--benefit-circle) * 0.24); }
+  .hero[data-benefits-style="circles"] .benefit__label { font-size: max(0.75rem, calc(var(--benefit-circle) * 0.115)); line-height: 1.05; }
+}
+
+/* Puntos del carrusel de beneficios (mobile): círculos, el activo solo cambia de color */
+.benefits__dot::before { aspect-ratio: 1; border-radius: 50%; }
+.benefits__dot[aria-current="true"]::before { scale: 1; }

@@ -1,0 +1,24 @@
+---
+import Icon from '../ui/Icon.astro';
+import '../../styles/sections/nutrition-band.css';
+
+const label = 'Nutrición completa';
+// Repeticiones suficientes para ≥ 100vw + recorrido en pantallas de hasta ~5000px.
+const repeats = 16;
+---
+<div class="band" data-scroll-band>
+  <p class="visually-hidden">{label}</p>
+  <div class="band__track" data-scroll-band-track aria-hidden="true">
+    {Array.from({ length: repeats }, () => (
+      <>
+        <span class="band__text">{label}</span>
+        <Icon name="icono-pez" class="band__fish" />
+      </>
+    ))}
+  </div>
+</div>
+
+<script>
+  import { initScrollBands } from '../../scripts/scroll-band.js';
+  initScrollBands();
+</script>

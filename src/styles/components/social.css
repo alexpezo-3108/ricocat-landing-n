@@ -1,0 +1,15 @@
+.social {
+  display: flex;
+  gap: var(--social-gap, var(--space-sm));
+}
+
+.social--header {
+  --icon-btn-size: 2.5rem;
+  --social-gap: 1.25rem;
+}
+
+.social--menu {
+  --icon-btn-size: 3rem;
+  --icon-btn-bg: var(--color-blue-soft);
+  --social-gap: var(--space-md);
+}

@@ -1,0 +1,53 @@
+---
+import { Image } from 'astro:assets';
+import Icon from '../ui/Icon.astro';
+import bodegon from '../../assets/images/bodegon-footer.png';
+import { footerLinks, legalLinks, socialLinks } from '../../data/site.js';
+import '../../styles/components/footer.css';
+
+const year = new Date().getFullYear();
+---
+<footer class="footer" data-footer>
+  <div class="footer__art">
+    <Image class="footer__bodegon" src={bodegon} alt="Bodegón de productos Ricocat: cinco bolsas de alimento seco para gatitos, adultos y esterilizados, dos latas de paté y trocitos, y un pouch" widths={[400, 700, 1340]} sizes="(min-width: 48em) 666px, 76vw" loading="lazy" />
+  </div>
+
+  <div class="footer__inner">
+    <div class="footer__brand" style="--i: 0">
+      <Icon name="logo-ricocat-blanco" class="footer__logo" label="Ricocat" />
+      <p class="footer__tagline">Nutriendo vínculos para toda la vida</p>
+    </div>
+
+    <nav class="footer__block" aria-labelledby="footer-explore" style="--i: 1">
+      <h2 class="footer__label" id="footer-explore">Explora</h2>
+      <ul class="footer__pills" role="list">
+        {footerLinks.map((l) => <li><a class="btn footer__pill" href={l.href} data-footer-scroll>{l.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="footer__block" style="--i: 2">
+      <h2 class="footer__label">Síguenos</h2>
+      <ul class="social footer__social" role="list">
+        {socialLinks.map((s) => (
+          <li><a class="icon-btn social__link" href={s.href} target="_blank" rel="noopener" aria-label={`Ricocat en ${s.label} (se abre en una pestaña nueva)`}><Icon name={s.icon} class="icon-btn__glyph" /></a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="footer__bar" style="--i: 3">
+      <p class="footer__copy">© <span data-footer-year>{year}</span> Ricocat. Todos los derechos reservados.</p>
+      <ul class="footer__legal" role="list" data-footer-legal>
+        {legalLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+      <button type="button" class="footer__top" data-footer-top>
+        <span class="footer__top-icon" aria-hidden="true"><Icon name="icono-volver" /></span>
+        <span>Volver arriba</span>
+      </button>
+    </div>
+  </div>
+</footer>
+
+<script>
+  import { initFooter } from '../../scripts/footer.js';
+  initFooter();
+</script>

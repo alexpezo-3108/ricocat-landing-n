@@ -1,0 +1,95 @@
+---
+import { Picture } from 'astro:assets';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import { benefits, benefitsInterval, buyLink } from '../../data/site.js';
+import beam1 from '../../assets/svg/haz-de-luz-1.svg?url';
+import beam2 from '../../assets/svg/haz-de-luz-2.svg?url';
+import { heroItems as items } from '../../data/hero.js';
+import '../../styles/sections/hero.css';
+
+---
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__decor" aria-hidden="true">
+    <img class="hero__beam hero__beam--1" src={beam1} width="170" height="709" alt="" loading="eager" decoding="async" />
+    <img class="hero__beam hero__beam--2" src={beam2} width="125" height="716" alt="" loading="eager" decoding="async" />
+  </div>
+
+  <div class="hero__brand">
+    <Icon name="logo-ricocat" class="hero__logo" />
+  </div>
+
+  <div class="hero__intro">
+    <h1 id="hero-title" class="hero__title">
+      <span class="visually-hidden">Ricocat: </span>
+      <span class="hero__title-line hero__title-line--1">Nutriendo el<br> vínculo</span>
+      <span class="hero__title-line hero__title-line--2">todos los<br> días</span>
+    </h1>
+    <Button href={buyLink.href} variant="dark" icon="icono-flecha-derecha" class="hero__cta">{buyLink.label}</Button>
+  </div>
+
+  <div class="hero__stage-area">
+    <div class="hero__stage">
+      {items.map((item) => (
+        <Picture
+          src={item.src}
+          alt={item.alt ?? ''}
+          formats={['avif', 'webp']}
+          widths={item.widths}
+          sizes={item.sizes}
+          loading="eager"
+          quality={item.priority ? 95 : 80}
+          decoding={item.priority ? 'sync' : 'async'}
+          fetchpriority={item.priority ? 'high' : 'auto'}
+          class="hero__item-img"
+          pictureAttributes={{ class: `hero__item hero__item--${item.kind}${item.floating ? ' hero__item--floating' : ''} hero__item--${item.id}` }}
+        />
+      ))}
+    </div>
+  </div>
+
+  <section
+    class="hero__benefits benefits"
+    data-carousel
+    data-interval={benefitsInterval}
+    aria-roledescription="carrusel"
+    aria-label="Beneficios de Ricocat"
+  >
+    <ul class="benefits__track" data-carousel-track role="list">
+      {benefits.map((benefit, i) => (
+        <li class="benefit" aria-roledescription="diapositiva" aria-label={`${i + 1} de ${benefits.length}`}>
+          <Icon name={benefit.icon} class="benefit__icon" />
+          <p class="benefit__label">
+            {benefit.lines.map((line, n) => (
+              <>{n > 0 && ' '}<span class="benefit__line">{line}</span></>
+            ))}
+          </p>
+        </li>
+      ))}
+    </ul>
+    <div class="benefits__dots">
+      {benefits.map((benefit, i) => (
+        <button
+          type="button"
+          class="benefits__dot"
+          data-carousel-dot
+          aria-label={`Ver beneficio ${i + 1}: ${benefit.lines.join(' ')}`}
+          aria-current={i === 0 ? 'true' : 'false'}
+        />
+      ))}
+    </div>
+  </section>
+</section>
+
+<script>
+  import { initCarousels } from '../../scripts/benefits-carousel.js';
+  import { initBenefitsClearance } from '../../scripts/benefits-clearance.js';
+  import { initHeroShine } from '../../scripts/hero-shine.js';
+  import { initHeroIntro } from '../../scripts/hero-intro.js';
+  import { initHeroLightRings } from '../../scripts/hero-light-rings.js'; // experimento (ENABLE_LIGHT_RINGS)
+  initBenefitsClearance();
+  initHeroShine();
+  initHeroIntro();
+  initHeroLightRings();
+  initCarousels();
+</script>

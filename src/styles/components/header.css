@@ -1,0 +1,70 @@
+.site-header {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  block-size: var(--header-h);
+  padding-inline: var(--page-gutter);
+}
+
+.site-header > * {
+  animation: drop-in var(--motion-dur-enter) var(--motion-ease-spring) both;
+  animation-delay: calc(var(--motion-delay-header) + var(--enter-order, 0) * var(--motion-stagger));
+}
+
+.site-header__nav { --enter-order: 1; display: none; }
+.site-header__social { --enter-order: 2; display: none; }
+
+.site-header__adopt {
+  --btn-h: 3.125rem;
+  --btn-pad-x: 1.5rem;
+  --btn-fs: 1.0625rem;
+}
+
+.site-header__menu-toggle {
+  --enter-order: 1;
+  --icon-btn-size: 3.125rem;
+  --icon-glyph-size: 40%;
+}
+
+.site-header__nav-list {
+  display: flex;
+  gap: var(--space-md);
+}
+
+@media (min-width: 75em) {
+  .site-header {
+    --fs-button: 1.0625rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    block-size: 5.75rem;
+  }
+
+  .site-header__adopt {
+    --btn-h: 2.875rem;
+    --btn-pad-x: 1.5rem;
+    --btn-fs: 1.125rem;
+    justify-self: start;
+  }
+
+  .site-header__nav { display: block; }
+  .site-header__social { display: flex; justify-self: end; }
+  .site-header__menu-toggle { display: none; }
+  .site-header__nav-list .btn { --btn-h: 2.5rem; --btn-pad-x: 1.625rem; }
+}
+
+/* Pantallas grandes: botones y header crecen lo mínimo (~+15% en 2560px), igual que el CTA. */
+@media (min-width: 100em) {
+  .site-header {
+    --fs-button: clamp(1.0625rem, calc(0.797rem + 0.266vw), 1.222rem);
+    block-size: var(--header-h-lg);
+  }
+
+  .site-header__adopt { --btn-h: clamp(2.875rem, calc(2.156rem + 0.719vw), 3.306rem); --btn-pad-x: clamp(1.5rem, calc(1.125rem + 0.375vw), 1.725rem); --btn-fs: clamp(1.125rem, calc(0.844rem + 0.281vw), 1.294rem); }
+  .site-header__nav-list .btn { --btn-h: clamp(2.5rem, calc(1.875rem + 0.625vw), 2.875rem); --btn-pad-x: clamp(1.625rem, calc(1.219rem + 0.406vw), 1.869rem); }
+  .site-header__social { --icon-btn-size: clamp(2.5rem, calc(1.875rem + 0.625vw), 2.875rem); --social-gap: clamp(1.25rem, calc(0.938rem + 0.313vw), 1.438rem); }
+}

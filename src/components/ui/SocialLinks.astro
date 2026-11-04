@@ -1,0 +1,20 @@
+---
+import Icon from './Icon.astro';
+import { socialLinks } from '../../data/site.js';
+
+interface Props {
+  variant: 'header' | 'menu';
+  class?: string;
+}
+
+const { variant, class: className } = Astro.props;
+---
+<ul class:list={['social', `social--${variant}`, className]} role="list">
+  {socialLinks.map((link) => (
+    <li>
+      <a class="icon-btn social__link" href={link.href} aria-label={link.label}>
+        <Icon name={link.icon} class="icon-btn__glyph" />
+      </a>
+    </li>
+  ))}
+</ul>

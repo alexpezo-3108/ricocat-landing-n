@@ -1,0 +1,381 @@
+/* 03 "Alimento 100% completo" */
+.food {
+  --food-title-fs: clamp(2.5rem, 1.972rem + 2.254vw, 4rem);
+  --card-border: 4px;
+  --card-radius: 6px;
+  --kibble-u: 1.25rem;
+
+  padding-block: clamp(4rem, 2.6rem + 6vw, 8.75rem);
+  overflow: hidden;
+  overflow: clip;
+  background: var(--color-mist);
+  color: var(--color-navy-900);
+}
+
+.food__title {
+  margin: 0;
+  padding-inline: var(--page-gutter);
+  font-family: var(--font-display);
+  font-size: var(--food-title-fs);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.food__title-line {
+  display: block;
+  --rise-from: 0.6em;
+  animation: rise-in var(--motion-dur-enter) var(--motion-ease-spring) both;
+  animation-delay: var(--food-delay-title);
+}
+
+.food__title-line--2 {
+  color: var(--color-cyan-700);
+  animation-delay: calc(var(--food-delay-title) + var(--motion-stagger));
+}
+
+.food__body {
+  display: grid;
+  gap: clamp(2.5rem, 1.5rem + 4vw, 4rem);
+  margin-block-start: clamp(3.5rem, 2.5rem + 4vw, 8rem);
+}
+
+/* Mesa con las tarjetas: coordenadas en % de un lienzo de 720×560 */
+.food__table {
+  position: relative;
+  justify-self: center;
+  inline-size: min(100% - var(--page-gutter) * 2, 26rem);
+  aspect-ratio: 720 / 560;
+}
+
+.food__card {
+  position: absolute;
+  inset-inline-start: var(--x);
+  inset-block-start: var(--y);
+  inline-size: var(--w);
+  aspect-ratio: 76 / 100;
+  margin: 0;
+  overflow: hidden;
+  border: var(--card-border) solid var(--color-steel);
+  border-radius: var(--card-radius);
+  background: var(--color-white);
+  transform: rotate(var(--card-rot));
+  translate: calc(var(--px, 0) * var(--depth-x) * var(--food-parallax)) calc(var(--py, 0) * var(--depth-y) * var(--food-parallax));
+  animation: card-drop var(--food-dur-card) var(--motion-ease-spring) both;
+  animation-delay: calc(var(--food-delay-cards) + var(--enter-order, 0) * var(--food-card-stagger));
+}
+
+.food__card--1 { --x: 1.5%; --y: 2%; --w: 40%; --card-rot: -4deg; --card-spin: -10deg; --depth-x: 0.35; --depth-y: 0.5; }
+.food__card--2 { --x: 28%; --y: 28.5%; --w: 41.7%; --card-rot: -4deg; --card-spin: 12deg; --depth-x: 1.5; --depth-y: 1.1; --enter-order: 1; }
+.food__card--3 { --x: 58.5%; --y: 11%; --w: 40%; --card-rot: 6deg; --card-spin: -14deg; --depth-x: 0.8; --depth-y: -0.45; --enter-order: 2; }
+
+.food__card-img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+@keyframes card-drop {
+  from {
+    transform: translateY(-30%) rotate(calc(var(--card-rot) + var(--card-spin) * var(--food-card-spin))) scale(1.14);
+    opacity: 0;
+  }
+  30% { opacity: 1; }
+  to { transform: rotate(var(--card-rot)); opacity: 1; }
+}
+
+/* Huellas: detrás de las tarjetas y siempre dentro de la mesa (nunca sobre texto o botón) */
+.food__paws {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  translate: calc(var(--px, 0) * -0.25 * var(--food-parallax)) calc(var(--py, 0) * -0.25 * var(--food-parallax));
+}
+
+.food__paw {
+  position: absolute;
+  inset-inline-start: var(--x);
+  inset-block-start: var(--y);
+  inline-size: max(1rem, 4%);
+  color: var(--color-navy-700);
+  opacity: 0;
+  translate: -50% -50%;
+  rotate: -15deg;
+  transform: scale(0.4);
+  transition:
+    opacity 500ms ease,
+    transform 700ms var(--motion-ease-spring);
+}
+
+.food__paw.is-on {
+  opacity: var(--food-paw-opacity);
+  transform: none;
+}
+
+.food__paw svg { animation: paw-breathe var(--food-paw-breathe) var(--motion-ease-sway) infinite; }
+.food__paw:nth-child(3n + 1) svg { animation-delay: calc(var(--food-paw-breathe) / -3); }
+.food__paw:nth-child(3n + 2) svg { animation-delay: calc(var(--food-paw-breathe) / -1.5); }
+
+html:not(.js) .food__paw--rest { opacity: var(--food-paw-opacity); transform: none; }
+
+@keyframes paw-breathe {
+  0%, 100% { scale: 1; }
+  50% { scale: 1.14; }
+}
+
+/* Texto y acciones */
+.food__content {
+  display: grid;
+  justify-self: center;
+  gap: 1.125rem;
+  inline-size: min(100% - var(--page-gutter) * 2, 36rem);
+}
+
+.food__lead,
+.food__text {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(1.0625rem, 0.95rem + 0.26vw, 1.25rem);
+  text-wrap: pretty;
+  animation: slide-in var(--motion-dur-pop) var(--motion-ease-spring) both;
+  animation-delay: var(--food-delay-content);
+}
+
+.food__lead {
+  font-weight: var(--fw-bold);
+  line-height: 1.45;
+  color: var(--color-navy-900);
+}
+
+.food__text {
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--color-navy-700);
+  animation-delay: calc(var(--food-delay-content) + var(--motion-stagger));
+}
+
+.food__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-block-start: 1.25rem;
+}
+
+.food__actions .food__kibbles { translate: 0 0.5rem; }
+
+@media (min-width: 75em) {
+  .food__actions .food__kibbles { translate: none; }
+}
+
+/* Mismo botón que el Hero, sin glow */
+.food__cta {
+  --btn-h: auto;
+  --btn-pad-y: 1rem;
+  --btn-pad-x: 1.5rem;
+  --btn-fs: 1.125rem;
+  --btn-ls: -0.01em;
+  --btn-gap: 0.625rem;
+  --btn-icon-size: 1.875rem;
+  --btn-pad-icon: 0.6875rem;
+  --btn-glow: 0 0 0 transparent;
+  --pop-rotate: 6deg;
+  animation: pop-in var(--motion-dur-pop) var(--motion-ease-spring) both;
+  animation-delay: calc(var(--food-delay-content) + var(--motion-stagger) * 2);
+}
+
+.food__kibbles {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(0.375rem, 0.2rem + 0.6vw, 0.75rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.food__kibble {
+  inline-size: calc(var(--kibble-u) * var(--k));
+  animation: kibble-in var(--food-dur-kibble) var(--food-ease-kibble) both;
+  animation-delay: calc(var(--food-delay-kibbles) + var(--enter-order, 0) * var(--food-kibble-stagger));
+}
+
+.food__kibble img {
+  inline-size: 100%;
+  transform-origin: 50% 100%;
+  animation: kibble-hop calc(var(--hop-dur) * var(--food-hop-speed)) var(--motion-ease-sway) infinite;
+  animation-delay: calc(var(--food-delay-kibbles) + var(--enter-order, 0) * var(--food-kibble-stagger) + var(--food-dur-kibble) * var(--food-hop-start) + var(--hop-offset));
+}
+
+/* Entran rodando desde la derecha: primero la más cercana al borde */
+.food__kibble--pez { --k: 2.3; --hop-dur: 2.3s; --hop-offset: 0ms; --enter-order: 4; --roll: -150deg; }
+.food__kibble--triangulo { --k: 1.05; --hop-dur: 1.7s; --hop-offset: 200ms; --enter-order: 3; }
+.food__kibble--cruz { --k: 1.15; --hop-dur: 2.9s; --hop-offset: 60ms; --enter-order: 2; }
+.food__kibble--corazon { --k: 1; --hop-dur: 2s; --hop-offset: 320ms; --enter-order: 1; }
+.food__kibble--redonda { --k: 0.92; --hop-dur: 1.5s; --hop-offset: 120ms; }
+
+@keyframes kibble-in {
+  from { transform: translateX(var(--food-kibble-distance)) rotate(var(--roll, -320deg)); opacity: 0; }
+  25% { opacity: 1; }
+  to { opacity: 1; }
+}
+
+/* Reposo largo + saltito corto con squash & stretch */
+@keyframes kibble-hop {
+  0%, 62%, 100% { translate: 0 0; scale: 1 1; }
+  70% { translate: 0 0; scale: 1.1 0.88; }
+  80% { translate: 0 calc(var(--food-hop-height) * -1); scale: 0.94 1.08; }
+  90% { translate: 0 0; scale: 1.06 0.94; }
+}
+
+/* Solo corre mientras la sección está visible (clase via IntersectionObserver) */
+.js .food:not(.is-visible) :is(
+  .food__title-line, .food__card, .food__lead, .food__text, .food__cta,
+  .food__kibble, .food__kibble img, .food__paw svg
+) { animation-play-state: paused; }
+
+/* Desktop */
+@media (min-width: 75em) {
+  .food {
+    --card-border: 8px;
+    --card-radius: 12px;
+    --kibble-u: clamp(2rem, 2.7vw, 2.75rem);
+  }
+
+  .food__body {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 33rem);
+    column-gap: clamp(3rem, 7.4vw, 8rem);
+    align-items: center;
+    padding-inline-end: max(clamp(2rem, 9vw, 10rem), calc(50vw - 46rem));
+  }
+
+  .food__table {
+    justify-self: end;
+    inline-size: min(100%, 64rem);
+  }
+
+  .food__content {
+    justify-self: stretch;
+    inline-size: auto;
+    margin-block-start: 5.5rem;
+  }
+
+  .food__actions {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 4rem;
+    margin-block-start: 2.5rem;
+  }
+
+  .food__kibbles { align-self: flex-end; }
+
+  .food__cta {
+    --btn-pad-y: 1.125rem;
+    --btn-pad-x: 1.75rem;
+    --btn-gap: 0.6875rem;
+    --btn-icon-size: 2rem;
+    --btn-pad-icon: 0.75rem;
+  }
+}
+
+@media (min-width: 100em) {
+  .food__cta {
+    --btn-pad-y: clamp(1.125rem, calc(0.9rem + 0.25vw), 1.3rem);
+    --btn-pad-x: clamp(1.75rem, calc(1.45rem + 0.3vw), 2rem);
+    --btn-fs: clamp(1.125rem, calc(0.95rem + 0.18vw), 1.3rem);
+    --btn-icon-size: clamp(2rem, calc(1.7rem + 0.3vw), 2.3rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .food__paw { transition: none; }
+  .food__card, .food__paws { translate: none; }
+}
+
+/* Embeds de Instagram (instagram-cards.js): la tarjeta es la ventana; el iframe se escala a su ancho interior */
+.food__card {
+  --ig-natural-w: 400px;   /* ancho natural del embed */
+  --ig-natural-h: 760px;   /* alto natural (lo que sobra abajo queda recortado) */
+  --ig-offset-y: 0px;      /* desplazamiento vertical opcional */
+  --ig-header-offset: 54px;/* IG_HEADER_OFFSET: alto natural de la cabecera del embed (cuenta, logo, Seguir) que se oculta */
+}
+.food__ig-frame {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: var(--ig-natural-w);
+  block-size: var(--ig-natural-h);
+  max-inline-size: none;
+  border: 0;
+  background: var(--color-white);
+  /* Cover del contenido (instagram-cards.js calcula --ig-x/--ig-y/--ig-scale): cabecera y barra inferior quedan fuera */
+  transform: translate(var(--ig-x, 0px), calc(var(--ig-y, 0px) + var(--ig-offset-y))) scale(var(--ig-scale, 1));
+  transform-origin: top left;
+}
+.food__ig-link {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 0.5rem 0.625rem;
+  color: var(--color-white);
+  text-decoration: none;
+}
+/* Degradado oscuro suave abajo para que la etiqueta se lea sobre cualquier imagen */
+.food__ig-link::before {
+  content: "";
+  position: absolute;
+  inset: 55% 0 0;
+  background: linear-gradient(to bottom, rgb(0 0 0 / 0), rgb(0 0 0 / 0.4));
+  pointer-events: none;
+}
+.food__ig-tag {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: var(--fw-semibold);
+  line-height: 1;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.3);
+}
+.food__ig-tag img { inline-size: 1.125rem; block-size: 1.125rem; }
+.food__ig-link:focus-visible { outline: 3px solid var(--color-white); outline-offset: -3px; }
+.food__ig-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 0.5rem;
+  background: #E5EBF3;
+  color: var(--color-navy-900);
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.food__ig-fallback img { inline-size: 2.5rem; block-size: 2.5rem; }
+/* Mobile / sin puntero fino: vista previa sin interacción; la tarjeta entera es el link */
+@media not ((min-width: 75em) and (hover: hover) and (pointer: fine)) {
+  .food__ig-frame { pointer-events: none; }
+}
+/* Desktop: el embed es interactivo; al pasar el mouse la tarjeta sube en el apilamiento y se endereza un poco */
+@media (min-width: 75em) and (hover: hover) and (pointer: fine) {
+  /* Desktop: el embed sigue interactivo; solo la etiqueta @ricocat es clicable y aparece en hover */
+  /* Desktop: el embed sigue interactivo; solo la etiqueta @ricocat es clicable (siempre visible) */
+  .food__ig-link { pointer-events: none; }
+  .food__ig-tag { pointer-events: auto; }
+  .food__card--ig { transition: rotate 0.35s var(--motion-ease-spring), scale 0.35s var(--motion-ease-spring); }
+  .food__card--ig:hover, .food__card--ig:focus-within { z-index: 5; rotate: calc(var(--card-rot) * -0.7); scale: 1.03; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .food__card--ig { transition: none; }
+}

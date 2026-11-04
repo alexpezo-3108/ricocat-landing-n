@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script>(function(){var h=document.documentElement.classList;h.add('js');try{var seen=sessionStorage.getItem('ricocat-hero-intro');if(!seen)h.add('has-preloader');if(!matchMedia('(prefers-reduced-motion: reduce)').matches){h.add('hero-intro','is-intro-pending');if(seen)h.add('hero-intro-short');}}catch(e){}setTimeout(function(){if(h.contains('has-preloader')){h.remove('has-preloader','hero-intro','hero-intro-short','is-intro-pending');}},9000);})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@600;700&display=swap">
+<link rel="preload" as="image" type="image/webp" href="src/assets/images/hero/producto-bolsa-festival-de-sabores-con-sombra-1003.webp" imagesrcset="src/assets/images/hero/producto-bolsa-festival-de-sabores-con-sombra-400.webp 400w, src/assets/images/hero/producto-bolsa-festival-de-sabores-con-sombra-700.webp 700w, src/assets/images/hero/producto-bolsa-festival-de-sabores-con-sombra-1003.webp 1003w" imagesizes="(min-width: 75em) 36vw, 80vw" fetchpriority="high">
+<link rel="stylesheet" href="src/styles/tokens.css">
+<link rel="stylesheet" href="src/styles/base.css">
+<link rel="stylesheet" href="src/styles/motion.css">
+<link rel="stylesheet" href="src/styles/components/button.css">
+<link rel="stylesheet" href="src/styles/components/social.css">
+<link rel="stylesheet" href="src/styles/components/header.css">
+<link rel="stylesheet" href="src/styles/components/menu.css">
+<link rel="stylesheet" href="src/styles/sections/hero.css">
+<link rel="stylesheet" href="src/styles/sections/nutrition-band.css">
+<link rel="stylesheet" href="src/styles/sections/complete-food.css">
+<link rel="stylesheet" href="src/styles/sections/food-types.css">
+<link rel="stylesheet" href="src/styles/sections/life-stage.css">
+<link rel="stylesheet" href="src/styles/sections/store.css">
+<link rel="stylesheet" href="src/styles/components/where-to-buy.css">
+<link rel="stylesheet" href="src/styles/sections/adopt.css">
+<link rel="stylesheet" href="src/styles/components/footer.css">
+<link rel="stylesheet" href="src/styles/components/preloader.css">
+</helmet>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<div class="preloader" data-preloader role="status" aria-live="polite"><span class="visually-hidden">Cargando</span><span class="preloader__pct" aria-hidden="true">0%</span></div>
+<header class="site-header">
+  <a href="#adopta" class="btn btn--light site-header__adopt">Adopta un gatito</a>
+  <nav class="site-header__nav" aria-label="Principal">
+    <ul class="site-header__nav-list" role="list">
+      <li><a href="#alimentos" class="btn btn--nav">Alimentos</a></li>
+      <li><a href="#etapas" class="btn btn--nav">Etapas de vida</a></li>
+      <li><a href="#tienda" class="btn btn--nav">Productos</a></li>
+    </ul>
+  </nav>
+  <ul class="social social--header site-header__social" role="list">
+    <li><a class="icon-btn social__link" href="#" aria-label="Facebook"><span class="icon icon-btn__glyph" aria-hidden="true" data-icon="red-facebook"></span></a></li>
+    <li><a class="icon-btn social__link" href="#" aria-label="Instagram"><span class="icon icon-btn__glyph" aria-hidden="true" data-icon="red-instagram"></span></a></li>
+    <li><a class="icon-btn social__link" href="#" aria-label="YouTube"><span class="icon icon-btn__glyph" aria-hidden="true" data-icon="red-youtube"></span></a></li>
+  </ul>
+  <button type="button" class="icon-btn site-header__menu-toggle" data-menu-open="" aria-haspopup="dialog" aria-controls="menu" aria-expanded="false">
+    <span class="icon icon-btn__glyph" aria-hidden="true" data-icon="icono-menu"></span>
+    <span class="visually-hidden">Abrir menú</span>
+  </button>
+</header>
+<dialog id="menu" class="menu" data-menu="" aria-label="Menú">
+  <div class="menu__panel">
+    <div class="menu__top">
+      <span class="icon menu__logo" role="img" aria-label="Ricocat" data-icon="logo-ricocat-marca-de-agua-mobile"></span>
+      <button type="button" class="icon-btn menu__close" data-menu-close="">
+        <span class="menu__burger" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="visually-hidden">Cerrar menú</span>
+      </button>
+    </div>
+    <nav class="menu__nav" aria-label="Menú móvil">
+      <ul class="menu__list" role="list">
+        <li class="menu__item"><a class="menu__link" href="#alimentos">Alimentos<span class="icon menu__arrow" aria-hidden="true" data-icon="icono-flecha"></span></a></li>
+        <li class="menu__item"><a class="menu__link" href="#etapas">Etapas de vida<span class="icon menu__arrow" aria-hidden="true" data-icon="icono-flecha"></span></a></li>
+        <li class="menu__item"><a class="menu__link" href="#tienda">Productos<span class="icon menu__arrow" aria-hidden="true" data-icon="icono-flecha"></span></a></li>
+        <li class="menu__item"><a class="menu__link" href="#adopta">Adopta un gatito<span class="icon menu__heart" aria-hidden="true" data-icon="icono-corazon"></span><span class="icon menu__arrow" aria-hidden="true" data-icon="icono-flecha"></span></a></li>
+      </ul>
+    </nav>
+    <a href="#tienda" class="btn btn--dark btn--block menu__cta">Dónde comprar</a>
+    <div class="menu__footer">
+      <p class="menu__follow">Síguenos</p>
+      <ul class="social social--menu" role="list">
+        <li><a class="icon-btn social__link" href="#" aria-label="Facebook"><span class="icon icon-btn__glyph" aria-hidden="true" data-icon="red-facebook"></span></a></li>
+        <li><a class="icon-btn social__link" href="#" aria-label="Instagram"><span class="icon icon-btn__glyph" aria-hidden="true" data-icon="red-instagram"></span></a></li>
+        <li><a class="icon-btn social__link" href="#" aria-label="YouTube"><span class="icon icon-btn__glyph" aria-hidden="true" data-icon="red-youtube"></span></a></li>
+      </ul>
+    </div>
+  </div>
+</dialog>
+<main id="contenido">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__decor" aria-hidden="true">
+      <img class="hero__beam hero__beam--1" src="src/assets/svg/haz-de-luz-1.svg" width="170" height="709" alt="" loading="eager" decoding="async">
+      <img class="hero__beam hero__beam--2" src="src/assets/svg/haz-de-luz-2.svg" width="125" height="716" alt="" loading="eager" decoding="async">
+    </div>
+    <div class="hero__brand">
+      <span class="icon hero__logo" aria-hidden="true" data-icon="logo-ricocat"></span>
+    </div>
+    <div class="hero__intro">
+      <h1 id="hero-title" class="hero__title">
+        <span class="visually-hidden">Ricocat: </span>
+        <span class="hero__title-line hero__title-line--1">Nutriendo el<br> vínculo</span>
+        <span class="hero__title-line hero__title-line--2">todos los<br> días</span>
+      </h1>
+      <a href="#tienda" class="btn btn--dark hero__cta">Dónde comprar<span class="btn__icon"><span class="icon" aria-hidden="true" data-icon="icono-flecha-derecha"></span></span></a>
+    </div>
+    <div class="hero__stage-area">
+      <div class="hero__stage">
+        <picture class="hero__item hero__item--product hero__item--esterilizados"><img class="hero__item-img" src="src/assets/images/hero/producto-bolsa-esterilizados-957.webp" srcset="src/assets/images/hero/producto-bolsa-esterilizados-360.webp 360w, src/assets/images/hero/producto-bolsa-esterilizados-560.webp 560w, src/assets/images/hero/producto-bolsa-esterilizados-957.webp 957w" sizes="(min-width: 75em) 34vw, 75vw" width="957" height="931" alt="Bolsa de Ricocat Adultos Esterilizados" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--product hero__item--adultos"><img class="hero__item-img" src="src/assets/images/hero/producto-bolsa-adultos-atun-sardina-y-trucha-871.webp" srcset="src/assets/images/hero/producto-bolsa-adultos-atun-sardina-y-trucha-320.webp 320w, src/assets/images/hero/producto-bolsa-adultos-atun-sardina-y-trucha-520.webp 520w, src/assets/images/hero/producto-bolsa-adultos-atun-sardina-y-trucha-871.webp 871w" sizes="(min-width: 75em) 31vw, 68vw" width="871" height="931" alt="Bolsa de Ricocat Adultos sabor atún, sardina y trucha" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--product hero__item--festival"><img class="hero__item-img" src="src/assets/images/hero/producto-bolsa-festival-de-sabores-con-sombra-1003.webp" srcset="src/assets/images/hero/producto-bolsa-festival-de-sabores-con-sombra-400.webp 400w, src/assets/images/hero/producto-bolsa-festival-de-sabores-con-sombra-700.webp 700w, src/assets/images/hero/producto-bolsa-festival-de-sabores-con-sombra-1003.webp 1003w" sizes="(min-width: 75em) 70vw, 100vw" width="1003" height="1024" alt="Bolsa de Ricocat Adultos Festival de sabores" loading="eager" decoding="sync" fetchpriority="high"></picture>
+        <picture class="hero__item hero__item--ingredient hero__item--floating hero__item--leche"><img class="hero__item-img" src="src/assets/images/hero/ingrediente-leche-369.webp" srcset="src/assets/images/hero/ingrediente-leche-184.webp 184w, src/assets/images/hero/ingrediente-leche-369.webp 369w" sizes="(min-width: 75em) 13vw, 24vw" width="369" height="369" alt="" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--ingredient hero__item--floating hero__item--atun"><img class="hero__item-img" src="src/assets/images/hero/ingrediente-atun-303.webp" srcset="src/assets/images/hero/ingrediente-atun-152.webp 152w, src/assets/images/hero/ingrediente-atun-303.webp 303w" sizes="(min-width: 75em) 10vw, 18vw" width="303" height="303" alt="" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--ingredient hero__item--floating hero__item--carne"><img class="hero__item-img" src="src/assets/images/hero/ingrediente-carne-236.webp" srcset="src/assets/images/hero/ingrediente-carne-118.webp 118w, src/assets/images/hero/ingrediente-carne-236.webp 236w" sizes="(min-width: 75em) 8vw, 15vw" width="236" height="164" alt="" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--product hero__item--lata"><img class="hero__item-img" src="src/assets/images/hero/producto-lata-pate-higado-y-pollo-384.webp" srcset="src/assets/images/hero/producto-lata-pate-higado-y-pollo-192.webp 192w, src/assets/images/hero/producto-lata-pate-higado-y-pollo-384.webp 384w" sizes="(min-width: 75em) 11vw, 25vw" width="384" height="360" alt="Lata de Ricocat Paté sabor hígado y pollo" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--product hero__item--pouch"><img class="hero__item-img" src="src/assets/images/hero/producto-pouch-sabores-marinos-325.webp" srcset="src/assets/images/hero/producto-pouch-sabores-marinos-163.webp 163w, src/assets/images/hero/producto-pouch-sabores-marinos-325.webp 325w" sizes="(min-width: 75em) 11vw, 26vw" width="325" height="398" alt="Pouch de Ricocat Sabores marinos" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--ingredient hero__item--salmon"><img class="hero__item-img" src="src/assets/images/hero/ingrediente-salmon-320.webp" srcset="src/assets/images/hero/ingrediente-salmon-160.webp 160w, src/assets/images/hero/ingrediente-salmon-320.webp 320w" sizes="(min-width: 75em) 12vw, 21vw" width="320" height="320" alt="" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--ingredient hero__item--trucha"><img class="hero__item-img" src="src/assets/images/hero/ingrediente-trucha-280.webp" srcset="src/assets/images/hero/ingrediente-trucha-140.webp 140w, src/assets/images/hero/ingrediente-trucha-280.webp 280w" sizes="(min-width: 75em) 9vw, 14vw" width="280" height="94" alt="" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--ingredient hero__item--arvejas"><img class="hero__item-img" src="src/assets/images/hero/ingredientes-arvejas-y-zanahorias-226.webp" srcset="src/assets/images/hero/ingredientes-arvejas-y-zanahorias-113.webp 113w, src/assets/images/hero/ingredientes-arvejas-y-zanahorias-226.webp 226w" sizes="(min-width: 75em) 8vw, 13vw" width="226" height="76" alt="" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--ingredient hero__item--floating hero__item--arveja-a"><img class="hero__item-img" src="src/assets/images/hero/ingrediente-arveja-90.webp" srcset="src/assets/images/hero/ingrediente-arveja-45.webp 45w, src/assets/images/hero/ingrediente-arveja-90.webp 90w" sizes="(min-width: 75em) 2vw, 5vw" width="90" height="88" alt="" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--ingredient hero__item--floating hero__item--arveja-b"><img class="hero__item-img" src="src/assets/images/hero/ingrediente-arveja-90.webp" srcset="src/assets/images/hero/ingrediente-arveja-45.webp 45w, src/assets/images/hero/ingrediente-arveja-90.webp 90w" sizes="(min-width: 75em) 3vw, 6vw" width="90" height="88" alt="" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--ingredient hero__item--floating hero__item--maiz-a"><img class="hero__item-img" src="src/assets/images/hero/ingrediente-maiz-32.webp" srcset="src/assets/images/hero/ingrediente-maiz-32.webp 32w" sizes="32px" width="32" height="36" alt="" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--ingredient hero__item--floating hero__item--maiz-b"><img class="hero__item-img" src="src/assets/images/hero/ingrediente-maiz-32.webp" srcset="src/assets/images/hero/ingrediente-maiz-32.webp 32w" sizes="32px" width="32" height="36" alt="" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--ingredient hero__item--floating hero__item--maiz-c"><img class="hero__item-img" src="src/assets/images/hero/ingrediente-maiz-32.webp" srcset="src/assets/images/hero/ingrediente-maiz-32.webp 32w" sizes="32px" width="32" height="36" alt="" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--ingredient hero__item--floating hero__item--maiz-d"><img class="hero__item-img" src="src/assets/images/hero/ingrediente-maiz-32.webp" srcset="src/assets/images/hero/ingrediente-maiz-32.webp 32w" sizes="32px" width="32" height="36" alt="" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--ingredient hero__item--floating hero__item--arveja-c"><img class="hero__item-img" src="src/assets/images/hero/ingrediente-arveja-90.webp" srcset="src/assets/images/hero/ingrediente-arveja-45.webp 45w, src/assets/images/hero/ingrediente-arveja-90.webp 90w" sizes="(min-width: 75em) 3vw, 6vw" width="90" height="88" alt="" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--ingredient hero__item--floating hero__item--arveja-d"><img class="hero__item-img" src="src/assets/images/hero/ingrediente-arveja-90.webp" srcset="src/assets/images/hero/ingrediente-arveja-45.webp 45w, src/assets/images/hero/ingrediente-arveja-90.webp 90w" sizes="(min-width: 75em) 3vw, 6vw" width="90" height="88" alt="" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--ingredient hero__item--floating hero__item--maiz-e"><img class="hero__item-img" src="src/assets/images/hero/ingrediente-maiz-32.webp" srcset="src/assets/images/hero/ingrediente-maiz-32.webp 32w" sizes="32px" width="32" height="36" alt="" loading="eager" decoding="async"></picture>
+        <picture class="hero__item hero__item--ingredient hero__item--floating hero__item--maiz-f"><img class="hero__item-img" src="src/assets/images/hero/ingrediente-maiz-32.webp" srcset="src/assets/images/hero/ingrediente-maiz-32.webp 32w" sizes="32px" width="32" height="36" alt="" loading="eager" decoding="async"></picture>
+      </div>
+    </div>
+    <section class="hero__benefits benefits" data-carousel="" data-interval="3000" aria-roledescription="carrusel" aria-label="Beneficios de Ricocat">
+      <ul class="benefits__track" data-carousel-track="" role="list">
+        <li class="benefit" aria-roledescription="diapositiva" aria-label="1 de 3"><span class="icon benefit__icon" aria-hidden="true" data-icon="icono-previene-calculos-urinarios"></span><p class="benefit__label"><span class="benefit__line">Previene cálculos</span> <span class="benefit__line">urinarios</span></p></li>
+        <li class="benefit" aria-roledescription="diapositiva" aria-label="2 de 3"><span class="icon benefit__icon" aria-hidden="true" data-icon="icono-corazon-sano"></span><p class="benefit__label"><span class="benefit__line">Corazón</span> <span class="benefit__line">sano y fuerte</span></p></li>
+        <li class="benefit" aria-roledescription="diapositiva" aria-label="3 de 3"><span class="icon benefit__icon" aria-hidden="true" data-icon="icono-control-bolas-de-pelo"></span><p class="benefit__label"><span class="benefit__line">Control de bolas</span> <span class="benefit__line">de pelo</span></p></li>
+      </ul>
+      <div class="benefits__dots">
+        <button type="button" class="benefits__dot" data-carousel-dot="" aria-label="Ver beneficio 1: Previene cálculos urinarios" aria-current="true"></button>
+        <button type="button" class="benefits__dot" data-carousel-dot="" aria-label="Ver beneficio 2: Corazón sano y fuerte" aria-current="false"></button>
+        <button type="button" class="benefits__dot" data-carousel-dot="" aria-label="Ver beneficio 3: Control de bolas de pelo" aria-current="false"></button>
+      </div>
+    </section>
+  </section>
+  <div class="band" data-scroll-band="">
+    <p class="visually-hidden">Nutrición completa</p>
+    <div class="band__track" data-scroll-band-track="" aria-hidden="true">
+      <span class="band__text">Nutrición completa</span><span class="icon band__fish" aria-hidden="true" data-icon="icono-pez"></span>
+      <span class="band__text">Nutrición completa</span><span class="icon band__fish" aria-hidden="true" data-icon="icono-pez"></span>
+      <span class="band__text">Nutrición completa</span><span class="icon band__fish" aria-hidden="true" data-icon="icono-pez"></span>
+      <span class="band__text">Nutrición completa</span><span class="icon band__fish" aria-hidden="true" data-icon="icono-pez"></span>
+      <span class="band__text">Nutrición completa</span><span class="icon band__fish" aria-hidden="true" data-icon="icono-pez"></span>
+      <span class="band__text">Nutrición completa</span><span class="icon band__fish" aria-hidden="true" data-icon="icono-pez"></span>
+      <span class="band__text">Nutrición completa</span><span class="icon band__fish" aria-hidden="true" data-icon="icono-pez"></span>
+      <span class="band__text">Nutrición completa</span><span class="icon band__fish" aria-hidden="true" data-icon="icono-pez"></span>
+      <span class="band__text">Nutrición completa</span><span class="icon band__fish" aria-hidden="true" data-icon="icono-pez"></span>
+      <span class="band__text">Nutrición completa</span><span class="icon band__fish" aria-hidden="true" data-icon="icono-pez"></span>
+      <span class="band__text">Nutrición completa</span><span class="icon band__fish" aria-hidden="true" data-icon="icono-pez"></span>
+      <span class="band__text">Nutrición completa</span><span class="icon band__fish" aria-hidden="true" data-icon="icono-pez"></span>
+      <span class="band__text">Nutrición completa</span><span class="icon band__fish" aria-hidden="true" data-icon="icono-pez"></span>
+      <span class="band__text">Nutrición completa</span><span class="icon band__fish" aria-hidden="true" data-icon="icono-pez"></span>
+      <span class="band__text">Nutrición completa</span><span class="icon band__fish" aria-hidden="true" data-icon="icono-pez"></span>
+      <span class="band__text">Nutrición completa</span><span class="icon band__fish" aria-hidden="true" data-icon="icono-pez"></span>
+    </div>
+  </div>
+  <section id="alimentos" class="food" aria-labelledby="food-title" data-food="">
+    <h2 id="food-title" class="food__title">
+      <span class="food__title-line">Alimento 100% completo y</span>
+      <span class="food__title-line food__title-line--2">balanceado con Ricocat</span>
+    </h2>
+    <div class="food__body">
+      <div class="food__table">
+        <div class="food__paws" aria-hidden="true">
+          <span class="food__paw food__paw--rest" style="--x: 14%; --y: 5%" data-paw="" data-paw-rest=""><span class="icon" aria-hidden="true" data-icon="huella"></span></span>
+          <span class="food__paw food__paw--rest" style="--x: 45%; --y: 9%" data-paw="" data-paw-rest=""><span class="icon" aria-hidden="true" data-icon="huella"></span></span>
+          <span class="food__paw food__paw--rest" style="--x: 49%; --y: 21%" data-paw="" data-paw-rest=""><span class="icon" aria-hidden="true" data-icon="huella"></span></span>
+          <span class="food__paw food__paw--rest" style="--x: 78%; --y: 90%" data-paw="" data-paw-rest=""><span class="icon" aria-hidden="true" data-icon="huella"></span></span>
+          <span class="food__paw food__paw--rest" style="--x: 12%; --y: 84%" data-paw="" data-paw-rest=""><span class="icon" aria-hidden="true" data-icon="huella"></span></span>
+        </div>
+        <figure class="food__card food__card--1" aria-hidden="true"></figure>
+        <figure class="food__card food__card--2" aria-hidden="true"></figure>
+        <figure class="food__card food__card--3" aria-hidden="true"></figure>
+      </div>
+      <div class="food__content">
+        <p class="food__lead">Proteínas de alta calidad, vitaminas y minerales que fortalecen sus defensas. Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem</p>
+        <p class="food__text">Proteínas de alta calidad, vitaminas y minerales que fortalecen sus defensas, cuidan su corazón y ayudan a prevenir cálculos urinarios. Lorem Ipsum, Lorem Ipsum Lorem Ipsum Lorem Ipsum</p>
+        <div class="food__actions">
+          <a href="#tienda" class="btn btn--dark food__cta">Dónde comprar<span class="btn__icon"><span class="icon" aria-hidden="true" data-icon="icono-flecha-derecha"></span></span></a>
+          <ul class="food__kibbles" role="list" aria-hidden="true">
+            <li class="food__kibble food__kibble--pez"><img src="src/assets/images/croqueta-pez.png" width="186" height="180" alt="" loading="lazy" decoding="async"></li>
+            <li class="food__kibble food__kibble--triangulo"><img src="src/assets/images/croqueta-triangulo.png" width="86" height="88" alt="" loading="lazy" decoding="async"></li>
+            <li class="food__kibble food__kibble--cruz"><img src="src/assets/images/croqueta-cruz.png" width="100" height="94" alt="" loading="lazy" decoding="async"></li>
+            <li class="food__kibble food__kibble--corazon"><img src="src/assets/images/croqueta-corazon.png" width="86" height="88" alt="" loading="lazy" decoding="async"></li>
+            <li class="food__kibble food__kibble--redonda"><img src="src/assets/images/croqueta-redonda.png" width="82" height="84" alt="" loading="lazy" decoding="async"></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="tipos" class="types" aria-labelledby="types-title" data-types="">
+    <h2 id="types-title" class="visually-hidden">Tipos de alimento: seco, húmedo y mix</h2>
+    <div class="types__stage">
+      <div class="types__pin types__pin--plate types__plate" data-plate="" data-plate-seq="public/plate-seq/" data-plate-frames="376" aria-hidden="true">
+        <img class="types__plate-img" src="src/assets/images/plato-ref-entrada.png" style="--iw: 378" alt="" loading="lazy" decoding="async" data-plate-frame="entrada">
+        <img class="types__plate-img" src="src/assets/images/plato-ref-seco.png" style="--iw: 621" alt="" loading="lazy" decoding="async" data-plate-frame="seco">
+        <img class="types__plate-img" src="src/assets/images/plato-ref-humedo.png" style="--iw: 624" alt="" loading="lazy" decoding="async" data-plate-frame="humedo">
+        <img class="types__plate-img" src="src/assets/images/plato-ref-mix.png" style="--iw: 558" alt="" loading="lazy" decoding="async" data-plate-frame="mix">
+      </div>
+      <article class="types__moment types__moment--seco" aria-labelledby="types-seco">
+        <div class="types__pin types__pin--plate types__moment-plate" aria-hidden="true"><img class="types__plate-img" src="src/assets/images/plato-ref-seco.png" style="--iw: 621" alt="" loading="lazy" decoding="async"></div>
+        <div class="types__pin types__pin--card types__anim types__anim--lead" data-types-anim="" data-group="seco" data-stagger="0" style="--px: 1103; --py: 314; --mpx: 187.5; --mpy: 452; --dy: 90; --rot: 4deg; --sc: 0.06">
+          <div class="types__pin-body types__card" style="--card-tilt: -1deg">
+            <span class="types__card-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-alimento-seco"></span></span>
+            <h3 id="types-seco" class="types__card-title">Alimento seco</h3>
+            <p class="types__card-sub">La base de su alimentación diaria</p>
+            <p class="types__card-text">Croquetas crocantes con nutrición 100% completa y balanceada. Ayuda al control de cálculos urinarios, controla las bolas de pelo y cuida su corazón sano y fuerte.</p>
+          </div>
+        </div>
+        <ul class="types__list" role="list" aria-label="Beneficios">
+          <li class="types__pin types__pin--benefit types__anim types__anim--pop" data-types-anim="" data-group="seco" data-stagger="0" style="--px: 438; --py: 240; --mpx: 75; --mpy: 630; --dx: -10; --dy: 30; --rot: -14deg; --sc: 0.5">
+            <div class="types__pin-body types__benefit">
+              <span class="types__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-tipos-previene-calculos"></span></span>
+              <p class="types__benefit-label"><strong>Previene</strong> cálculos urinarios</p>
+            </div>
+          </li>
+          <li class="types__pin types__pin--benefit types__anim types__anim--pop" data-types-anim="" data-group="seco" data-stagger="0.4" style="--px: 392; --py: 405; --mpx: 187.5; --mpy: 630; --dx: -10; --dy: 30; --rot: -14deg; --sc: 0.5">
+            <div class="types__pin-body types__benefit">
+              <span class="types__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-tipos-corazon-sano"></span></span>
+              <p class="types__benefit-label"><strong>Corazón</strong> sano y fuerte</p>
+            </div>
+          </li>
+          <li class="types__pin types__pin--benefit types__anim types__anim--pop" data-types-anim="" data-group="seco" data-stagger="0.8" style="--px: 438; --py: 570; --mpx: 300; --mpy: 630; --dx: -10; --dy: 30; --rot: -14deg; --sc: 0.5">
+            <div class="types__pin-body types__benefit">
+              <span class="types__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-tipos-control-bolas-de-pelo"></span></span>
+              <p class="types__benefit-label"><strong>Control</strong> de bolas de pelo</p>
+            </div>
+          </li>
+        </ul>
+      </article>
+      <article class="types__moment types__moment--humedo" aria-labelledby="types-humedo">
+        <div class="types__pin types__pin--plate types__moment-plate" aria-hidden="true"><img class="types__plate-img" src="src/assets/images/plato-ref-humedo.png" style="--iw: 624" alt="" loading="lazy" decoding="async"></div>
+        <div class="types__pin types__pin--card types__anim types__anim--lead" data-types-anim="" data-group="humedo" data-stagger="0" style="--px: 336; --py: 314; --mpx: 187.5; --mpy: 452; --dy: 90; --rot: -4deg; --sc: 0.06">
+          <div class="types__pin-body types__card" style="--card-tilt: 1deg">
+            <span class="types__card-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-alimento-humedo"></span></span>
+            <h3 id="types-humedo" class="types__card-title">Alimento húmedo</h3>
+            <p class="types__card-sub">El complemento que más disfruta</p>
+            <p class="types__card-text">Trocitos en salsa, filetitos y paté cocidos al vapor, con proteínas de alta calidad, vitaminas y minerales. Textura jugosa que complementa su hidratación y es fácil de comer y digerir.</p>
+          </div>
+        </div>
+        <ul class="types__list" role="list" aria-label="Variedades">
+          <li class="types__pin types__pin--chip types__anim types__anim--pop" data-types-anim="" data-group="humedo" data-stagger="0.3" style="--chip-x: -83; --chip-y: -111; --dy: 12; --rot: 10deg; --sc: 1"><span class="types__pin-body types__chip">Paté</span></li>
+          <li class="types__pin types__pin--chip types__anim types__anim--pop" data-types-anim="" data-group="humedo" data-stagger="0.5" style="--chip-x: 80; --chip-y: -91; --dy: 12; --rot: 10deg; --sc: 1"><span class="types__pin-body types__chip">Trocitos</span></li>
+          <li class="types__pin types__pin--chip types__anim types__anim--pop" data-types-anim="" data-group="humedo" data-stagger="0.7" style="--chip-x: -19; --chip-y: 19; --dy: 12; --rot: 10deg; --sc: 1"><span class="types__pin-body types__chip">Pouch</span></li>
+        </ul>
+        <ul class="types__list" role="list" aria-label="Beneficios">
+          <li class="types__pin types__pin--benefit types__anim types__anim--pop" data-types-anim="" data-group="humedo" data-stagger="0" style="--px: 971; --py: 220; --mpx: 50; --mpy: 630; --dx: 10; --dy: 30; --rot: 14deg; --sc: 0.5">
+            <div class="types__pin-body types__benefit">
+              <span class="types__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-hidratacion"></span></span>
+              <p class="types__benefit-label"><strong>Complementa</strong> su hidratación</p>
+            </div>
+          </li>
+          <li class="types__pin types__pin--benefit types__anim types__anim--pop" data-types-anim="" data-group="humedo" data-stagger="0.27" style="--px: 1049; --py: 372; --mpx: 141; --mpy: 630; --dx: 10; --dy: 30; --rot: 14deg; --sc: 0.5">
+            <div class="types__pin-body types__benefit">
+              <span class="types__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-rico-en-nutrientes"></span></span>
+              <p class="types__benefit-label"><strong>Rico en</strong> nutrientes</p>
+            </div>
+          </li>
+          <li class="types__pin types__pin--benefit types__anim types__anim--pop" data-types-anim="" data-group="humedo" data-stagger="0.53" style="--px: 1049; --py: 548; --mpx: 234; --mpy: 630; --dx: 10; --dy: 30; --rot: 14deg; --sc: 0.5">
+            <div class="types__pin-body types__benefit">
+              <span class="types__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-facil-digestion"></span></span>
+              <p class="types__benefit-label"><strong>Fácil</strong> digestión</p>
+            </div>
+          </li>
+          <li class="types__pin types__pin--benefit types__anim types__anim--pop" data-types-anim="" data-group="humedo" data-stagger="0.8" style="--px: 961; --py: 700; --mpx: 325; --mpy: 630; --dx: 10; --dy: 30; --rot: 14deg; --sc: 0.5">
+            <div class="types__pin-body types__benefit">
+              <span class="types__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-coccion-al-vapor"></span></span>
+              <p class="types__benefit-label"><strong>Cocción</strong> al vapor</p>
+            </div>
+          </li>
+        </ul>
+      </article>
+      <article class="types__moment types__moment--mix" aria-labelledby="types-mix">
+        <div class="types__pin types__pin--plate types__moment-plate" aria-hidden="true"><img class="types__plate-img" src="src/assets/images/plato-ref-mix.png" style="--iw: 558" alt="" loading="lazy" decoding="async"></div>
+        <div class="types__pin types__anim types__anim--lead" data-types-anim="" data-group="mix" data-stagger="0" style="--px: 720; --py: 188; --mpx: 187.5; --mpy: 150; --dy: 90; --sc: 0.06">
+          <h3 id="types-mix" class="types__pin-body types__mix-title"><span class="types__mix-line">La combinación completa,</span> <span class="types__mix-line types__mix-line--2">seco y húmedo en un mismo plato</span></h3>
+        </div>
+        <div class="types__pin types__anim types__anim--pop" data-types-anim="" data-group="mix" data-stagger="0.3" style="--px: 391; --py: 465; --mpx: 60; --mpy: 400; --dy: 20; --rot: 90deg; --sc: 1" aria-hidden="true"><img class="types__pin-body types__sparkle" src="src/assets/svg/sparkle.svg" width="24" height="24" alt=""></div>
+        <div class="types__pin types__anim types__anim--pop" data-types-anim="" data-group="mix" data-stagger="0.5" style="--px: 980; --py: 385; --mpx: 330; --mpy: 360; --dy: 20; --rot: 90deg; --sc: 1" aria-hidden="true"><img class="types__pin-body types__sparkle" src="src/assets/svg/sparkle.svg" width="24" height="24" alt=""></div>
+        <div class="types__pin types__anim types__anim--pop" data-types-anim="" data-group="mix" data-stagger="0.7" style="--px: 928; --py: 792; --mpx: 300; --mpy: 610; --dy: 20; --rot: 90deg; --sc: 1" aria-hidden="true"><img class="types__pin-body types__sparkle" src="src/assets/svg/sparkle.svg" width="24" height="24" alt=""></div>
+      </article>
+    </div>
+  </section>
+  <div id="etapas">
+  <section id="etapa-gatitos" class="stage" style="--name-chars: 7" data-stage="" data-palette="rosa" aria-labelledby="stage-gatitos-title">
+    <div class="stage__card">
+      <div class="stage__beams" aria-hidden="true">
+        <img class="stage__beam stage__beam--1" src="src/assets/svg/haz-de-luz-1.svg" width="170" height="709" alt="" loading="lazy">
+        <img class="stage__beam stage__beam--2" src="src/assets/svg/haz-de-luz-2.svg" width="125" height="716" alt="" loading="lazy">
+      </div>
+      <h2 id="stage-gatitos-title" class="stage__name">Gatitos</h2>
+      <div class="stage__flavor" data-flavor="" data-flavor-id="carne-pescado-leche" data-palette="rosa">
+        <div class="stage__art">
+          <img class="stage__item stage__item--bag" src="src/assets/images/stages/gatitos/bolsa.png" width="480" height="792" alt="Bolsa de Ricocat Gatitos sabor carne, pescado y leche" loading="lazy">
+          <img class="stage__item stage__item--pate" src="src/assets/images/stages/gatitos/lata-pate.png" width="360" height="272" alt="Lata de Ricocat Gatitos paté sabor pollo y carne" loading="lazy">
+          <img class="stage__item stage__item--pouch" src="src/assets/images/stages/gatitos/pouch.png" width="244" height="368" alt="Pouch de Ricocat Gatitos trocitos en salsa sabor carne" loading="lazy">
+          <img class="stage__item stage__item--trocitos" src="src/assets/images/stages/gatitos/lata-trocitos.png" width="280" height="218" alt="Lata de Ricocat Gatitos trocitos en salsa sabor carne" loading="lazy">
+          <img class="stage__item stage__item--cat" src="src/assets/images/stages/gatitos/gato.png" width="222" height="222" alt="Gatito atigrado de pie junto a los productos" loading="lazy">
+          <span class="stage__kibble stage__kibble--1" aria-hidden="true"><img src="src/assets/images/stages/gatitos/croqueta-1.png" width="36" height="34" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--2" aria-hidden="true"><img src="src/assets/images/stages/gatitos/croqueta-2.png" width="52" height="51" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--3" aria-hidden="true"><img src="src/assets/images/stages/gatitos/croqueta-3.png" width="128" height="120" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--4" aria-hidden="true"><img src="src/assets/images/stages/gatitos/croqueta-4.png" width="102" height="96" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--5" aria-hidden="true"><img src="src/assets/images/stages/gatitos/croqueta-5.png" width="54" height="48" alt="" loading="lazy"></span>
+        </div>
+        <div class="stage__info">
+          <h3 class="stage__flavor-name">Carne, pescado y leche</h3>
+          <p class="stage__desc">Fórmula premium para que crezca fuerte y sano en sus primeros meses.</p>
+          <button type="button" class="btn btn--stage stage__cta" data-store-trigger="" data-stores="gatitos" data-stage="gatitos" data-flavor-id="carne-pescado-leche">Ver producto</button>
+        </div>
+      </div>
+      <ul class="stage__benefits" role="list" aria-label="Beneficios de Ricocat Gatitos">
+        <li class="stage__benefit"><span class="stage__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-formacion-osea-muscular"></span></span><p class="stage__benefit-text"><strong>Formación</strong> ósea y muscular</p></li>
+        <li class="stage__benefit"><span class="stage__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-desarrollo-cerebro-vision"></span></span><p class="stage__benefit-text"><strong>Desarrollo</strong> cerebro y visión</p></li>
+        <li class="stage__benefit"><span class="stage__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-optima-digestion"></span></span><p class="stage__benefit-text"><strong>Óptima</strong> digestión</p></li>
+        <li class="stage__benefit"><span class="stage__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-sistema-inmunologico"></span></span><p class="stage__benefit-text"><strong>Sistema</strong> inmunológico reforzado</p></li>
+      </ul>
+    </div>
+  </section>
+  <section id="etapa-adultos" class="stage stage--multi" style="--name-chars: 7" data-stage="" data-palette="azul" aria-labelledby="stage-adultos-title">
+    <div class="stage__card">
+      <div class="stage__beams" aria-hidden="true">
+        <img class="stage__beam stage__beam--1" src="src/assets/svg/haz-de-luz-1.svg" width="170" height="709" alt="" loading="lazy">
+        <img class="stage__beam stage__beam--2" src="src/assets/svg/haz-de-luz-2.svg" width="125" height="716" alt="" loading="lazy">
+      </div>
+      <h2 id="stage-adultos-title" class="stage__name">Adultos</h2>
+      <div class="stage__flavor" data-flavor="" data-flavor-id="atun-sardina-trucha" data-active="true" data-palette="azul">
+        <div class="stage__art">
+          <img class="stage__item stage__item--bag" src="src/assets/images/stages/adultos-atun/bolsa.png" alt="Bolsa de Ricocat Adultos sabor atún, sardina y trucha" loading="lazy">
+          <img class="stage__item stage__item--pate" src="src/assets/images/stages/adultos-atun/lata-pate.png" alt="Lata de Ricocat Adultos paté" loading="lazy">
+          <img class="stage__item stage__item--pouch" src="src/assets/images/stages/adultos-atun/pouch.png" alt="Pouch de Ricocat Adultos trocitos en salsa" loading="lazy">
+          <img class="stage__item stage__item--trocitos" src="src/assets/images/stages/adultos-atun/lata-trocitos.png" alt="Lata de Ricocat Adultos trocitos en salsa" loading="lazy">
+          <img class="stage__item stage__item--cat" src="src/assets/images/stages/adultos-atun/gato.png" alt="Gato gris de ojos azules caminando junto a los productos" style="--x: -26.5; --y: 136.1; --w: 329.4" loading="lazy">
+          <span class="stage__kibble stage__kibble--1" aria-hidden="true"><img src="src/assets/images/stages/adultos-atun/k-pez-naranja.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--2" aria-hidden="true"><img src="src/assets/images/stages/adultos-atun/k-triangulo.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--3" aria-hidden="true"><img src="src/assets/images/stages/adultos-atun/k-pez-rojo.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--4" aria-hidden="true"><img src="src/assets/images/stages/adultos-atun/k-pez-marron.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--5" aria-hidden="true"><img src="src/assets/images/stages/adultos-atun/k-cruz.png" alt="" loading="lazy"></span>
+        </div>
+        <div class="stage__info">
+          <h3 class="stage__flavor-name">Atún, sardina y trucha</h3>
+          <p class="stage__desc">Alimento 100% completo y balanceado, con el sabor que más disfruta.</p>
+          <button type="button" class="btn btn--stage stage__cta" data-store-trigger="" data-stores="adultos" data-stage="adultos" data-flavor-id="atun-sardina-trucha">Ver producto</button>
+        </div>
+      </div>
+      <div class="stage__flavor" data-flavor="" data-flavor-id="festival-de-sabores" data-active="false" data-palette="morado" hidden="">
+        <div class="stage__art">
+          <img class="stage__item stage__item--bag" src="src/assets/images/stages/adultos-festival/bolsa.png" alt="Bolsa de Ricocat Adultos sabor festival de sabores" loading="lazy">
+          <img class="stage__item stage__item--pate" src="src/assets/images/stages/adultos-festival/lata-pate.png" alt="Lata de Ricocat Adultos paté" loading="lazy">
+          <img class="stage__item stage__item--pouch" src="src/assets/images/stages/adultos-festival/pouch.png" alt="Pouch de Ricocat Adultos trocitos en salsa" loading="lazy">
+          <img class="stage__item stage__item--trocitos" src="src/assets/images/stages/adultos-festival/lata-trocitos.png" alt="Lata de Ricocat Adultos trocitos en salsa" loading="lazy">
+          <img class="stage__item stage__item--cat" src="src/assets/images/stages/adultos-festival/gato.png" alt="Gato atigrado naranja caminando junto a los productos" style="--x: -16.8; --y: 166.3; --w: 265" loading="lazy">
+          <span class="stage__kibble stage__kibble--1" aria-hidden="true"><img src="src/assets/images/stages/adultos-festival/k-tambor.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--2" aria-hidden="true"><img src="src/assets/images/stages/adultos-festival/k-y.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--3" aria-hidden="true"><img src="src/assets/images/stages/adultos-festival/k-pez-rojo.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--4" aria-hidden="true"><img src="src/assets/images/stages/adultos-festival/k-pez-marron.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--5" aria-hidden="true"><img src="src/assets/images/stages/adultos-festival/k-redonda.png" alt="" loading="lazy"></span>
+        </div>
+        <div class="stage__info">
+          <h3 class="stage__flavor-name">Festival de sabores</h3>
+          <p class="stage__desc">Alimento 100% completo y balanceado, con el sabor que más disfruta.</p>
+          <button type="button" class="btn btn--stage stage__cta" data-store-trigger="" data-stores="adultos" data-stage="adultos" data-flavor-id="festival-de-sabores">Ver producto</button>
+        </div>
+      </div>
+      <div class="stage__flavor" data-flavor="" data-flavor-id="pollo-sardina-salmon" data-active="false" data-palette="naranja" hidden="">
+        <div class="stage__art">
+          <img class="stage__item stage__item--bag" src="src/assets/images/stages/adultos-pollo/bolsa.png" alt="Bolsa de Ricocat Adultos sabor pollo, sardina y salmón" loading="lazy">
+          <img class="stage__item stage__item--pate" src="src/assets/images/stages/adultos-pollo/lata-pate.png" alt="Lata de Ricocat Adultos paté" loading="lazy">
+          <img class="stage__item stage__item--pouch" src="src/assets/images/stages/adultos-pollo/pouch.png" alt="Pouch de Ricocat Adultos trocitos en salsa" loading="lazy">
+          <img class="stage__item stage__item--trocitos" src="src/assets/images/stages/adultos-pollo/lata-trocitos.png" alt="Lata de Ricocat Adultos trocitos en salsa" loading="lazy">
+          <img class="stage__item stage__item--cat" src="src/assets/images/stages/adultos-pollo/gato.png" alt="Gato atigrado gris de pie junto a los productos" style="--x: -8.3; --y: 150.9; --w: 260.2" loading="lazy">
+          <span class="stage__kibble stage__kibble--1" aria-hidden="true"><img src="src/assets/images/stages/adultos-pollo/k-tambor.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--2" aria-hidden="true"><img src="src/assets/images/stages/adultos-pollo/k-y.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--3" aria-hidden="true"><img src="src/assets/images/stages/adultos-pollo/k-pez-rojo.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--4" aria-hidden="true"><img src="src/assets/images/stages/adultos-pollo/k-pez-marron.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--5" aria-hidden="true"><img src="src/assets/images/stages/adultos-pollo/k-redonda.png" alt="" loading="lazy"></span>
+        </div>
+        <div class="stage__info">
+          <h3 class="stage__flavor-name">Pollo, sardina y salmón</h3>
+          <p class="stage__desc">Alimento 100% completo y balanceado, con el sabor que más disfruta.</p>
+          <button type="button" class="btn btn--stage stage__cta" data-store-trigger="" data-stores="adultos" data-stage="adultos" data-flavor-id="pollo-sardina-salmon">Ver producto</button>
+        </div>
+      </div>
+      <div class="stage__flavor" data-flavor="" data-flavor-id="carne-salmon-leche" data-active="false" data-palette="guinda" hidden="">
+        <div class="stage__art">
+          <img class="stage__item stage__item--bag" src="src/assets/images/stages/adultos-carne/bolsa.png" alt="Bolsa de Ricocat Adultos sabor carne, salmón y leche" loading="lazy">
+          <img class="stage__item stage__item--pate" src="src/assets/images/stages/adultos-carne/lata-pate.png" alt="Lata de Ricocat Adultos paté sabor carne" loading="lazy">
+          <img class="stage__item stage__item--pouch" src="src/assets/images/stages/adultos-carne/pouch.png" alt="Pouch de Ricocat Adultos trocitos en salsa sabor salmón" loading="lazy">
+          <img class="stage__item stage__item--trocitos" src="src/assets/images/stages/adultos-carne/lata-trocitos.png" alt="Lata de Ricocat Adultos trocitos en salsa" loading="lazy">
+          <img class="stage__item stage__item--cat" src="src/assets/images/stages/adultos-carne/gato.png" alt="Gato naranja y blanco de pie junto a los productos" style="--x: -42.3; --y: 160.8; --w: 265" loading="lazy">
+          <span class="stage__kibble stage__kibble--1" aria-hidden="true"><img src="src/assets/images/stages/adultos-carne/k-corazon.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--2" aria-hidden="true"><img src="src/assets/images/stages/adultos-carne/k-cruz.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--3" aria-hidden="true"><img src="src/assets/images/stages/adultos-carne/k-pez-rojo.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--4" aria-hidden="true"><img src="src/assets/images/stages/adultos-carne/k-pez-amarillo.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--5" aria-hidden="true"><img src="src/assets/images/stages/adultos-carne/k-redonda.png" alt="" loading="lazy"></span>
+        </div>
+        <div class="stage__info">
+          <h3 class="stage__flavor-name">Carne, salmón y leche</h3>
+          <p class="stage__desc">Alimento 100% completo y balanceado, con el sabor que más disfruta.</p>
+          <button type="button" class="btn btn--stage stage__cta" data-store-trigger="" data-stores="adultos" data-stage="adultos" data-flavor-id="carne-salmon-leche">Ver producto</button>
+        </div>
+      </div>
+      <div class="stage__picker" role="group" aria-label="Cambiar sabor">
+        <button type="button" class="stage__arrow" data-flavor-step="-1" aria-label="Sabor anterior"><span class="icon" aria-hidden="true" data-icon="icono-chevron"></span></button>
+        <span class="visually-hidden" data-flavor-count="" aria-live="polite">Sabor 1 de 4: Atún, sardina y trucha</span>
+        <button type="button" class="stage__arrow stage__arrow--next" data-flavor-step="1" aria-label="Sabor siguiente"><span class="icon" aria-hidden="true" data-icon="icono-chevron"></span></button>
+      </div>
+      <ul class="stage__benefits" role="list" aria-label="Beneficios de Ricocat Adultos">
+        <li class="stage__benefit"><span class="stage__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-tipos-optima-vision"></span></span><p class="stage__benefit-text"><strong>Óptima</strong> visión</p></li>
+        <li class="stage__benefit"><span class="stage__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-tipos-piel-sana"></span></span><p class="stage__benefit-text"><strong>Piel sana</strong> y pelo brillante</p></li>
+        <li class="stage__benefit"><span class="stage__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-tipos-control-bolas-de-pelo"></span></span><p class="stage__benefit-text"><strong>Control</strong> de bolas de pelo</p></li>
+        <li class="stage__benefit"><span class="stage__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-tipos-previene-calculos"></span></span><p class="stage__benefit-text"><strong>Previene</strong> cálculos urinarios</p></li>
+      </ul>
+    </div>
+  </section>
+  <section id="etapa-esterilizados" class="stage stage--duo" style="--name-chars: 13" data-stage="" data-palette="marron" aria-labelledby="stage-esterilizados-title">
+    <div class="stage__card">
+      <div class="stage__beams" aria-hidden="true">
+        <img class="stage__beam stage__beam--1" src="src/assets/svg/haz-de-luz-1.svg" width="170" height="709" alt="" loading="lazy">
+        <img class="stage__beam stage__beam--2" src="src/assets/svg/haz-de-luz-2.svg" width="125" height="716" alt="" loading="lazy">
+      </div>
+      <h2 id="stage-esterilizados-title" class="stage__name">Esterilizados</h2>
+      <div class="stage__flavor" data-flavor="" data-flavor-id="receta-unica" data-active="true" data-palette="marron">
+        <div class="stage__art">
+          <img class="stage__item stage__item--bag" src="src/assets/images/stages/esterilizados/bolsa.png" alt="Bolsa de Ricocat Adultos Esterilizados" loading="lazy">
+          <img class="stage__item stage__item--pate" src="src/assets/images/stages/esterilizados/lata-pate.png" alt="Lata de Ricocat Adultos Esterilizados paté" loading="lazy">
+          <img class="stage__item stage__item--cat" src="src/assets/images/stages/esterilizados/gato.png" alt="Gato siamés claro de pie junto a los productos" style="--x: -14.7; --y: 112.3; --w: 311.0" loading="lazy">
+          <span class="stage__kibble stage__kibble--1" aria-hidden="true"><img src="src/assets/images/stages/esterilizados/k-corazon.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--2" aria-hidden="true"><img src="src/assets/images/stages/esterilizados/k-redonda.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--3" aria-hidden="true"><img src="src/assets/images/stages/esterilizados/k-pez-rojo.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--4" aria-hidden="true"><img src="src/assets/images/stages/esterilizados/k-pez-marron.png" alt="" loading="lazy"></span>
+          <span class="stage__kibble stage__kibble--5" aria-hidden="true"><img src="src/assets/images/stages/esterilizados/k-cruz.png" alt="" loading="lazy"></span>
+        </div>
+        <div class="stage__info">
+          <h3 class="stage__flavor-name">Receta única</h3>
+          <p class="stage__desc">Mayor aporte de fibra y bajo contenido de grasa para un peso saludable, con acidificantes que regulan el pH de su orina.</p>
+          <button type="button" class="btn btn--stage stage__cta" data-store-trigger="" data-stores="esterilizados" data-stage="esterilizados" data-flavor-id="receta-unica">Ver producto</button>
+        </div>
+      </div>
+      <ul class="stage__benefits" role="list" aria-label="Beneficios de Ricocat Esterilizados">
+        <li class="stage__benefit"><span class="stage__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-tipos-peso-optimo"></span></span><p class="stage__benefit-text"><strong>Peso</strong> óptimo</p></li>
+        <li class="stage__benefit"><span class="stage__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-tipos-optima-vision"></span></span><p class="stage__benefit-text"><strong>Óptima</strong> visión</p></li>
+        <li class="stage__benefit"><span class="stage__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-tipos-control-bolas-de-pelo"></span></span><p class="stage__benefit-text"><strong>Control</strong> de bolas de pelo</p></li>
+        <li class="stage__benefit"><span class="stage__benefit-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-tipos-previene-calculos"></span></span><p class="stage__benefit-text"><strong>Previene</strong> cálculos urinarios</p></li>
+      </ul>
+    </div>
+  </section>
+  </div>
+  <section id="tienda" class="store" aria-labelledby="store-title" data-store="" data-img-base="src/assets/images/products/">
+    <header class="store__head">
+      <h2 id="store-title" class="store__title" data-store-title="">Elige tu Ricocat</h2>
+      <p class="store__kicker">¿Cuál será su favorito?</p>
+      <p class="store__lead">Elige su etapa, descubre el sabor que más disfruta y llévalo a casa desde tu tienda favorita.</p>
+    </header>
+    <div class="store__filters">
+      <div class="store__chips">
+        <div class="store__group" role="group" aria-labelledby="store-stage-label" data-filter="stage"><span class="store__group-label" id="store-stage-label">Etapa de vida</span><button type="button" class="store__chip" data-value="all" aria-pressed="true">Todos</button><button type="button" class="store__chip" data-value="gatitos" aria-pressed="false">Gatitos</button><button type="button" class="store__chip" data-value="adultos" aria-pressed="false">Adultos</button><button type="button" class="store__chip" data-value="esterilizados" aria-pressed="false">Esterilizados</button></div>
+        <span class="store__divider" aria-hidden="true"></span>
+        <div class="store__group" role="group" aria-labelledby="store-format-label" data-filter="format"><span class="store__group-label" id="store-format-label">Formato</span><button type="button" class="store__chip" data-value="all" aria-pressed="true">Todos</button><button type="button" class="store__chip" data-value="seco" aria-pressed="false">Seco</button><button type="button" class="store__chip" data-value="humedo" aria-pressed="false">Húmedo</button></div>
+        <div class="store__group store__group--flavor" role="group" aria-labelledby="store-flavor-label" data-filter="flavor" data-flavor-group="" hidden=""><span class="store__divider" aria-hidden="true"></span><span class="store__group-label" id="store-flavor-label">Sabor</span><button type="button" class="store__chip" data-value="all" aria-pressed="true">Todos</button><button type="button" class="store__chip" data-value="azul" aria-pressed="false">Atún, sardina y trucha</button><button type="button" class="store__chip" data-value="morado" aria-pressed="false">Festival de sabores</button><button type="button" class="store__chip" data-value="naranja" aria-pressed="false">Pollo, sardina y salmón</button><button type="button" class="store__chip" data-value="guinda" aria-pressed="false">Carne, salmón y leche</button></div>
+      </div>
+      <div class="store__selects">
+        <label class="store__select"><span class="visually-hidden">Etapa de vida</span><select data-filter-select="stage"><option value="all">Etapa de vida: Todas</option><option value="gatitos">Etapa de vida: Gatitos</option><option value="adultos">Etapa de vida: Adultos</option><option value="esterilizados">Etapa de vida: Esterilizados</option></select><span class="icon store__select-icon" aria-hidden="true" data-icon="icono-chevron"></span></label>
+        <label class="store__select"><span class="visually-hidden">Formato</span><select data-filter-select="format"><option value="all">Formato: Todos</option><option value="seco">Formato: Seco</option><option value="humedo">Formato: Húmedo</option></select><span class="icon store__select-icon" aria-hidden="true" data-icon="icono-chevron"></span></label>
+        <label class="store__select store__select--full" hidden=""><span class="visually-hidden">Sabor</span><select data-filter-select="flavor" data-flavor-select=""><option value="all">Sabor: Todos</option><option value="azul">Sabor: Atún, sardina y trucha</option><option value="morado">Sabor: Festival de sabores</option><option value="naranja">Sabor: Pollo, sardina y salmón</option><option value="guinda">Sabor: Carne, salmón y leche</option></select><span class="icon store__select-icon" aria-hidden="true" data-icon="icono-chevron"></span></label>
+      </div>
+    </div>
+    <p class="visually-hidden" aria-live="polite" data-store-status=""></p>
+    <ul class="store__grid" role="list" data-store-grid=""></ul>
+    <div class="store__empty" data-store-empty="" hidden="">
+      <p class="store__empty-title">¡Miau! Aún no tenemos esa combinación.</p>
+      <p class="store__empty-text">Prueba con otra etapa, formato o sabor.</p>
+      <button type="button" class="store__chip" data-store-reset="">Ver todos</button>
+    </div>
+    <div class="store__more"><button type="button" class="btn btn--dark store__more-btn" data-store-more="">Ver más <img class="store__plus" src="src/assets/images/icono-mas.png" width="13" height="13" alt="" aria-hidden="true"></button></div>
+  </section>
+  <section id="adopta" class="adopt" aria-labelledby="adopt-title" data-adopt="">
+    <div class="adopt__shapes" aria-hidden="true"><span class="adopt__layer adopt__layer--a"><span class="icon adopt__shape adopt__shape--a" aria-hidden="true" data-icon="forma-fondo-1"></span></span><span class="adopt__layer adopt__layer--b"><span class="icon adopt__shape adopt__shape--b" aria-hidden="true" data-icon="forma-fondo-2"></span></span></div>
+    <div class="adopt__inner">
+      <figure class="adopt__photo">
+        <div class="adopt__frame"><img class="adopt__img" src="src/assets/images/adopta-hombre-gato.jpg" width="1290" height="1250" alt="Hombre sonriente abrazando a un gato blanco con manchas naranjas en la sala de su casa" loading="lazy"></div>
+        <span class="adopt__sticker adopt__sticker--photo" aria-hidden="true"><span class="adopt__sticker-base"></span><span class="adopt__ring"><span class="adopt__ring-boost"><span class="icon" aria-hidden="true" data-icon="sticker-texto-circular"></span><span class="icon" aria-hidden="true" data-icon="sticker-arco"></span></span></span><span class="icon adopt__sticker-layer" aria-hidden="true" data-icon="sticker-casa"></span></span>
+      </figure>
+      <div class="adopt__content">
+        <span class="adopt__sticker adopt__sticker--content" aria-hidden="true"><span class="adopt__sticker-base"></span><span class="adopt__ring"><span class="adopt__ring-boost"><span class="icon" aria-hidden="true" data-icon="sticker-texto-circular"></span><span class="icon" aria-hidden="true" data-icon="sticker-arco"></span></span></span><span class="icon adopt__sticker-layer" aria-hidden="true" data-icon="sticker-casa"></span></span>
+        <h2 id="adopt-title" class="adopt__title"><span class="adopt__line"><span class="adopt__line-in">Dale un hogar,</span></span><span class="adopt__line adopt__line--accent"><span class="adopt__line-in">nutre un vínculo</span></span></h2>
+        <p class="adopt__text">Miles de gatos esperan una familia. Junto a nuestro aliado de adopciones te ayudamos a encontrar a tu nuevo compañero y a cuidarlo desde el primer día.</p>
+        <div class="adopt__tiles">
+          <a class="adopt__tile adopt__tile--primary" href="#" target="_blank" rel="noopener"><span class="icon adopt__tile-icon adopt__tile-icon--cat" aria-hidden="true" data-icon="icono-gatito-adoptar"></span><span>Quiero adoptar</span><span class="visually-hidden">(se abre en una pestaña nueva)</span></a>
+          <a class="adopt__tile adopt__tile--light" href="#" target="_blank" rel="noopener"><span class="adopt__tile-icon adopt__partner" aria-hidden="true" data-partner-logo=""></span><span>Conoce<span class="visually-hidden"> a nuestro aliado de adopciones</span></span><span class="visually-hidden">(se abre en una pestaña nueva)</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="footer" data-footer="">
+  <div class="footer__art"><img class="footer__bodegon" src="src/assets/images/bodegon-footer.png" width="1340" height="678" alt="Bodegón de productos Ricocat: cinco bolsas de alimento seco para gatitos, adultos y esterilizados, dos latas de paté y trocitos, y un pouch" loading="lazy"></div>
+  <div class="footer__inner">
+    <div class="footer__brand" style="--i: 0"><span class="icon footer__logo" role="img" aria-label="Ricocat" data-icon="logo-ricocat-blanco"></span><p class="footer__tagline">Nutriendo vínculos para toda la vida</p></div>
+    <nav class="footer__block" aria-labelledby="footer-explore" style="--i: 1"><h2 class="footer__label" id="footer-explore">Explora</h2><ul class="footer__pills" role="list"><li><a class="btn footer__pill" href="#tipos" data-footer-scroll="">Alimentos</a></li><li><a class="btn footer__pill" href="#etapa-gatitos" data-footer-scroll="">Etapas de vida</a></li><li><a class="btn footer__pill" href="#tienda" data-footer-scroll="">Productos</a></li><li><a class="btn footer__pill" href="#adopta" data-footer-scroll="">Adopta</a></li></ul></nav>
+    <div class="footer__block" style="--i: 2"><h2 class="footer__label">Síguenos</h2><ul class="social footer__social" role="list"><li><a class="icon-btn social__link" href="#" target="_blank" rel="noopener" aria-label="Ricocat en Facebook (se abre en una pestaña nueva)"><span class="icon icon-btn__glyph" aria-hidden="true" data-icon="red-facebook"></span></a></li><li><a class="icon-btn social__link" href="#" target="_blank" rel="noopener" aria-label="Ricocat en Instagram (se abre en una pestaña nueva)"><span class="icon icon-btn__glyph" aria-hidden="true" data-icon="red-instagram"></span></a></li><li><a class="icon-btn social__link" href="#" target="_blank" rel="noopener" aria-label="Ricocat en YouTube (se abre en una pestaña nueva)"><span class="icon icon-btn__glyph" aria-hidden="true" data-icon="red-youtube"></span></a></li></ul></div>
+    <div class="footer__bar" style="--i: 3"><p class="footer__copy">© <span data-footer-year="">2026</span> Ricocat. Todos los derechos reservados.</p><ul class="footer__legal" role="list" data-footer-legal=""></ul><button type="button" class="footer__top" data-footer-top=""><span class="footer__top-icon" aria-hidden="true"><span class="icon" aria-hidden="true" data-icon="icono-volver"></span></span><span>Volver arriba</span></button></div>
+  </div>
+</footer>
+<dialog class="wtb" data-wtb="" aria-labelledby="wtb-name">
+  <div class="wtb__panel" data-wtb-panel="">
+    <div class="wtb__bar">
+      <button type="button" class="wtb__back" data-wtb-close=""><span class="wtb__back-icon"><span class="icon" aria-hidden="true" data-icon="icono-volver"></span></span><span>Volver</span></button>
+    </div>
+    <header class="wtb__head">
+      <div class="wtb__media" data-wtb-media=""><img class="wtb__img" data-wtb-img="" alt=""></div>
+      <div class="wtb__info"><p class="wtb__tag" data-wtb-tag=""></p><h2 class="wtb__name" id="wtb-name" data-wtb-name="">Dónde comprar</h2></div>
+      <button type="button" class="icon-btn wtb__close" data-wtb-close=""><span class="icon icon-btn__glyph" aria-hidden="true" data-icon="icono-wtb-cerrar"></span><span class="visually-hidden">Cerrar</span></button>
+    </header>
+    <h3 class="wtb__title">¿Dónde quieres comprarlo?</h3>
+    <ul class="wtb__list" role="list" data-wtb-list=""></ul>
+  </div>
+  <ul class="wtb__proto" hidden="" aria-hidden="true" inert=""><li data-wtb-row=""><a class="wtb__store" href="#" target="_blank" rel="noopener"><span class="wtb__logo" data-wtb-logo="" aria-hidden="true">Logo</span><span class="wtb__store-text"><span class="wtb__store-name" data-wtb-store-name=""></span><span class="wtb__store-type" data-wtb-store-type=""></span></span><span class="wtb__go" aria-hidden="true"><span class="icon" aria-hidden="true"><svg aria-hidden="true" focusable="false" width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M2.25 26.25L26.25 2.25M26.25 20.25V2.25H8.25" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" stroke="white"></path>
+</svg></span></span><span class="visually-hidden">(se abre en una pestaña nueva)</span></a></li></ul>
+</dialog>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showBenefits&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;label&quot;: &quot;Barra de beneficios&quot;}, &quot;benefitsStyle&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;Barra&quot;, &quot;Círculos&quot;], &quot;default&quot;: &quot;Barra&quot;, &quot;tsType&quot;: &quot;'Barra' | 'Círculos'&quot;, &quot;label&quot;: &quot;Estilo de beneficios (desktop)&quot;}}">
+class Component extends DCLogic {
+  async componentDidMount() {
+    const base = document.baseURI;
+    // El hero no espera a íconos ni al resto de módulos: medir y liberar titular/beneficios primero.
+    import(new URL('src/scripts/benefits-clearance.js', base).href).then((m) => m.initBenefitsClearance());
+    import(new URL('src/scripts/hero-shine.js', base).href).then((m) => m.initHeroShine());
+    import(new URL('src/scripts/instagram-cards.js', base).href).then((m) => m.initInstagramCards());
+    import(new URL('src/scripts/hero-intro.js', base).href).then((m) => m.initHeroIntro());
+    import(new URL('src/scripts/hero-light-rings.js', base).href).then((m) => m.initHeroLightRings()); // experimento
+    await Promise.all([...document.querySelectorAll('[data-icon]')].map(async (el) => {
+      const res = await fetch(new URL(`src/assets/svg/${el.dataset.icon}.svg`, base));
+      el.innerHTML = (await res.text()).replace(/<metadata>[\s\S]*?<\/metadata>/g, '');
+    }));
+    const [menu, carousel, band, food, types, stagesMod, store, wtb, adopt, footerMod, smooth] = await Promise.all([
+      import(new URL('src/scripts/menu.js', base).href),
+      import(new URL('src/scripts/benefits-carousel.js', base).href),
+      import(new URL('src/scripts/scroll-band.js', base).href),
+      import(new URL('src/scripts/complete-food.js', base).href),
+      import(new URL('src/scripts/food-types.js', base).href),
+      import(new URL('src/scripts/life-stage.js', base).href),
+      import(new URL('src/scripts/store.js', base).href),
+      import(new URL('src/scripts/where-to-buy.js', base).href),
+      import(new URL('src/scripts/adopt.js', base).href),
+      import(new URL('src/scripts/footer.js', base).href),
+      import(new URL('src/scripts/smooth-scroll.js', base).href),
+    ]);
+    menu.initMenu();
+    carousel.initCarousels();
+    band.initScrollBands();
+    food.initCompleteFood();
+    types.initFoodTypes();
+    stagesMod.initLifeStages();
+    store.initStores();
+    wtb.initWhereToBuy();
+    adopt.initAdopt();
+    footerMod.initFooter();
+    smooth.initSmoothScroll();
+  }
+  componentDidUpdate() { this.applyBenefits(); }
+  // Tweak: oculta la barra de beneficios sin mover nada (visibility conserva su espacio)
+  applyBenefits() {
+    const el = document.querySelector('.hero__benefits');
+    if (el) el.style.visibility = (this.props.showBenefits ?? true) ? '' : 'hidden';
+    const hero = document.querySelector('.hero');
+    if (hero) {
+      if ((this.props.benefitsStyle ?? 'Barra') === 'Círculos') hero.dataset.benefitsStyle = 'circles';
+      else delete hero.dataset.benefitsStyle;
+    }
+  }
+  renderVals() { requestAnimationFrame(() => this.applyBenefits()); return {}; }
+}
+</script>
+</body>
+</html>

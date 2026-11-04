@@ -1,0 +1,404 @@
+/* 05+ Etapas de vida (plantilla). Paleta vía data-palette → --stage-50/200/400/600. */
+[data-palette="rosa"]    { --stage-50: var(--rosa-50);    --stage-200: var(--rosa-200);    --stage-400: var(--rosa-400);    --stage-600: var(--rosa-600); }
+[data-palette="azul"]    { --stage-50: var(--azul-50);    --stage-200: var(--azul-200);    --stage-400: var(--azul-400);    --stage-600: var(--azul-600); }
+[data-palette="morado"]  { --stage-50: var(--morado-50);  --stage-200: var(--morado-200);  --stage-400: var(--morado-400);  --stage-600: var(--morado-600); }
+[data-palette="naranja"] { --stage-50: var(--naranja-50); --stage-200: var(--naranja-200); --stage-400: var(--naranja-400); --stage-600: var(--naranja-600); }
+[data-palette="guinda"]  { --stage-50: var(--guinda-50);  --stage-200: var(--guinda-200);  --stage-400: var(--guinda-400);  --stage-600: var(--guinda-600); }
+[data-palette="marron"]  { --stage-50: var(--marron-50);  --stage-200: var(--marron-200);  --stage-400: var(--marron-400);  --stage-600: var(--marron-600); }
+
+/* Cada etapa ocupa exactamente una pantalla; el contenido escala con ancho y alto. */
+.stage {
+  /* mobile; el último término encoge nombres largos (ESTERILIZADOS) para que quepan en la tarjeta */
+  --name-fs: min(26vw, calc(15 * var(--svh)), 8.25rem, calc((100vw - 72px) / (var(--name-chars, 7) * 0.41)));
+  block-size: calc(100 * var(--svh));
+  background: var(--color-white);
+  padding: 16px;
+}
+
+.stage__card {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto auto auto auto;
+  grid-template-areas: "name" "art" "picker" "info" "benefits";
+  align-content: center; /* mobile: el espacio sobrante se reparte arriba y abajo, nunca dentro */
+  justify-items: center;
+  block-size: 100%;
+  padding: clamp(1.25rem, 4.5 * var(--svh), 3rem) clamp(1.25rem, 4vw, 2rem) clamp(1.25rem, 4 * var(--svh), 3rem);
+  overflow: hidden;
+  overflow: clip;
+  border-radius: 16px;
+  background: var(--stage-50);
+  color: var(--stage-600);
+}
+
+/* Haces de luz (como el Hero) */
+.stage__beams { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.stage__beam {
+  position: absolute;
+  inset-block-start: -12%;
+  block-size: 72%;
+  inline-size: auto;
+  max-inline-size: none;
+  transform-origin: top center;
+  filter: blur(2px) brightness(1.1);
+  animation: beam-drift var(--motion-dur-beam, 8s) linear infinite alternate;
+}
+.stage__beam--1 { inset-inline-start: 74%; rotate: 38deg; }
+.stage__beam--2 { inset-inline-start: 88%; rotate: 42deg; animation-delay: -3s; }
+
+.stage__name {
+  grid-area: name;
+  z-index: 0;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--name-fs);
+  font-weight: var(--fw-bold);
+  line-height: 0.85;
+  white-space: nowrap;
+  justify-self: center;
+  letter-spacing: -0.01em;
+  color: var(--stage-200);
+  text-transform: uppercase;
+  --rise-from: 0.4em;
+  position: relative;
+  inset-block-start: -0.12em;
+  animation: rise-in var(--motion-dur-enter) var(--motion-ease-spring) both;
+  animation-delay: var(--stage-delay-name);
+}
+
+.stage__flavor { display: contents; }
+.stage__flavor[hidden],
+.stage--multi .stage__flavor:not([data-active="true"]):not(:first-of-type) { display: none; }
+
+/* Bodegón: composición única de 580×445 que se escala para caber en el espacio libre
+   (ancho Y alto). .stage__art es un contenedor de tamaño; cada pieza calcula la caja --W×--H. */
+.stage__art {
+  --sw: 580;
+  --sh: 445;
+  grid-area: art;
+  position: relative;
+  z-index: 1;
+  container-type: size;
+  inline-size: 100%;
+  /* mobile: alto según el ancho, con tope para que todo quepa en pantallas bajas */
+  aspect-ratio: 580 / 445;
+  max-block-size: max(calc(100 * var(--svh) - 32px - 0.57 * var(--name-fs) - 23rem - var(--picker-reserve, 0rem)), calc(34 * var(--svh)));
+  min-block-size: 0;
+  margin-block-start: calc(var(--name-fs) * -0.28);
+}
+
+.stage__item,
+.stage__kibble {
+  --W: min(100cqw, calc(100cqh * 580 / 445));
+  --H: calc(var(--W) * 445 / 580);
+  position: absolute;
+  inset-inline-start: calc((100cqw - var(--W)) / 2 + var(--x) / var(--sw) * var(--W));
+  inset-block-start: calc((100cqh - var(--H)) / 2 + var(--y) / var(--sh) * var(--H));
+  inline-size: calc(var(--w) / var(--sw) * var(--W));
+  max-inline-size: none;
+}
+
+.stage__item img, .stage__kibble img { inline-size: 100%; max-inline-size: none; }
+
+.stage__item--shadow   { --x: 30; --y: 175; --w: 190; z-index: 0; } /* opcional: solo si el gato no trae sombra */
+.stage__item--bag      { --x: 171; --y: 7; --w: 228; z-index: 1; }
+.stage__item--cat      { --x: 26; --y: 174.6; --w: 200; z-index: 0; } /* detrás de la bolsa */
+.stage__item--pouch    { --x: 360; --y: 220; --w: 118;  z-index: 3; }
+.stage__item--trocitos { --x: 438; --y: 331; --w: 112;  z-index: 4; }
+.stage__item--pate     { --x: 115; --y: 313; --w: 145; z-index: 5; }
+
+.stage__kibble { z-index: 6; }
+.stage__kibble--1 { --x: 118; --y: 80; --w: 16; --k-dur: 3.1s; --k-rot: 18deg;  --enter-order: 0; }
+.stage__kibble--2 { --x: 431; --y: 105; --w: 24; --k-dur: 2.6s; --k-rot: -12deg; --enter-order: 1; }
+.stage__kibble--3 { --x: 370; --y: 8; --w: 62; --k-dur: 3.6s; --k-rot: 7deg;   --enter-order: 2; }
+.stage__kibble--4 { --x: 138; --y: 157; --w: 50; --k-dur: 2.9s; --k-rot: -9deg;  --enter-order: 3; }
+.stage__kibble--5 { --x: 393; --y: 222; --w: 26; --k-dur: 3.3s; --k-rot: 14deg;  --enter-order: 4; }
+
+
+/* Entradas */
+.stage__item--bag { animation: stage-rise var(--stage-dur-enter) var(--motion-ease-spring) both; animation-delay: var(--stage-delay-bag); }
+.stage__item--pate,
+.stage__item--pouch,
+.stage__item--trocitos {
+  animation: pop-in var(--motion-dur-pop) var(--motion-ease-spring) both;
+  animation-delay: calc(var(--stage-delay-products) + var(--enter-order, 0) * var(--stage-product-stagger));
+}
+.stage__item--pouch { --enter-order: 1; --pop-rotate: 10deg; }
+.stage__item--trocitos { --enter-order: 2; --pop-rotate: 14deg; }
+.stage__item--pate { --pop-rotate: -12deg; }
+.stage__item--cat { transform-origin: 50% 100%; animation: stage-cat-in var(--stage-dur-cat, 1100ms) cubic-bezier(0.25, 0.6, 0.3, 1) both; animation-delay: var(--stage-delay-cat); }
+
+.stage__kibble {
+  animation: stage-kibble-in var(--stage-dur-kibble, 900ms) var(--motion-ease-sway) both;
+  animation-delay: calc(var(--stage-delay-kibbles) + var(--enter-order) * var(--stage-kibble-stagger));
+}
+.stage__kibble img {
+  animation: stage-float calc(var(--k-dur) * var(--stage-float-speed)) var(--motion-ease-sway) infinite;
+  animation-delay: calc(var(--enter-order) * -0.7s);
+}
+
+@keyframes stage-rise { from { transform: translateY(35%) scale(0.85) rotate(-4deg); } }
+/* El gato se desliza desde detrás de la bolsa hasta su sitio, en línea recta y sin saltos */
+@keyframes stage-cat-in {
+  from { transform: translateX(80%); opacity: 0; }
+  6% { opacity: 1; }
+}
+/* Entrada sutil de las croquetas: aparecen pequeñas y se acomodan */
+@keyframes stage-kibble-in {
+  from { transform: translateY(var(--stage-kibble-rise, 30%)) scale(0.6) rotate(-8deg); opacity: 0; }
+  40% { opacity: 1; }
+}
+@keyframes stage-float {
+  0%, 100% { translate: 0 0; rotate: 0deg; }
+  50% { translate: 0 calc(var(--stage-float-dist) * -1); rotate: var(--k-rot); }
+}
+
+/* Bloque del sabor */
+.stage__info {
+  grid-area: info;
+  display: grid;
+  justify-items: center;
+  max-inline-size: 22rem;
+  margin-block-start: clamp(0.5rem, 2 * var(--svh), 1.25rem);
+  gap: clamp(0.5rem, 1.6 * var(--svh), 0.875rem);
+  text-align: center;
+  animation: slide-in var(--motion-dur-pop) var(--motion-ease-spring) both;
+  animation-delay: var(--stage-delay-content);
+}
+
+.stage__flavor-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.32rem + 0.75vw, 2rem);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  color: var(--stage-600);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.stage__desc {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(0.9375rem, 2.3 * var(--svh), 1rem);
+  line-height: 1.5;
+  color: var(--stage-400);
+  text-wrap: pretty;
+}
+
+.stage__cta.btn--stage {
+  --btn-h: auto;
+  --btn-pad-y: 0.875rem;
+  --btn-pad-x: 1.375rem;
+  --btn-fs: 1rem;
+  --btn-ls: -0.01em;
+  margin-block-start: 0.75rem;
+  border: 1px solid var(--color-white);
+  background: var(--stage-600);
+  color: var(--color-white);
+}
+
+/* Selector de sabores (solo si hay más de uno): chevrons finos, sin círculo, área táctil 44px */
+.stage--multi {
+  --picker-reserve: 3.5rem;
+  /* Cambio de sabor: barrido de color + parallax. Distancias = fracción del ancho de la tarjeta. */
+  --stage-swap-dur: 700ms;
+  --stage-swap-ease: cubic-bezier(0.65, 0, 0.35, 1);
+  --stage-swap-parallax-dur: 850ms;
+  --stage-swap-cat-delay: 90ms;
+  --stage-swap-kibble-delay: 40ms;
+  --stage-swap-kibble-stagger: 45ms;
+  --stage-swap-shift-out: 0.3;
+  --stage-swap-shift-bag: 0.35;
+  --stage-swap-shift-cat: 0.45;
+  --stage-swap-shift-kibble: 0.7;
+  --stage-swap-shift-text: 0.18;
+}
+.stage--multi .stage__card { touch-action: pan-y; } /* permite el swipe horizontal sin bloquear el scroll */
+
+.stage__picker {
+  grid-area: picker;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(2.5rem, 5vw, 3.5rem);
+  margin-block-start: 1.25rem;
+}
+
+.stage__arrow {
+  display: grid;
+  place-items: center;
+  inline-size: var(--tap-min);
+  block-size: var(--tap-min);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--stage-600);
+  cursor: pointer;
+  transition:
+    translate var(--motion-dur-press) var(--motion-ease-spring),
+    scale var(--motion-dur-press) var(--motion-ease-spring),
+    color var(--stage-swap-color) ease;
+}
+.stage__arrow .icon { display: block; inline-size: auto; block-size: 1.375rem; }
+.stage__arrow .icon svg { display: block; inline-size: auto; block-size: 100%; }
+.stage__arrow--next .icon { scale: -1 1; }
+.stage__arrow:active { scale: var(--motion-press-scale); }
+@media (hover: hover) {
+  .stage__arrow:hover { translate: -3px 0; }
+  .stage__arrow--next:hover { translate: 3px 0; }
+}
+
+/* Duo: solo bolsa + lata de paté (Esterilizados), la lata pasa a la derecha */
+.stage--duo .stage__item--pate { --x: 350; --y: 320; --w: 140; }
+
+/* Cambio de sabor: el color de tarjeta y acentos transiciona */
+.stage__name,
+.stage__flavor-name,
+.stage__desc,
+.stage__benefit-icon,
+.stage__benefit-text { transition: background-color var(--stage-swap-color) ease, color var(--stage-swap-color) ease; }
+.stage__cta.btn--stage { transition: background-color var(--stage-swap-color) ease, scale var(--motion-dur-hover) var(--motion-ease-bounce), rotate var(--motion-dur-hover) var(--motion-ease-bounce), padding-inline-end var(--motion-dur-hover) var(--motion-ease-bounce); }
+
+/* Beneficios */
+.stage__benefits {
+  grid-area: benefits;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem 1rem;
+  inline-size: min(100%, 24rem);
+  margin: clamp(2rem, 6.5 * var(--svh), 4rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stage__benefit {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.625rem;
+  --pop-rotate: -10deg;
+  animation: pop-in var(--motion-dur-pop) var(--motion-ease-spring) both;
+  animation-delay: calc(var(--stage-delay-content) + 200ms + var(--enter-order, 0) * 90ms);
+}
+.stage__benefit:nth-child(2) { --enter-order: 1; }
+.stage__benefit:nth-child(3) { --enter-order: 2; }
+.stage__benefit:nth-child(4) { --enter-order: 3; }
+
+.stage__benefit-icon {
+  display: grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--stage-600);
+  color: var(--color-white);
+}
+.stage__benefit-icon .icon { inline-size: 45%; }
+
+.stage__benefit-text { margin: 0; font-family: var(--font-body); font-size: 0.8125rem; line-height: 1.25; color: var(--stage-600); }
+.stage__benefit-text strong { display: block; font-size: 0.9375rem; font-weight: var(--fw-bold); }
+
+/* Solo anima mientras se ve */
+.js .stage:not(.is-visible) :is(.stage__name, .stage__item, .stage__kibble, .stage__info, .stage__benefit) { animation-play-state: paused; }
+
+/* Cambio de sabor (life-stage.js): la capa de color nueva barre la tarjeta con borde recto;
+   cada sabor se recorta con clip-path y su contenido se desplaza con transform. */
+.stage__wipe { position: absolute; inset: 0; z-index: -1; background: var(--stage-50); pointer-events: none; }
+.stage.has-swapped .stage__flavor :is(.stage__item, .stage__kibble, .stage__info) { animation: none; }
+
+/* Pantallas bajas (mobile/tablet horizontal): se compactan los bloques para que el bodegón conserve tamaño */
+@media (max-width: 74.99em) and (max-height: 700px) {
+  .stage--multi { --picker-reserve: 2.75rem; }
+  .stage__info { gap: 0.375rem; }
+  .stage__benefits { margin-block-start: 0.75rem; row-gap: 0.5rem; }
+  .stage__benefit-icon { inline-size: 2.25rem; }
+  .stage__benefit-text { font-size: 0.8125rem; }
+}
+@media (max-width: 74.99em) and (max-height: 600px) {
+  .stage__desc { display: none; }
+}
+
+/* Desktop */
+@media (min-width: 75em) {
+  .stage { --name-fs: min(clamp(8.25rem, 7.1rem + 4.9vw, 11.5rem), calc(21 * var(--svh)), calc(58vw / (var(--name-chars, 7) * 0.405))); }
+  .stage__name { inset-block-start: 0.14em; } /* toca la parte alta de la bolsa */
+
+  .stage__card {
+    grid-template-columns: minmax(0, 1fr) clamp(28rem, 40vw, 46rem) minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas: "info name benefits" "info art benefits" ". picker .";
+    align-items: center;
+    column-gap: clamp(1.5rem, 3vw, 4rem);
+    padding: clamp(2rem, 9 * var(--svh), 8rem) clamp(2rem, 4.4vw, 5rem) clamp(2rem, 8 * var(--svh), 7rem);
+  }
+
+  .stage__art { inline-size: 100%; block-size: 100%; aspect-ratio: auto; max-block-size: none; }
+  .stage__card { align-content: stretch; }
+
+
+  /* Texto y beneficios centrados en vertical respecto a todo el bloque (nombre + bodegón) */
+  .stage__info {
+    align-self: center;
+    justify-self: start;
+    justify-items: start;
+    max-inline-size: 20rem;
+    margin-block-start: 0;
+    text-align: start;
+  }
+  .stage__flavor-name { max-inline-size: 9em; }
+
+  .stage__benefits {
+    align-self: center;
+    justify-self: end;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.3rem;
+    inline-size: auto;
+    margin: 0;
+  }
+  .stage__benefit { gap: 1rem; }
+  .stage__benefit-icon { inline-size: 3.75rem; }
+  .stage__benefit-text { font-size: 0.875rem; }
+  .stage__benefit-text strong { font-size: 1rem; }
+}
+
+/* Tarjetas que suben una sobre otra (plato → Gatitos → Adultos → Esterilizados). Solo dentro de #etapas;
+   la Tienda sigue con scroll normal. --rise / --under los pone life-stage.js.
+   Lo que sube es el contenedor blanco (margen de 16px) con esquinas superiores de 32px (16 de la tarjeta + 16 de margen,
+   concéntricas) y sombra superior; al asentarse el radio pasa a 0 ligado al scroll. La tarjeta de color conserva sus 16px.
+   La tarjeta de abajo se encoge dentro de su margen blanco y se oscurece solo por dentro. */
+#etapas.stages--cards,
+.types--live + #etapas.stages--cards { background: transparent; overflow-x: clip; overflow-y: visible; box-shadow: none; }
+
+.stages--cards > .stage {
+  --settle: clamp(0, calc((1 - var(--rise, 1)) * 5), 1); /* 1 mientras sube · 0 asentada (último 20%) */
+  position: sticky;
+  inset-block-start: 0;
+  background: var(--color-white);
+  border-start-start-radius: calc(var(--stage-cover-radius) * var(--settle));
+  border-start-end-radius: calc(var(--stage-cover-radius) * var(--settle));
+  box-shadow: 0 -16px 40px rgb(0 20 50 / calc(0.32 * var(--settle)));
+  clip-path: inset(-80px 0 0 0); /* la sombra solo asoma por arriba, nunca abajo ni a los lados */
+}
+
+.stages--cards .stage__card {
+  scale: calc(1 - (1 - var(--stage-under-scale)) * var(--under, 0));
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+}
+
+/* Oscurecimiento: dentro de la tarjeta, con su mismo radio */
+.stage__dim { display: none; }
+.stages--cards .stage__dim {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: block;
+  border-radius: inherit;
+  background: #000;
+  opacity: calc(var(--stage-under-dim) * var(--under, 0));
+  pointer-events: none;
+}

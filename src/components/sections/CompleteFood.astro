@@ -1,0 +1,61 @@
+---
+import { Image } from 'astro:assets';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import { buyLink } from '../../data/site.js';
+import { cards, kibbles, pawSpots } from '../../data/complete-food.js';
+import '../../styles/sections/complete-food.css';
+
+---
+<section id="alimentos" class="food" aria-labelledby="food-title" data-food>
+  <h2 id="food-title" class="food__title">
+    <span class="food__title-line">Alimento 100% completo y</span>
+    <span class="food__title-line food__title-line--2">balanceado con Ricocat</span>
+  </h2>
+
+  <div class="food__body">
+    <div class="food__table">
+      <div class="food__paws" aria-hidden="true">
+        {pawSpots.map((spot) => (
+          <span
+            class="food__paw food__paw--rest"
+            style={`--x: ${spot.x}%; --y: ${spot.y}%`}
+            data-paw
+            data-paw-rest
+          >
+            <Icon name="huella" />
+          </span>
+        ))}
+      </div>
+      {cards.map((card, i) => (
+        <figure class={`food__card food__card--${i + 1}`} aria-hidden={card.image ? undefined : 'true'}>
+          {card.image && (
+            <Image src={card.image} alt={card.alt} widths={[320, 480, 640]} sizes="(min-width: 75em) 25vw, 45vw" class="food__card-img" loading="lazy" />
+          )}
+        </figure>
+      ))}
+    </div>
+
+    <div class="food__content">
+      <p class="food__lead">Proteínas de alta calidad, vitaminas y minerales que fortalecen sus defensas. Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem</p>
+      <p class="food__text">Proteínas de alta calidad, vitaminas y minerales que fortalecen sus defensas, cuidan su corazón y ayudan a prevenir cálculos urinarios. Lorem Ipsum, Lorem Ipsum Lorem Ipsum Lorem Ipsum</p>
+      <div class="food__actions">
+        <Button href={buyLink.href} variant="dark" icon="icono-flecha-derecha" class="food__cta">{buyLink.label}</Button>
+        <ul class="food__kibbles" role="list" aria-hidden="true">
+          {kibbles.map((kibble) => (
+            <li class={`food__kibble food__kibble--${kibble.id}`}>
+              <Image src={kibble.src} alt="" widths={[kibble.src.width]} loading="lazy" />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initCompleteFood } from '../../scripts/complete-food.js';
+  import { initInstagramCards } from '../../scripts/instagram-cards.js';
+  initInstagramCards();
+  initCompleteFood();
+</script>

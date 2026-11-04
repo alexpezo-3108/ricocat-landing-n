@@ -1,0 +1,60 @@
+@keyframes rise-in {
+  from { transform: translateY(var(--rise-from, var(--motion-rise-distance))) scale(var(--rise-scale, 1)); }
+}
+
+@keyframes pop-in {
+  from { transform: scale(var(--motion-pop-scale)) rotate(var(--pop-rotate, var(--motion-pop-rotate))); }
+}
+
+@keyframes drop-in {
+  from { transform: translateY(var(--motion-drop-distance)); }
+}
+
+@keyframes slide-in {
+  from { transform: translateX(var(--motion-slide-distance)); }
+}
+
+@keyframes float {
+  50% {
+    translate: 0 calc(var(--motion-float-distance) * -1);
+    rotate: var(--float-rotate, var(--motion-float-rotate));
+  }
+}
+
+@keyframes beam-drift {
+  from { translate: calc(var(--motion-beam-shift) * -1) 0; opacity: var(--motion-beam-dim); }
+  to { translate: var(--motion-beam-shift) 0; opacity: 1; }
+}
+
+@keyframes bump {
+  40% { scale: var(--motion-bump-scale); }
+}
+
+/* Menú: "pintado" circular desde el botón hamburguesa (arriba a la derecha). */
+@keyframes panel-in {
+  from { clip-path: circle(0 at var(--reveal-x) var(--reveal-y)); }
+  to { clip-path: circle(150% at var(--reveal-x) var(--reveal-y)); }
+}
+
+@keyframes panel-out {
+  from { clip-path: circle(150% at var(--reveal-x) var(--reveal-y)); }
+  to { clip-path: circle(0 at var(--reveal-x) var(--reveal-y)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Titular del hero: oculto hasta su turno, sube y se asienta (no queda visible durante el delay) */
+@keyframes title-in {
+  from { opacity: 0; transform: translateY(var(--rise-from, 1.5rem)) scale(0.96); }
+  45% { opacity: 1; }
+}
