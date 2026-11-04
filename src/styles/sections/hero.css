@@ -196,14 +196,14 @@
 .hero__item--salmon { --x: 69.5%; --y: 75.5%; --w: 20.1%; --enter-order: 3; --float-rotate: -4deg; }
 .hero__item--trucha { --x: 6%; --y: 90%; --w: 20.5%; --enter-order: 4; }
 .hero__item--arvejas { --x: 21.5%; --y: 96.5%; --w: 15%; --enter-order: 5; --float-rotate: 2deg; }
-.hero__item--arveja-a { --x: 20.5%; --y: 21.4%; --w: 4.1%; --enter-order: 6; --float-rotate: 25deg; }
-.hero__item--arveja-b { --x: 16%; --y: 34.5%; --w: 5.6%; --enter-order: 7; --float-rotate: -25deg; }
+.hero__item--arveja-a { --x: 31%; --y: -3%; --w: 4.1%; --enter-order: 6; --float-rotate: 25deg; }
+.hero__item--arveja-b { --x: 62%; --y: -1%; --w: 5%; --enter-order: 7; --float-rotate: -25deg; }
 .hero__item--maiz-a { --x: 80%; --y: 45%; --w: 5.9%; --enter-order: 8; --float-rotate: 20deg; }
 .hero__item--maiz-b { --x: 70%; --y: 37.6%; --w: 3.2%; --enter-order: 9; --float-rotate: -18deg; }
 .hero__item--maiz-c { --x: 25.5%; --y: 44%; --w: 4.7%; --enter-order: 10; --float-rotate: 15deg; }
 .hero__item--maiz-d { --x: 86%; --y: 22%; --w: 4.5%; --enter-order: 11; --float-rotate: -22deg; }
-.hero__item--arveja-c { --x: 84%; --y: 30%; --w: 4.6%; --enter-order: 12; --float-rotate: 22deg; }
-.hero__item--arveja-d { --x: 9%; --y: 58%; --w: 3.8%; --enter-order: 13; --float-rotate: -18deg; }
+.hero__item--arveja-c { --x: 91%; --y: 95%; --w: 4.6%; --enter-order: 12; --float-rotate: 22deg; }
+.hero__item--arveja-d { --x: 44%; --y: 97%; --w: 3.8%; --enter-order: 13; --float-rotate: -18deg; }
 .hero__item--maiz-e { --x: 13%; --y: 14%; --w: 3.6%; --enter-order: 14; --float-rotate: 18deg; }
 .hero__item--maiz-f { --x: 46%; --y: 1%; --w: 3.4%; --enter-order: 15; --float-rotate: -16deg; }
 
@@ -668,4 +668,17 @@
     filter: blur(4px) brightness(1.25);
   }
   .hero__beam--2 { filter: blur(3.5px) brightness(1.6) saturate(0.85); }
+}
+
+/* Mobile: bodegón definido por el ANCHO de pantalla (~118vw, desborda y se recorta a los lados); sin tope por alto */
+@media (max-width: 74.99em) {
+  .hero__stage { --stage-w: 126vw; translate: -2vw 0; } /* más ancho y un poco a la izquierda: ambas bolsas tocan los bordes */
+  .hero__brand { margin-block-start: 2.5rem; } /* ~40px bajo el header */
+  /* Tagline en 2 líneas equilibradas (los <br> son del corte de desktop) */
+  .hero__title br { display: none; }
+  .hero__title { --title-size: 1.5rem; } /* 24px */
+}
+/* Pantallas muy bajas: se reduce lo justo para no tapar el botón */
+@media (max-width: 74.99em) and (max-height: 680px) {
+  .hero__stage { --stage-w: min(126vw, calc(100cqh * var(--stage-ratio-num) * 1.15)); }
 }
